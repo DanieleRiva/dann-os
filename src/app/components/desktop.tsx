@@ -9,6 +9,7 @@ const Desktop = () => {
     const [pos, setPos] = useState({ x: 0, y: 0 });
     const [highlighterPos, setHighlighterPos] = useState<{ x: number, y: number } | null>(null);
     const [grid, setGrid] = useState({ cols: 0, rows: 0, cellWidth: 120, cellHeight: 120 });
+    const [isDragging, setIsDragging] = useState(false);
 
     useEffect(() => {
         const updateGrid = () => {
@@ -32,6 +33,8 @@ const Desktop = () => {
 
     const onDrag = (e: DraggableEvent, data: DraggableData) => {
         if ('clientX' in e) {
+            setIsDragging(true);
+
             const pointerX = e.clientX;
             const pointerY = e.clientY;
 
@@ -40,10 +43,12 @@ const Desktop = () => {
 
             setHighlighterPos({ x: snappedX, y: snappedY });
         }
-    };
+    }
 
     const onDragStop = (e: DraggableEvent, data: DraggableData) => {
         if ('clientX' in e) {
+            setIsDragging(false);
+
             const pointerX = e.clientX;
             const pointerY = e.clientY;
 
@@ -54,10 +59,14 @@ const Desktop = () => {
         }
 
         setHighlighterPos(null);
-    };
+    }
+
+    const onClick = () => {
+        console.log("clicked");
+    }
 
     return (
-        <main className='relative w-screen h-[calc(100vh-48px)] bg-cover bg-no-repeat bg-[image:var(--desktop-wallpaper)] p-0 overflow-hidden'>
+        <main className='relative w-screen h-[calc(100vh-64px)] bg-cover bg-no-repeat bg-[image:var(--desktop-wallpaper)] p-0 overflow-hidden'>
 
             {Array.from({ length: grid.cols * grid.rows }).map((_, i) => {
                 const x = i % grid.cols;
@@ -65,7 +74,7 @@ const Desktop = () => {
                 return (
                     <div
                         key={i}
-                        className="absolute border border-dashed border-violet-200 pointer-events-none opacity-20"
+                        className="absolute border border-dashed border-violet-200 pointer-events-none opacity-40"
                         style={{
                             left: x * grid.cellWidth,
                             top: y * grid.cellHeight,
@@ -78,7 +87,7 @@ const Desktop = () => {
 
             {highlighterPos && (
                 <div
-                    className="absolute bg-violet-800 opacity-25 rounded-lg"
+                    className="absolute bg-violet-800 opacity-20 rounded-lg"
                     style={{
                         left: highlighterPos.x,
                         top: highlighterPos.y,
@@ -93,13 +102,15 @@ const Desktop = () => {
             <Rnd
                 size={{ width: grid.cellWidth, height: grid.cellHeight }}
                 position={pos}
+                onMouseDown={onClick}
                 onDrag={onDrag}
                 onDragStop={onDragStop}
                 bounds="parent"
                 enableResizing={false}
                 className='cursor-pointer z-10'
             >
-                <div className='w-full h-full flex flex-col justify-evenly text-center hover:bg-violet-400 rounded-lg'>
+                <div
+                    className={`w-full h-full flex flex-col justify-evenly text-center rounded-lg select-none ${isDragging ? "cursor-grabbing" : "cursor-pointer"}`}>
                     <img
                         src="/icons/folder2.svg"
                         width={64}
