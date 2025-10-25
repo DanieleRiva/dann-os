@@ -13,7 +13,10 @@ const Desktop = () => {
     const [grid, setGrid] = useState({ rows: 0, cols: 0, cellWidth: 0, cellHeight: 0 });
     const [isDragging, setIsDragging] = useState(false);
 
+    // Utility variables
     const cellIconRatio = 0.5;
+    const [showGridDisplayer, setShowGridDisplayer] = useState(false);
+    const [showCellHighlighter, setShowCellHighlighter] = useState(true);
 
     useEffect(() => {
         const updateGrid = () => {
@@ -65,21 +68,22 @@ const Desktop = () => {
         setHighlighterPos(null);
     }
 
-    const onClick = () => {
-        console.log("clicked");
+    const onDoubleClick = (e: MouseEvent) => {
+        console.log("Double Clicked! This is the event:");
+        console.log(e);
     }
 
     return (
         <main className='relative w-screen h-[calc(100vh-64px)] bg-cover bg-no-repeat bg-[image:var(--desktop-wallpaper)] p-0 overflow-hidden'>
 
-            <GridDisplayer grid={grid} />
+            <GridDisplayer active={showGridDisplayer} grid={grid} />
 
-            <GridCellHighlighter grid={grid} highlighterPos={highlighterPos} />
+            <GridCellHighlighter active={showCellHighlighter} grid={grid} highlighterPos={highlighterPos} highlighterColor='bg-gray-700' />
 
             <Rnd
                 size={{ width: grid.cellWidth, height: grid.cellHeight }}
                 position={pos}
-                onMouseDown={onClick}
+                onDoubleClick={onDoubleClick}
                 onDrag={onDrag}
                 onDragStop={onDragStop}
                 bounds="parent"

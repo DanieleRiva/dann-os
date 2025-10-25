@@ -1,4 +1,5 @@
 interface GridCellHighlighterProps {
+    active: boolean,
     grid: {
         rows: number,
         cols: number,
@@ -8,25 +9,27 @@ interface GridCellHighlighterProps {
     highlighterPos: {
         x: number,
         y: number
-    } | null
+    } | null,
+    highlighterColor?: string
 }
 
-const GridCellHighlighter = ({ grid, highlighterPos }: GridCellHighlighterProps) => {
-    return (
-        highlighterPos && (
-            <div
-                className="absolute bg-violet-800 opacity-20 rounded-lg"
-                style={{
-                    left: highlighterPos.x,
-                    top: highlighterPos.y,
-                    width: grid.cellWidth,
-                    height: grid.cellHeight,
-                    pointerEvents: 'none',
-                    zIndex: 5
-                }}
-            />
+const GridCellHighlighter = ({ active, grid, highlighterPos, highlighterColor }: GridCellHighlighterProps) => {
+    if (active)
+        return (
+            highlighterPos && (
+                <div
+                    className={`absolute ${highlighterColor ? highlighterColor : 'bg-violet-800'} opacity-20 rounded-lg`}
+                    style={{
+                        left: highlighterPos.x,
+                        top: highlighterPos.y,
+                        width: grid.cellWidth,
+                        height: grid.cellHeight,
+                        pointerEvents: 'none',
+                        zIndex: 5
+                    }}
+                />
+            )
         )
-    )
 }
 
 export default GridCellHighlighter;
