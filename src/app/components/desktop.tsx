@@ -2,19 +2,23 @@
 import React, { useState, useEffect } from 'react'
 import { Rnd } from 'react-rnd'
 import { DraggableData, DraggableEvent } from 'react-draggable'
+import GridDisplayer from './gridDisplayer';
+import GridCellHighlighter from './gridCellHighlighter';
 
-const preferredCellSize = 100;
+const preferredCellSize = 80;
 
 const Desktop = () => {
     const [pos, setPos] = useState({ x: 0, y: 0 });
     const [highlighterPos, setHighlighterPos] = useState<{ x: number, y: number } | null>(null);
-    const [grid, setGrid] = useState({ cols: 0, rows: 0, cellWidth: 120, cellHeight: 120 });
+    const [grid, setGrid] = useState({ rows: 0, cols: 0, cellWidth: 0, cellHeight: 0 });
     const [isDragging, setIsDragging] = useState(false);
+
+    const cellIconRatio = 0.5;
 
     useEffect(() => {
         const updateGrid = () => {
             const width = window.innerWidth;
-            const height = window.innerHeight - 48;
+            const height = window.innerHeight - 64;
 
             const cols = Math.floor(width / preferredCellSize);
             const rows = Math.floor(height / preferredCellSize);
@@ -68,36 +72,9 @@ const Desktop = () => {
     return (
         <main className='relative w-screen h-[calc(100vh-64px)] bg-cover bg-no-repeat bg-[image:var(--desktop-wallpaper)] p-0 overflow-hidden'>
 
-            {Array.from({ length: grid.cols * grid.rows }).map((_, i) => {
-                const x = i % grid.cols;
-                const y = Math.floor(i / grid.cols);
-                return (
-                    <div
-                        key={i}
-                        className="absolute border border-dashed border-violet-200 pointer-events-none opacity-40"
-                        style={{
-                            left: x * grid.cellWidth,
-                            top: y * grid.cellHeight,
-                            width: grid.cellWidth,
-                            height: grid.cellHeight,
-                        }}
-                    />
-                );
-            })}
+            <GridDisplayer grid={grid} />
 
-            {highlighterPos && (
-                <div
-                    className="absolute bg-violet-800 opacity-20 rounded-lg"
-                    style={{
-                        left: highlighterPos.x,
-                        top: highlighterPos.y,
-                        width: grid.cellWidth,
-                        height: grid.cellHeight,
-                        pointerEvents: 'none',
-                        zIndex: 5
-                    }}
-                />
-            )}
+            <GridCellHighlighter grid={grid} highlighterPos={highlighterPos} />
 
             <Rnd
                 size={{ width: grid.cellWidth, height: grid.cellHeight }}
@@ -110,15 +87,20 @@ const Desktop = () => {
                 className='cursor-pointer z-10'
             >
                 <div
-                    className={`w-full h-full flex flex-col justify-evenly text-center rounded-lg select-none ${isDragging ? "cursor-grabbing" : "cursor-pointer"}`}>
+                    className={`w-full h-full flex flex-col items-center justify-evenly text-center rounded-lg select-none ${isDragging ? "cursor-grabbing" : "cursor-pointer"}`}>
                     <img
-                        src="/icons/folder2.svg"
-                        width={64}
-                        height={64}
-                        className='pointer-events-none select-none mx-auto'
+                        src="/icons/programs/notepad.ico"
+                        width={grid.cellHeight * cellIconRatio}
+                        className='pointer-events-none select-none mx-auto aspect-square'
                         alt="Icona cartella"
                     />
-                    <span className='select-none'>Hachiko</span>
+
+                    <div
+                        className="flex items-center justify-center w-full"
+                        style={{ height: grid.cellHeight * (1 - cellIconRatio) }}
+                    >
+                        <span className="select-none text-center">Notepad</span>
+                    </div>
                 </div>
             </Rnd>
 
