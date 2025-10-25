@@ -10,8 +10,8 @@ interface FileSystemItem {
     name: string,
     icon: string,
     alt: string,
-    row: number,
-    column: number,
+    row: number | "top" | "bottom",
+    column: number | "left" | "right",
     componentPath: string
 }
 
@@ -26,7 +26,7 @@ const Desktop = () => {
 
     // Utility variables
     const cellIconRatio = 0.5;
-    const [showGridDisplayer, setShowGridDisplayer] = useState(false);
+    const [showGridDisplayer, setShowGridDisplayer] = useState(true);
     const [showCellHighlighter, setShowCellHighlighter] = useState(true);
 
 
@@ -59,21 +59,65 @@ const Desktop = () => {
         return () => window.removeEventListener('resize', updateGrid);
     }, []);
 
-    // Get items positions from the JSON file
+    // Get items positions from localStorage or from the JSON file 
     useEffect(() => {
         if (grid.cellWidth === 0 || grid.cellHeight === 0 || fileSystem.length === 0) return;
 
-        const fileSystemPositions = fileSystem.reduce((accumulator: any, item) => {
-            accumulator[item.id] = {
-                x: item.column * grid.cellWidth,
-                y: item.row * grid.cellHeight
-            };
+        const localStoredPositions = localStorage.getItem("desktopPositions");
+        let loadedPositions: Record<number, { x: number; y: number }> = {};
 
-            return accumulator;
-        }, {} as Record<number, { x: number, y: number }>);
+        if (localStoredPositions)
+            loadedPositions = JSON.parse(localStoredPositions);
 
-        setPositions(fileSystemPositions);
+        // Remove items from localStorage that are no longer in the JSON
+        loadedPositions = Object.fromEntries(
+            Object.entries(loadedPositions).filter(([id]) =>
+                fileSystem.some(item => item.id === Number(id))
+            )
+        );
+
+        fileSystem.forEach(item => {
+            // Check if there is a new item from the JSON
+            if (!loadedPositions[item.id]) {
+                // Calculate rows and cols based on special positionings from the JSON
+                let targetRow: number;
+                let targetCol: number;
+
+                if (item.row === "top") targetRow = 0;
+                else if (item.row === "bottom") targetRow = grid.rows - 1;
+                else targetRow = item.row;
+
+                if (item.column === "left") targetCol = 0;
+                else if (item.column === "right") targetCol = grid.cols - 1;
+                else targetCol = item.column;
+
+                const jsonX = targetCol * grid.cellWidth;
+                const jsonY = targetRow * grid.cellHeight;
+
+                const occupied = Object.values(loadedPositions).some(pos => pos.x === jsonX && pos.y === jsonY);
+                if (!occupied) {
+                    loadedPositions[item.id] = { x: jsonX, y: jsonY };
+                    return;
+                }
+
+                outerLoop:
+                for (let r = 0; r < grid.rows; r++) {
+                    for (let c = 0; c < grid.cols; c++) {
+                        const x = c * grid.cellWidth;
+                        const y = r * grid.cellHeight;
+
+                        if (!Object.values(loadedPositions).some(pos => pos.x === x && pos.y === y)) {
+                            loadedPositions[item.id] = { x, y };
+                            break outerLoop;
+                        }
+                    }
+                }
+            }
+        });
+
+        setPositions(loadedPositions);
     }, [grid, fileSystem]);
+
 
     const onDrag = (itemId: number, e: DraggableEvent, data: DraggableData) => {
         if ('clientX' in e) {
@@ -82,8 +126,8 @@ const Desktop = () => {
             const pointerX = e.clientX;
             const pointerY = e.clientY;
 
-            const snappedX = Math.floor(pointerX / grid.cellWidth) * grid.cellWidth;
             const snappedY = Math.floor(pointerY / grid.cellHeight) * grid.cellHeight;
+            const snappedX = Math.floor(pointerX / grid.cellWidth) * grid.cellWidth;
 
             setHighlighterPos({ x: snappedX, y: snappedY });
         }
@@ -94,10 +138,10 @@ const Desktop = () => {
             const pointerX = e.clientX;
             const pointerY = e.clientY;
 
-            const snappedX = Math.floor(pointerX / grid.cellWidth) * grid.cellWidth;
-            const snappedY = Math.floor(pointerY / grid.cellHeight) * grid.cellHeight;
+            let snappedY = Math.floor(pointerY / grid.cellHeight) * grid.cellHeight;
+            let snappedX = Math.floor(pointerX / grid.cellWidth) * grid.cellWidth;
 
-            // Iterate 
+            // Prevent from dragging onto an occupied cell
             for (const [, position] of Object.entries(positions)) {
                 if (position.x === snappedX && position.y === snappedY) {
                     setIsDragging(false);
@@ -107,10 +151,19 @@ const Desktop = () => {
             }
 
             // Copy all of the previous positions and update the dragged item's
-            setPositions(prevState => ({
-                ...prevState,
-                [itemId]: { x: snappedX, y: snappedY }
-            }));
+            setPositions(prevState => {
+                const newPositions = {
+                    ...prevState,
+                    [itemId]: {
+                        x: snappedX,
+                        y: snappedY
+                    }
+                };
+
+                // Save in localStorage
+                localStorage.setItem("desktopPositions", JSON.stringify(newPositions));
+                return newPositions;
+            });
         }
 
         setIsDragging(false);
@@ -120,6 +173,12 @@ const Desktop = () => {
     const onDoubleClick = (e: MouseEvent) => {
         console.log("Double Clicked! This is the event:");
         console.log(e);
+    }
+
+    function specialPositionings(value: number, axis: "x" | "y"): number | string {
+        if (axis === "x") return value === grid.cols - 1 ? "right" : value;
+        if (axis === "y") return value === grid.rows - 1 ? "bottom" : value;
+        return value;
     }
 
     if (Object.keys(positions).length === 0)
@@ -153,10 +212,10 @@ const Desktop = () => {
                     <div
                         className={`w-full h-full flex flex-col items-center justify-evenly text-center rounded-lg select-none p-2 ${isDragging ? "cursor-grabbing" : "cursor-pointer"}`}>
                         <img
-                            src={item.icon || "/icons/default.svg"}
+                            src={item.icon || "https://placehold.co/ffffff/000000?text=NaN"}
                             width={grid.cellHeight * cellIconRatio}
                             className='pointer-events-none select-none mx-auto aspect-square'
-                            alt="Icona cartella"
+                            alt={item.alt}
                         />
 
                         <div
