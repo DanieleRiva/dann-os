@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "name": "Empty",
+        "icon": "/icons/folders/empty.ico",
+        "alt": "Empty folder icon",
+        "row": 0,
+        "column": 0,
+        "componentPath": ""
+    },
+    {
+        "id": 2,
+        "name": "Music",
+        "icon": "/icons/folders/music.ico",
+        "alt": "Music folder icon",
+        "row": 0,
+        "column": 1,
+        "componentPath": ""
+    },
+    {
+        "id": 3,
+        "name": "Notepad",
+        "icon": "/icons/programs/notepad.ico",
+        "alt": "Notepad icon",
+        "row": 1,
+        "column": 0,
+        "componentPath": "src/app/os/applications/notepad.tsx"
+    },
+    {
+        "id": 4,
+        "name": "Hachi.jpeg",
+        "icon": "/icons/files/picture.ico",
+        "alt": "Image file",
+        "row": 1,
+        "column": 1,
+        "componentPath": ""
+    }
+]
