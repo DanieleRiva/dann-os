@@ -17,9 +17,11 @@ const Taskbar = () => {
 
     return (
         <footer className='w-full h-16 bg-neutral-800 flex justify-between items-center px-4'>
-            <button>Start</button>
+            <div className="flex justify-center gap-8">
+                <button>Start</button>
 
-            taskbar
+                taskbar
+            </div>
 
             <button className="cursor-pointer" onClick={toggleFullscreen}>⛶</button>
         </footer>
