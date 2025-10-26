@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware'
 
 type DesktopState = {
     showGridDisplayer: boolean;
@@ -7,13 +8,21 @@ type DesktopState = {
     toggleHighlighter: () => void;
 }
 
-export const useDesktopStore = create<DesktopState>((set) => ({
-    showGridDisplayer: false,
-    showCellHighlighter: true,
-    toggleGrid: () => {
-        set((state) => ({ showGridDisplayer: !state.showGridDisplayer }));
-    },
-    toggleHighlighter: () => {
-        set((state) => ({ showCellHighlighter: !state.showCellHighlighter }));
-    }
-}));
+export const useDesktopStore = create<DesktopState>()(
+    persist(
+        (set, get) => ({
+            showGridDisplayer: false,
+            showCellHighlighter: true,
+            toggleGrid: () => {
+                set({ showGridDisplayer: !get().showGridDisplayer });
+            },
+            toggleHighlighter: () => {
+                set({ showCellHighlighter: !get().showCellHighlighter });
+            }
+        }),
+        {
+            name: 'desktop-settings'
+        }
+    )
+);
+

@@ -5,7 +5,7 @@ import { useState } from "react";
 
 const Taskbar = () => {
     const [fullscreen, setFullscreen] = useState(false);
-    const { toggleGrid, toggleHighlighter, showCellHighlighter } = useDesktopStore();
+    const { showGridDisplayer, toggleGrid, showCellHighlighter, toggleHighlighter } = useDesktopStore();
 
     const toggleFullscreen = () => {
         if (!document.fullscreenElement) {
@@ -26,10 +26,14 @@ const Taskbar = () => {
             </div>
 
             <div className="flex justify-center items-center gap-4">
-                <button className="cursor-pointer" onClick={toggleFullscreen}>⛶</button>
-                <button className="cursor-pointer" onClick={toggleGrid}>᎒᎒᎒</button>
+                <button className="cursor-pointer" onClick={toggleFullscreen}>
+                    {fullscreen ? '🗗' : '⛶'}
+                </button>
+                <button className="cursor-pointer" onClick={toggleGrid}>
+                    {showGridDisplayer ? '᎒᎒᎒' : '⧠'}
+                </button>
                 <button className="cursor-pointer flex justify-center items-center" onClick={toggleHighlighter}>
-                    {showCellHighlighter ? '▧' : '▢'}
+                    {showCellHighlighter ? '▣' : '▢'}
                 </button>
             </div>
         </footer>
