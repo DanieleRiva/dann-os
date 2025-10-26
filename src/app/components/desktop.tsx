@@ -4,6 +4,7 @@ import { Rnd } from 'react-rnd'
 import { DraggableData, DraggableEvent } from 'react-draggable'
 import GridDisplayer from './gridDisplayer';
 import GridCellHighlighter from './gridCellHighlighter';
+import { useDesktopStore } from '@/store/useDesktopStore';
 
 interface FileSystemItem {
     id: number,
@@ -26,9 +27,8 @@ const Desktop = () => {
 
     // Utility variables
     const cellIconRatio = 0.5;
-    const [showGridDisplayer, setShowGridDisplayer] = useState(true);
-    const [showCellHighlighter, setShowCellHighlighter] = useState(true);
-
+    // const [showGridDisplayer, setShowGridDisplayer] = useState(false);
+    const { showGridDisplayer, showCellHighlighter } = useDesktopStore();
 
     // Fetch the fileSystem JSON file
     useEffect(() => {
@@ -94,6 +94,8 @@ const Desktop = () => {
                 const jsonX = targetCol * grid.cellWidth;
                 const jsonY = targetRow * grid.cellHeight;
 
+                // If the new items should be in an occupied cell, find the first
+                // empty spot available
                 const occupied = Object.values(loadedPositions).some(pos => pos.x === jsonX && pos.y === jsonY);
                 if (!occupied) {
                     loadedPositions[item.id] = { x: jsonX, y: jsonY };

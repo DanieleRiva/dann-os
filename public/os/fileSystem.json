@@ -37,7 +37,7 @@
     },
     {
         "id": 5,
-        "name": "circus.png",
+        "name": "Trash",
         "icon": "/icons/folders/trashEmpty.ico",
         "alt": "Empty trash",
         "row": "top",

@@ -1,9 +1,11 @@
 "use client"
 
+import { useDesktopStore } from "@/store/useDesktopStore";
 import { useState } from "react";
 
 const Taskbar = () => {
     const [fullscreen, setFullscreen] = useState(false);
+    const { toggleGrid, toggleHighlighter, showCellHighlighter } = useDesktopStore();
 
     const toggleFullscreen = () => {
         if (!document.fullscreenElement) {
@@ -23,7 +25,13 @@ const Taskbar = () => {
                 taskbar
             </div>
 
-            <button className="cursor-pointer" onClick={toggleFullscreen}>⛶</button>
+            <div className="flex justify-center items-center gap-4">
+                <button className="cursor-pointer" onClick={toggleFullscreen}>⛶</button>
+                <button className="cursor-pointer" onClick={toggleGrid}>᎒᎒᎒</button>
+                <button className="cursor-pointer flex justify-center items-center" onClick={toggleHighlighter}>
+                    {showCellHighlighter ? '▧' : '▢'}
+                </button>
+            </div>
         </footer>
     )
 }
