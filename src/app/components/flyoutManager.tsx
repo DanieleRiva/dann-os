@@ -17,7 +17,7 @@ const FlyoutManager = () => {
                 isOpen={activeFlyout === "start"}
                 width="400px"
                 height="80vh"
-                position={{ bottom: 64, left: 0 }}
+                position={{ left: 0 }}
                 className="rounded-tl-xl rounded-tr-xl bg-blur-effect"
             >
                 <StartMenu />
@@ -28,7 +28,7 @@ const FlyoutManager = () => {
                 isOpen={activeFlyout === "calendar"}
                 width="400px"
                 height="80vh"
-                position={{ bottom: 64, right: 0 }}
+                position={{ right: 0 }}
                 className="rounded-tl-xl rounded-tr-xl bg-blur-effect"
             >
                 <CalendarMenu />

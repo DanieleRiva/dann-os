@@ -196,7 +196,7 @@ const Desktop = () => {
 
             <GridDisplayer active={showGridDisplayer} grid={grid} />
 
-            <GridCellHighlighter active={showCellHighlighter} grid={grid} highlighterPos={highlighterPos} highlighterColor='bg-gray-700' />
+            <GridCellHighlighter active={showCellHighlighter} grid={grid} highlighterPos={highlighterPos} highlighterColor='bg-gray-700/75' />
 
             {fileSystem.map(item => (
                 <Rnd
@@ -208,8 +208,7 @@ const Desktop = () => {
                     onDragStop={(e, data) => onDragStop(item.id, e, data)}
                     bounds="parent"
                     enableResizing={false}
-                    className='cursor-pointer z-10'
-                >
+                    className={`cursor-pointer z-10 ${!isDragging && 'hover:bg-gray-300/25 rounded-sm'}`}>
                     <div
                         className={`w-full h-full flex flex-col items-center justify-evenly text-center rounded-lg select-none p-2 ${isDragging ? "cursor-grabbing" : "cursor-pointer"}`}>
                         <img
@@ -220,16 +219,17 @@ const Desktop = () => {
                         />
 
                         <div
-                            className="flex items-center justify-center w-full"
+                            className="h-full flex items-center justify-center w-full"
                             style={{ height: grid.cellHeight * (1 - cellIconRatio) }}
                         >
-                            <span className="select-none text-center [text-shadow:.3px_.3px_0_black,_-.3px_.3px_0_black,_.3px_-.3px_0_black,_-.3px_-.3px_0_black] drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">{item.name}</span>
+                            <span className="max-h-full select-none wrap-anywhere overflow-hidden text-center [text-shadow:.3px_.3px_0_black,_-.3px_.3px_0_black,_.3px_-.3px_0_black,_-.3px_-.3px_0_black] drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">{item.name}</span>
                         </div>
                     </div>
                 </Rnd>
-            ))}
+            ))
+            }
 
-        </main>
+        </main >
     );
 };
 

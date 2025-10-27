@@ -43,7 +43,8 @@ const Flyout = ({
             style={{
                 width: width,
                 height: height,
-                ...position
+                ...position,
+                bottom: (position?.bottom ?? 0) + 64
             }}
             ref={flyoutRef}>
 

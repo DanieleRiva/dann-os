@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Desktop from "./components/desktop";
 import Taskbar from "./components/taskbar";
-import dynamic from "next/dynamic";
 import FlyoutManager from "./components/flyoutManager";
 
 const geistSans = Geist({
@@ -34,6 +33,7 @@ export default function RootLayout({
         <Taskbar />
 
         <FlyoutManager />
+        
       </body>
     </html>
   );
