@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Desktop from "./components/desktop";
 import Taskbar from "./components/taskbar";
+import dynamic from "next/dynamic";
+import FlyoutManager from "./components/flyoutManager";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,11 +28,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} flex-col bg-[image:var(--desktop-wallpaper)] bg-cover bg-no-repeat bg-center`}>
 
         <Desktop />
         <Taskbar />
 
+        <FlyoutManager />
       </body>
     </html>
   );

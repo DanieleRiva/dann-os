@@ -3,10 +3,6 @@
 import { useDesktopStore } from "@/store/useDesktopStore";
 import { useFlyoutStore } from "@/store/useFlyoutStore";
 import { useEffect, useState } from "react";
-import Flyout from "./flyout";
-import dynamic from "next/dynamic";
-const StartMenu = dynamic(() => import("@/app/components/flyouts/startMenu"));
-const CalendarMenu = dynamic(() => import("@/app/components/flyouts/calendarMenu"));
 
 const Taskbar = () => {
     const [fullscreen, setFullscreen] = useState(false);
@@ -28,13 +24,14 @@ const Taskbar = () => {
     }
 
     return (
-        <footer className='w-full z-30 h-16 bg-neutral-800 flex justify-between items-center px-4'>
+        <footer className='w-full z-30 h-16 flex justify-between items-center px-4 bg-blur-effect'>
+
             <div className="flex justify-center gap-8">
                 <button
                     className="cursor-pointer"
                     onClick={(e) => toggleFlyout("start", e.currentTarget)}
                 >
-                    Start
+                    <img src="/icons/shell/windows.png" width={32} height={32} alt="Logo" />
                 </button>
 
                 {/* taskbar */}
@@ -58,28 +55,7 @@ const Taskbar = () => {
                 </button>
             </div>
 
-            <Flyout
-                id="start"
-                isOpen={activeFlyout === "start"}
-                width="400px"
-                height="80vh"
-                position={{ bottom: 64, left: 0 }}
-                className="rounded-tl-xl rounded-tr-xl"
-            >
-                <StartMenu />
-            </Flyout>
-
-            <Flyout
-                id="calendar"
-                isOpen={activeFlyout === "calendar"}
-                width="400px"
-                height="80vh"
-                position={{ bottom: 64, right: 0 }}
-                className="rounded-tl-xl rounded-tr-xl"
-            >
-                <CalendarMenu />
-            </Flyout>
-        </footer >
+        </footer>
     )
 }
 

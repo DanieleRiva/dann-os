@@ -192,7 +192,7 @@ const Desktop = () => {
         );
 
     return (
-        <main className='relative w-screen h-[calc(100vh-64px)] bg-cover bg-center bg-no-repeat bg-[image:var(--desktop-wallpaper)] overflow-hidden'>
+        <main className='relative w-screen h-[calc(100vh-64px)] overflow-hidden'>
 
             <GridDisplayer active={showGridDisplayer} grid={grid} />
 
