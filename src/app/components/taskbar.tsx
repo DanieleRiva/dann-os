@@ -5,6 +5,7 @@ import { useFlyoutStore } from "@/store/useFlyoutStore";
 import { useEffect, useState } from "react";
 import Flyout from "./flyout";
 import dynamic from "next/dynamic";
+import CalendarMenu from "./flyouts/calendarMenu";
 const StartMenu = dynamic(() => import("@/app/components/flyouts/startMenu"));
 
 const Taskbar = () => {
@@ -27,7 +28,7 @@ const Taskbar = () => {
     }
 
     return (
-        <footer className='w-full h-16 bg-neutral-800 flex justify-between items-center px-4'>
+        <footer className='w-full z-30 h-16 bg-neutral-800 flex justify-between items-center px-4'>
             <div className="flex justify-center gap-8">
                 <button
                     className="cursor-pointer"
@@ -49,6 +50,12 @@ const Taskbar = () => {
                 <button className="cursor-pointer flex justify-center items-center" onClick={toggleHighlighter}>
                     {showCellHighlighter ? '▣' : '▢'}
                 </button>
+                <button
+                    className="cursor-pointer"
+                    onClick={(e) => toggleFlyout("calendar", e.currentTarget)}
+                >
+                    Calendar
+                </button>
             </div>
 
             <Flyout
@@ -59,6 +66,16 @@ const Taskbar = () => {
                 position={{ bottom: 64, left: 0 }}
             >
                 <StartMenu />
+            </Flyout>
+
+            <Flyout
+                id="calendar"
+                isOpen={activeFlyout === "calendar"}
+                width="400px"
+                height="80vh"
+                position={{ bottom: 64, right: 0 }}
+            >
+                <CalendarMenu />
             </Flyout>
         </footer >
     )

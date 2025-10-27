@@ -36,14 +36,18 @@ const Flyout = ({
 
     return (
         <div
-            className={`w-[${width}] h-[${height}] z-10 bg-red-500 ${isOpen ? 'absolute' : 'hidden'}`}
+            className={`absolute overflow-hidden z-20 transition-all duration-400 ${isOpen ? 'max-h-[100vh]' : 'max-h-0'}`}
             style={{
-                width,
-                height,
+                width: width,
+                height: height,
                 ...position
             }}
             ref={flyoutRef}>
-            {children}
+
+            <div className='w-full h-full p-3 bg-neutral-800'>
+                {children}
+            </div>
+
         </div>
     )
 }

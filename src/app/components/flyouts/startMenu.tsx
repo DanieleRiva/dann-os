@@ -3,7 +3,7 @@ import React from 'react'
 const StartMenu = () => {
     return (
         <div>
-            This is the Start Menu!
+            This is the DANNos Start Menu!
         </div>
     )
 }
