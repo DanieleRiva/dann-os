@@ -53,8 +53,8 @@ const Desktop = () => {
         };
 
         updateGrid();
-        window.addEventListener('resize', updateGrid);
 
+        window.addEventListener('resize', updateGrid);
         return () => window.removeEventListener('resize', updateGrid);
     }, []);
 
