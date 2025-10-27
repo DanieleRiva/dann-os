@@ -1,11 +1,16 @@
 "use client"
 
 import { useDesktopStore } from "@/store/useDesktopStore";
+import { useFlyoutStore } from "@/store/useFlyoutStore";
 import { useState } from "react";
+import Flyout from "./flyout";
+import dynamic from "next/dynamic";
+const StartMenu = dynamic(() => import("@/app/components/flyouts/startMenu"));
 
 const Taskbar = () => {
     const [fullscreen, setFullscreen] = useState(false);
     const { showGridDisplayer, toggleGrid, showCellHighlighter, toggleHighlighter } = useDesktopStore();
+    const { activeFlyout, toggleFlyout } = useFlyoutStore();
 
     const toggleFullscreen = () => {
         if (!document.fullscreenElement) {
@@ -20,7 +25,7 @@ const Taskbar = () => {
     return (
         <footer className='w-full h-16 bg-neutral-800 flex justify-between items-center px-4'>
             <div className="flex justify-center gap-8">
-                <button>Start</button>
+                <button onClick={() => toggleFlyout("start")}>Start</button>
 
                 taskbar
             </div>
@@ -36,7 +41,11 @@ const Taskbar = () => {
                     {showCellHighlighter ? '▣' : '▢'}
                 </button>
             </div>
-        </footer>
+
+            <Flyout isOpen={activeFlyout === 'start'} width={300} height={500} position={{ bottom: 64, left: 0 }}>
+                <StartMenu />
+            </Flyout>
+        </footer >
     )
 }
 

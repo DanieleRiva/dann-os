@@ -27,7 +27,6 @@ const Desktop = () => {
 
     // Utility variables
     const cellIconRatio = 0.5;
-    // const [showGridDisplayer, setShowGridDisplayer] = useState(false);
     const { showGridDisplayer, showCellHighlighter } = useDesktopStore();
 
     // Fetch the fileSystem JSON file
