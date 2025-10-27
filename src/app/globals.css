@@ -11,7 +11,7 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
-  --desktop-wallpaper: url("/wallpapers/win_xp.jpg");
+  --desktop-wallpaper: url("/wallpapers/win7.jpg");
 }
 
 @media (prefers-color-scheme: dark) {

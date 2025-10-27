@@ -2,12 +2,14 @@
 
 import { useFlyoutStore } from '@/store/useFlyoutStore';
 import React, { useEffect, useRef } from 'react'
+import { clsx } from 'clsx';
 
 interface FlyoutProps {
     id: string,
     isOpen: boolean,
     width?: string,
     height?: string,
+    className?: string,
     position?: { top?: number, bottom?: number, left?: number, right?: number },
     children: React.ReactNode
 }
@@ -18,6 +20,7 @@ const Flyout = ({
     width = "300px",
     height = "500px",
     position = { bottom: 64 },
+    className = "rounded-tl-xl rounded-tr-xl rounded-bl-xl rounded-br-xl",
     children
 }: FlyoutProps) => {
     const flyoutRef = useRef<HTMLDivElement>(null);
@@ -44,7 +47,8 @@ const Flyout = ({
             }}
             ref={flyoutRef}>
 
-            <div className='w-full h-full p-3 bg-neutral-800'>
+            <div
+                className={clsx("w-full h-full p-3 bg-neutral-800 ", className)}>
                 {children}
             </div>
 

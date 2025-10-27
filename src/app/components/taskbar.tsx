@@ -5,8 +5,8 @@ import { useFlyoutStore } from "@/store/useFlyoutStore";
 import { useEffect, useState } from "react";
 import Flyout from "./flyout";
 import dynamic from "next/dynamic";
-import CalendarMenu from "./flyouts/calendarMenu";
 const StartMenu = dynamic(() => import("@/app/components/flyouts/startMenu"));
+const CalendarMenu = dynamic(() => import("@/app/components/flyouts/calendarMenu"));
 
 const Taskbar = () => {
     const [fullscreen, setFullscreen] = useState(false);
@@ -64,6 +64,7 @@ const Taskbar = () => {
                 width="400px"
                 height="80vh"
                 position={{ bottom: 64, left: 0 }}
+                className="rounded-tl-xl rounded-tr-xl"
             >
                 <StartMenu />
             </Flyout>
@@ -74,6 +75,7 @@ const Taskbar = () => {
                 width="400px"
                 height="80vh"
                 position={{ bottom: 64, right: 0 }}
+                className="rounded-tl-xl rounded-tr-xl"
             >
                 <CalendarMenu />
             </Flyout>
