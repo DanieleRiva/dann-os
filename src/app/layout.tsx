@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+// @ts-ignore
 import "./globals.css";
 import Desktop from "./components/desktop";
 import Taskbar from "./components/taskbar";
