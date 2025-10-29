@@ -3,11 +3,12 @@
 import { useDesktopStore } from "@/store/useDesktopStore";
 import { useFlyoutStore } from "@/store/useFlyoutStore";
 import { useEffect, useState } from "react";
+import TaskbarButton from "./taskbarButton";
 
 const Taskbar = () => {
     const [fullscreen, setFullscreen] = useState(false);
     const { showGridDisplayer, toggleGrid, showCellHighlighter, toggleHighlighter } = useDesktopStore();
-    const { activeFlyout, toggleFlyout } = useFlyoutStore();
+    const { toggleFlyout } = useFlyoutStore();
 
     useEffect(() => {
 
@@ -24,15 +25,24 @@ const Taskbar = () => {
     }
 
     return (
-        <footer className='w-full z-30 h-16 flex justify-between items-center px-4 bg-blur-effect'>
+        <footer className='w-full z-30 h-16 flex justify-between items-center px-0 bg-blur-effect'>
 
             <div className="flex justify-center gap-8">
-                <button
-                    className="cursor-pointer"
+
+                <TaskbarButton
+                    icon="/icons/shell/logo.png"
+                    iconHover="/icons/shell/logoBloom.png"
+                    width={72} height={72}
                     onClick={(e) => toggleFlyout("start", e.currentTarget)}
-                >
-                    <img src="/icons/shell/windows.png" width={32} height={32} alt="Logo" />
-                </button>
+                    alt="Logo"
+                />
+
+                <TaskbarButton
+                    icon="/icons/shell/logo.png"
+                    width={72} height={72}
+                    onClick={(e) => toggleFlyout("start", e.currentTarget)}
+                    alt="Logo"
+                />
 
                 {/* taskbar */}
             </div>

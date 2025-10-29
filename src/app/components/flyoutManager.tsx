@@ -16,7 +16,7 @@ const FlyoutManager = () => {
                 id="start"
                 isOpen={activeFlyout === "start"}
                 width="400px"
-                height="80vh"
+                height="550px"
                 position={{ left: 0 }}
                 className="rounded-tl-xl rounded-tr-xl bg-blur-effect"
             >
@@ -27,7 +27,7 @@ const FlyoutManager = () => {
                 id="calendar"
                 isOpen={activeFlyout === "calendar"}
                 width="400px"
-                height="80vh"
+                height="550px"
                 position={{ right: 0 }}
                 className="rounded-tl-xl rounded-tr-xl bg-blur-effect"
             >
