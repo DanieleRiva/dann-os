@@ -25,7 +25,7 @@ const Taskbar = () => {
     }
 
     return (
-        <footer className='w-full z-30 h-16 flex justify-between items-center px-0 bg-blur-effect'>
+        <footer className='w-full z-30 h-16 flex justify-between items-center px-0 bg-blur-effect absolute bottom-0'>
 
             <div className="flex justify-center gap-8">
 

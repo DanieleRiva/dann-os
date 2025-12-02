@@ -49,7 +49,7 @@ const Flyout = ({
             ref={flyoutRef}>
 
             <div
-                className={clsx("w-full h-full p-3 bg-neutral-800 ", className)}>
+                className={clsx("w-full h-full p-3", className)}>
                 {children}
             </div>
 
