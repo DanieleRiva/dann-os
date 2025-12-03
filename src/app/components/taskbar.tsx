@@ -37,17 +37,29 @@ const Taskbar = () => {
                     alt="Logo"
                 />
 
-                <TaskbarButton
+                {/* <TaskbarButton
                     icon="/icons/shell/logo.png"
                     width={72} height={72}
-                    onClick={(e) => toggleFlyout("start", e.currentTarget)}
+                    onClick={(e) => toggleFlyout("volume", e.currentTarget)}
                     alt="Logo"
-                />
+                /> */}
 
                 {/* taskbar */}
             </div>
 
             <div className="flex justify-center items-center gap-4">
+                <button
+                    className="cursor-pointer"
+                    onClick={(e) => toggleFlyout("notification", e.currentTarget)}
+                >
+                    🕭
+                </button>
+                <button
+                    className="cursor-pointer"
+                    onClick={(e) => toggleFlyout("volume", e.currentTarget)}
+                >
+                    🕪
+                </button>
                 <button className="cursor-pointer" onClick={toggleFullscreen}>
                     {fullscreen ? '🗗' : '⛶'}
                 </button>

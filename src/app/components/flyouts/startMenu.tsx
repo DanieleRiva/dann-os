@@ -1,10 +1,23 @@
+import { useFlyoutStore } from '@/store/useFlyoutStore';
 import React from 'react'
+import Flyout from '../flyout';
 
 const StartMenu = () => {
+    const { activeFlyout } = useFlyoutStore();
+
     return (
-        <div>
-            This is the DANNos Start Menu!
-        </div>
+        <Flyout
+            id="start"
+            isOpen={activeFlyout === "start"}
+            width="400px"
+            height="550px"
+            position={{ left: 0 }}
+            className="rounded-tl-xl rounded-tr-xl bg-blur-effect"
+        >
+            <div>
+                This is the DANNos Start Menu!
+            </div>
+        </Flyout>
     )
 }
 

@@ -11,6 +11,8 @@ interface FlyoutProps {
     height?: string,
     className?: string,
     position?: { top?: number, bottom?: number, left?: number, right?: number },
+    centerHorizontally?: boolean,
+    centerVertically?: boolean,
     children: React.ReactNode
 }
 
@@ -20,6 +22,8 @@ const Flyout = ({
     width = "300px",
     height = "500px",
     position = { bottom: 64 },
+    centerHorizontally = false,
+    centerVertically = false,
     className = "rounded-tl-xl rounded-tr-xl rounded-bl-xl rounded-br-xl",
     children
 }: FlyoutProps) => {
@@ -37,17 +41,40 @@ const Flyout = ({
         return () => window.removeEventListener("mousedown", handleOutsideClick);
     }, [isOpen, toggleFlyout]);
 
+    const computeFlyoutPosition = () => {
+        const style: React.CSSProperties = {
+            width,
+            height,
+        };
+
+        const transform: string[] = [];
+
+        if (centerHorizontally) {
+            style.left = "50%";
+            transform.push("translateX(-50%)");
+        } else {
+            if (position?.left !== undefined) style.left = position.left;
+            if (position?.right !== undefined) style.right = position.right;
+        }
+
+        if (centerVertically) {
+            style.top = "50%";
+            transform.push("translateY(-50%)");
+        } else {
+            if (position?.top) style.top = position.top;
+            style.bottom = (position?.bottom ?? 0) + 64;
+        }
+
+        style.transform = transform.join(" ");
+
+        return style;
+    };
+
     return (
         <div
             className={`absolute overflow-hidden z-20 transition-all duration-400 ${isOpen ? 'max-h-[100vh]' : 'max-h-0'}`}
-            style={{
-                width: width,
-                height: height,
-                ...position,
-                bottom: (position?.bottom ?? 0) + 64
-            }}
+            style={computeFlyoutPosition()}
             ref={flyoutRef}>
-
             <div
                 className={clsx("w-full h-full p-3", className)}>
                 {children}

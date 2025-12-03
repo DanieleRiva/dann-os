@@ -27,15 +27,15 @@ body {
   overflow: hidden;
 }
 
-.taskbar-blur {
+/* .taskbar-blur {
   background-color: gray;
   background-clip: padding-box;
-  backdrop-filter: blur(8px) saturate(100%) contrast(100%);
+  backdrop-filter: blur(4px) saturate(100%) contrast(100%);
   opacity: 10%;
-}
+} */
 
 .bg-blur-effect {
-  position: relative; 
+  position: relative;
   overflow: hidden;
   z-index: 1;
 }
@@ -46,12 +46,12 @@ body {
   position: absolute;
   inset: 0;
   z-index: -1;
-  
-  background: rgba(0, 20, 40, .6);
 
-  @apply backdrop-blur-[4px] backdrop-saturate-[130%];
-  
-  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(0, 20, 40, .5);
+
+  @apply backdrop-blur-[5px] backdrop-saturate-[130%];
+
+  border-top: 1px solid rgba(125, 125, 125, 1);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
@@ -60,7 +60,7 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, transparent 100%);
+  background: linear-gradient(to left, rgba(255, 255, 255, .15) 0%, transparent 90%);
   pointer-events: none;
   z-index: -1;
 }
