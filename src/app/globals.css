@@ -27,40 +27,57 @@ body {
   overflow: hidden;
 }
 
-/* .taskbar-blur {
-  background-color: gray;
-  background-clip: padding-box;
-  backdrop-filter: blur(4px) saturate(100%) contrast(100%);
-  opacity: 10%;
-} */
-
-.bg-blur-effect {
+.bg-blur,
+.bg-blur-hover {
   position: relative;
   overflow: hidden;
   z-index: 1;
 }
 
 /* Glass Layer */
-.bg-blur-effect::before {
+.bg-blur::before,
+.bg-blur-hover:hover::before {
   content: '';
   position: absolute;
   inset: 0;
   z-index: -1;
+  background: rgba(0, 20, 40, .3);
+  @apply backdrop-blur-[4px] backdrop-saturate-[150%];
+}
 
-  background: rgba(0, 20, 40, .5);
-
-  @apply backdrop-blur-[5px] backdrop-saturate-[130%];
-
-  border-top: 1px solid rgba(125, 125, 125, 1);
+.bg-blur::before {
+  border-top: 1px solid rgba(175, 175, 175, 1);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
+.bg-blur-hover {
+  /* border: 1px solid transparent; */
+  transition: .2s all;
+}
+
+.bg-blur-hover:hover {
+  border: 1px solid rgba(255, 255, 255, .35);
+}
+
+.bg-blur-hover:hover::before {
+  background: rgba(0, 20, 40, .25);
+}
+
 /* Extra Texture */
-.bg-blur-effect::after {
+.bg-blur-texture::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to left, rgba(255, 255, 255, .15) 0%, transparent 90%);
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.2) 0%, transparent 80%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.bg-blur-hover:hover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(255, 255, 255, .2) 0%, transparent 100%);
   pointer-events: none;
   z-index: -1;
 }

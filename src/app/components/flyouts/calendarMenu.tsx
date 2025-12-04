@@ -12,7 +12,7 @@ const CalendarMenu = () => {
             width="400px"
             height="550px"
             position={{ right: 0 }}
-            className="rounded-tl-xl rounded-tr-xl bg-blur-effect"
+            className="rounded-tl-xl rounded-tr-xl bg-blur"
         >
             <div>
                 This is the DANNos calendar!

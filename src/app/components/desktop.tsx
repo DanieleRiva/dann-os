@@ -208,7 +208,7 @@ const Desktop = () => {
                     onDragStop={(e, data) => onDragStop(item.id, e, data)}
                     bounds="parent"
                     enableResizing={false}
-                    className={`cursor-pointer z-10 ${!isDragging && 'hover:bg-gray-300/25 rounded-sm'}`}>
+                    className={`cursor-pointer z-10 border-transparent border-[1px] ${!isDragging && 'bg-blur-hover transition-all rounded-md'}`}>
                     <div
                         className={`w-full h-full flex flex-col items-center justify-evenly text-center rounded-lg select-none p-2 ${isDragging ? "cursor-grabbing" : "cursor-pointer"}`}>
                         <img

@@ -12,7 +12,7 @@ const StartMenu = () => {
             width="400px"
             height="550px"
             position={{ left: 0 }}
-            className="rounded-tl-xl rounded-tr-xl bg-blur-effect"
+            className="rounded-tl-xl rounded-tr-xl bg-blur"
         >
             <div>
                 This is the DANNos Start Menu!

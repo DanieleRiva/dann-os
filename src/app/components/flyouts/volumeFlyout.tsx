@@ -15,7 +15,7 @@ const VolumeFlyout = (props: Props) => {
             height="75px"
             centerHorizontally
             position={{ bottom: 32 }}
-            className="rounded-xl bg-blur-effect"
+            className="rounded-xl bg-blur"
         >
             <div>Volume</div>
         </Flyout>

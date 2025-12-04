@@ -14,7 +14,7 @@ const Notification = (props: Props) => {
             width="300px"
             height="150px"
             position={{ right: 8, bottom: 8 }}
-            className="rounded-xl bg-blur-effect"
+            className="rounded-xl bg-blur"
         >
             <div className='flex flex-col h-full justify-evenly'>
                 <h1 className='text-xl font-blod shrink-0'>📬 Outlook</h1>
