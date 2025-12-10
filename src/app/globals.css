@@ -81,3 +81,44 @@ body {
   pointer-events: none;
   z-index: -1;
 }
+
+.taskbar-icon {
+  position: relative;
+  display: inline-block;
+  transition: .2s all;
+}
+
+.taskbar-icon::before,
+.taskbar-icon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 70%;
+  width: 1px;
+  /* background-color: #000;  */
+  background: rgba(173, 173, 173, 0.03);
+  background: linear-gradient(180deg, rgba(173, 173, 173, 0) 0%, rgba(125, 125, 125, 1) 50%, rgba(173, 173, 173, 0) 100%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.taskbar-icon::before {
+  left: -1px;
+}
+
+.taskbar-icon::after {
+  right: -1px;
+}
+
+.taskbar-icon:hover::before,
+.taskbar-icon:hover::after {
+  opacity: 1;
+}
+
+.taskbar-icon:hover {
+  background: transparent;
+  background: radial-gradient(circle at center bottom,
+      rgba(237, 235, 235, 1) 0%,
+      rgba(237, 235, 235, 0) 20%);
+}

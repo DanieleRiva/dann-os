@@ -6,25 +6,41 @@ interface TaskbarButtonProps {
     iconHover?: string,
     name?: string,
     alt?: string,
-    width?: number,
-    height?: number,
+    imgWidth?: number,
+    imgHeight?: number,
     onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void,
     btnClassName?: string,
-    imgClassName?: string
+    imgClassName?: string,
+    special?: boolean
 }
 
-const TaskbarButton = ({ icon, iconHover, name, alt, width, height, onClick, btnClassName, imgClassName }: TaskbarButtonProps) => {
+const TaskbarButton = ({
+    icon,
+    iconHover,
+    name,
+    alt,
+    imgWidth,
+    imgHeight,
+    onClick,
+    btnClassName,
+    imgClassName,
+    special
+}: TaskbarButtonProps) => {
     return (
         <button
-            className={clsx("group cursor-pointer relative flex flex-row items-center", btnClassName)}
+            className={clsx(
+                "group cursor-pointer relative flex flex-row items-center",
+                btnClassName,
+                !special && "p-4 taskbar-icon"
+            )}
             onClick={onClick}
         >
-            <img className={imgClassName} src={icon} width={width} height={height} alt={alt} />
+            <img className={imgClassName} src={icon} width={imgWidth} height={imgHeight} alt={alt} />
 
             {iconHover &&
                 <img
                     className={clsx(imgClassName, "opacity-0 transition-opacity duration-[350ms] group-hover:opacity-100 absolute left-0 bottom-0")}
-                    width={width} height={height}
+                    width={imgWidth} height={imgHeight}
                     src={iconHover}
                     alt={alt}
                 />}

@@ -27,22 +27,31 @@ const Taskbar = () => {
     return (
         <footer className='w-full z-30 h-16 flex justify-between items-center px-0 bg-blur bg-blur-texture absolute bottom-0'>
 
-            <div className="flex justify-center gap-8">
+            <div className="flex justify-center gap-1">
 
                 <TaskbarButton
                     icon="/icons/shell/logo.png"
                     iconHover="/icons/shell/logoBloom.png"
-                    width={72} height={72}
+                    imgWidth={72} imgHeight={72}
                     onClick={(e) => toggleFlyout("start", e.currentTarget)}
+                    alt="Logo"
+                    // btnClassName="mr-4"
+                    special
+                />
+
+                <TaskbarButton
+                    icon="/icons/programs/explorer.ico"
+                    imgWidth={42} imgHeight={42}
+                    // onClick={(e) => toggleFlyout("volume", e.currentTarget)}
                     alt="Logo"
                 />
 
-                {/* <TaskbarButton
-                    icon="/icons/shell/logo.png"
-                    width={72} height={72}
-                    onClick={(e) => toggleFlyout("volume", e.currentTarget)}
+                <TaskbarButton
+                    icon="/icons/programs/journal.ico"
+                    imgWidth={40} imgHeight={40}
+                    // onClick={(e) => toggleFlyout("volume", e.currentTarget)}
                     alt="Logo"
-                /> */}
+                />
 
                 {/* taskbar */}
             </div>
