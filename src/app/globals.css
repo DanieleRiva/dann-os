@@ -42,16 +42,15 @@ body {
   inset: 0;
   z-index: -1;
   background: rgba(0, 20, 40, .3);
-  @apply backdrop-blur-[4px] backdrop-saturate-[150%];
+  @apply backdrop-blur-[4px] backdrop-saturate-[125%];
 }
 
 .bg-blur::before {
-  border-top: 1px solid rgba(175, 175, 175, 1);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border-top: 1px solid rgba(75, 75, 75, 1);
+  box-shadow: inset 0px 5px 10px -9px #ffffff;
 }
 
 .bg-blur-hover {
-  /* border: 1px solid transparent; */
   transition: .2s all;
 }
 
@@ -121,4 +120,22 @@ body {
   background: radial-gradient(circle at center bottom,
       rgba(237, 235, 235, 1) 0%,
       rgba(237, 235, 235, 0) 20%);
+}
+
+.show-desktop-btn {
+  border: 1px solid transparent;
+  height: calc(100% - 2px);
+  transition: .2s all;
+
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  @apply backdrop-blur-[2px];
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.show-desktop-btn:hover {
+  background: rgba(255, 255, 255, 0.33);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  @apply backdrop-blur-[8px];
+  border: 1px solid rgba(255, 255, 255, 0.27);
 }

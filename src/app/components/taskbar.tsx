@@ -4,15 +4,14 @@ import { useDesktopStore } from "@/store/useDesktopStore";
 import { useFlyoutStore } from "@/store/useFlyoutStore";
 import { useEffect, useState } from "react";
 import TaskbarButton from "./taskbarButton";
+import { UseCurrentTime } from "../utils/useCurrentTime";
 
 const Taskbar = () => {
     const [fullscreen, setFullscreen] = useState(false);
     const { showGridDisplayer, toggleGrid, showCellHighlighter, toggleHighlighter } = useDesktopStore();
     const { toggleFlyout } = useFlyoutStore();
 
-    useEffect(() => {
-
-    }, []);
+    const { formattedTime, formattedDate } = UseCurrentTime();
 
     const toggleFullscreen = () => {
         if (!document.fullscreenElement) {
@@ -23,6 +22,8 @@ const Taskbar = () => {
             setFullscreen(false);
         }
     }
+
+    const date = Date();
 
     return (
         <footer className='w-full z-30 h-16 flex justify-between items-center px-0 bg-blur bg-blur-texture absolute bottom-0'>
@@ -56,7 +57,7 @@ const Taskbar = () => {
                 {/* taskbar */}
             </div>
 
-            <div className="flex justify-center items-center gap-4">
+            <div className="flex justify-center h-full items-center gap-4">
                 <button
                     className="cursor-pointer"
                     onClick={(e) => toggleFlyout("notification", e.currentTarget)}
@@ -79,11 +80,16 @@ const Taskbar = () => {
                     {showCellHighlighter ? '▣' : '▢'}
                 </button>
                 <button
-                    className="cursor-pointer"
+                    className="cursor-pointer text-sm taskbar-icon px-3 h-full"
                     onClick={(e) => toggleFlyout("calendar", e.currentTarget)}
                 >
-                    Calendar
+                    {formattedTime} <br />
+                    {formattedDate}
                 </button>
+                <button
+                    className="cursor-pointer w-4 show-desktop-btn"
+                // onClick={(e) => toggleFlyout("calendar", e.currentTarget)}
+                ></button>
             </div>
 
         </footer>
