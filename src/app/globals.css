@@ -46,7 +46,7 @@ body {
 }
 
 .bg-blur::before {
-  border-top: 1px solid rgba(75, 75, 75, 1);
+  border-top: 1px solid #4b4b4b;
   box-shadow: inset 0px 5px 10px -9px #ffffff;
 }
 
