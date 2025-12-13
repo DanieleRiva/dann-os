@@ -127,14 +127,14 @@ body {
   height: calc(100% - 2px);
   transition: .2s all;
 
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.025);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   @apply backdrop-blur-[2px];
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .show-desktop-btn:hover {
-  background: rgba(255, 255, 255, 0.33);
+  background: rgba(255, 255, 255, 0.1);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   @apply backdrop-blur-[8px];
   border: 1px solid rgba(255, 255, 255, 0.27);
