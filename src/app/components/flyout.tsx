@@ -24,7 +24,7 @@ const Flyout = ({
     position = { bottom: 64 },
     centerHorizontally = false,
     centerVertically = false,
-    className = "rounded-tl-xl rounded-tr-xl rounded-bl-xl rounded-br-xl",
+    className = "rounded-xl",
     children
 }: FlyoutProps) => {
     const flyoutRef = useRef<HTMLDivElement>(null);
@@ -66,20 +66,23 @@ const Flyout = ({
         }
 
         style.transform = transform.join(" ");
-
         return style;
     };
 
     return (
         <div
-            className={`absolute overflow-hidden z-20 transition-all duration-400 ${isOpen ? 'max-h-[100vh]' : 'max-h-0'}`}
+            ref={flyoutRef}
             style={computeFlyoutPosition()}
-            ref={flyoutRef}>
-            <div
-                className={clsx("w-full h-full p-3", className)}>
-                {children}
+            className={clsx(
+                "absolute z-20 transition-all duration-400 ease-out overflow-hidden",
+                isOpen ? "max-h-[100vh]" : "max-h-0"
+            )}
+        >
+            <div className="w-full h-full p-3 box-border">
+                <div className={clsx("w-full h-full flex flex-col bg-blur aero-shadow overflow-hidden border border-white/30", className)}>
+                    {children}
+                </div>
             </div>
-
         </div>
     )
 }

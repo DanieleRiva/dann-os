@@ -44,7 +44,7 @@ const CalendarMenu = () => {
             width="600px"
             height="450px"
             position={{ right: 0 }}
-            className="rounded-tl-xl rounded-tr-xl bg-blur p-3"
+            className="rounded-xl p-3"
         >
             <div className="flex flex-col w-full h-full">
                 <div className='flex-1 flex flex-row justify-evenly items-center text-white'>

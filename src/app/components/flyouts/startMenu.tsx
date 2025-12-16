@@ -12,9 +12,8 @@ const StartMenu = () => {
             width="400px"
             height="550px"
             position={{ left: 0 }}
-            className="rounded-tl-xl rounded-tr-xl bg-blur"
         >
-            <div>
+            <div className="p-4">
                 This is the DANNos Start Menu!
             </div>
         </Flyout>
