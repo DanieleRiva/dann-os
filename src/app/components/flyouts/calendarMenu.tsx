@@ -5,11 +5,26 @@ import Calendar from 'react-calendar';
 import Clock from 'react-clock';
 import 'react-calendar/dist/Calendar.css';
 import 'react-clock/dist/Clock.css';
+import { useDesktopStore } from '@/store/useDesktopStore';
+import { icons } from '@/constants/constants';
+import clsx from 'clsx';
 
 const CalendarMenu = () => {
     const { activeFlyout } = useFlyoutStore();
     const [value, setValue] = useState(new Date());
     const [isMounted, setIsMounted] = useState(false);
+    const [fullscreen, setFullscreen] = useState(false);
+    const { showGridDisplayer, toggleGrid, showCellHighlighter, toggleHighlighter } = useDesktopStore();
+
+    const toggleFullscreen = () => {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen();
+            setFullscreen(true);
+        } else {
+            document.exitFullscreen();
+            setFullscreen(false);
+        }
+    }
 
     useEffect(() => {
         setIsMounted(true);
@@ -29,20 +44,28 @@ const CalendarMenu = () => {
             width="600px"
             height="450px"
             position={{ right: 0 }}
-            className="rounded-tl-xl rounded-tr-xl bg-blur"
+            className="rounded-tl-xl rounded-tr-xl bg-blur p-3"
         >
             <div className="flex flex-col w-full h-full">
-                <div className='flex-1 p-3 text-white'>
-                    Controlli rapidi
+                <div className='flex-1 flex flex-row justify-evenly items-center text-white'>
+                    <button className={clsx("cursor-pointer w-24 !h-14 rounded-lg show-desktop-btn flex justify-center items-center", fullscreen && "!bg-background")} onClick={toggleFullscreen}>
+                        <img src={fullscreen ? icons.toggleFullscreenBlack : icons.toggleFullscreenWhite} width={22} alt="" />
+                    </button>
+                    <button className={clsx("cursor-pointer w-24 !h-14 rounded-lg show-desktop-btn flex justify-center items-center", showGridDisplayer && "!bg-background")} onClick={toggleGrid}>
+                        <img src={showGridDisplayer ? icons.toggleGridBlack : icons.toggleGridWhite} width={22} alt="" />
+                    </button>
+                    <button className={clsx("cursor-pointer w-24 !h-14 rounded-lg show-desktop-btn flex justify-center items-center", showCellHighlighter && "!bg-background")} onClick={toggleHighlighter}>
+                        <img src={showCellHighlighter ? icons.toggleDropHighlighterBlack : icons.toggleDropHighlighterWhite} width={22} alt="" />
+                    </button>
                 </div>
 
-                <div className='flex-1 flex flex-row items-center justify-center gap-8 bg-white p-3 h-full border-2 border-[#4b4b4b] rounded-sm text-black'>
-                    <div className="flex-1 !w-1/2">
+                <div className='flex-1 flex flex-row items-center justify-evenly bg-background p-3 h-full border-2 border-[#4b4b4b] rounded-lg text-black'>
+                    <div className="w-72">
                         <Calendar
                             value={value}
                             locale="it-IT"
                             className={`
-                                w-full h-full !border-none 
+                                w-full h-full !border-none !bg-background
                                 
                                 /* Cambia il padding di TUTTI i riquadri (giorni) */
                                 [&_.react-calendar__tile react-calendar__month-view__days__day]:!p-1
@@ -55,10 +78,9 @@ const CalendarMenu = () => {
                         />
                     </div>
 
-                    <div className="flex-1 !w-1/2 flex flex-col items-center justify-center items-center gap-4">
+                    <div className="flex flex-col items-center justify-center gap-4">
                         <Clock
                             value={value}
-                            // size={150} 
                             renderNumbers={true}
                             className="w-full h-full"
                         />

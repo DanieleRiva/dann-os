@@ -7,21 +7,9 @@ import TaskbarButton from "./taskbarButton";
 import { UseCurrentTime } from "../utils/useCurrentTime";
 
 const Taskbar = () => {
-    const [fullscreen, setFullscreen] = useState(false);
-    const { showGridDisplayer, toggleGrid, showCellHighlighter, toggleHighlighter } = useDesktopStore();
     const { toggleFlyout } = useFlyoutStore();
 
     const { formattedTime, formattedDate } = UseCurrentTime();
-
-    const toggleFullscreen = () => {
-        if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen();
-            setFullscreen(true);
-        } else {
-            document.exitFullscreen();
-            setFullscreen(false);
-        }
-    }
 
     const date = Date();
 
@@ -59,21 +47,6 @@ const Taskbar = () => {
                     onClick={(e) => toggleFlyout("notification", e.currentTarget)}
                 >
                     🕭
-                </button>
-                {/* <button
-                    className="cursor-pointer"
-                    onClick={(e) => toggleFlyout("volume", e.currentTarget)}
-                >
-                    🕪
-                </button> */}
-                <button className="cursor-pointer" onClick={toggleFullscreen}>
-                    {fullscreen ? '🗗' : '⛶'}
-                </button>
-                <button className="cursor-pointer" onClick={toggleGrid}>
-                    {showGridDisplayer ? '᎒᎒᎒' : '⧠'}
-                </button>
-                <button className="cursor-pointer flex justify-center items-center" onClick={toggleHighlighter}>
-                    {showCellHighlighter ? '▣' : '▢'}
                 </button>
 
                 <button className="cursor-pointer flex justify-center items-center">
