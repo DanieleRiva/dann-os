@@ -50,6 +50,7 @@ const Window = ({
     const [isMounted, setIsMounted] = useState(false);
     const [lastWindowState, setLastWindowState] = useState<{ width: number, height: number, x: number, y: number } | null>(null);
     const [isDragging, setIsDragging] = useState(false);
+    const [isResizing, setIsResizing] = useState(false);
 
     const initialWidth = windowSizes[id]?.width ?? parseInt(width);
     const initialHeight = windowSizes[id]?.height ?? parseInt(height);
@@ -141,6 +142,7 @@ const Window = ({
             }}
             onResizeStart={() => {
                 focusWindow(id);
+                setIsResizing(true);
             }}
             onResizeStop={(e, direction, ref, delta, position) => {
                 setWindowSize(id, {
@@ -148,6 +150,7 @@ const Window = ({
                     height: parseInt(ref.style.height)
                 });
                 setWindowPosition(id, position);
+                setIsResizing(false);
             }}
             onMouseDown={() => focusWindow(id)}
             enableResizing={canResize}
@@ -156,9 +159,11 @@ const Window = ({
             bounds="window"
             className={
                 clsx(
-                    "absolute transition-opacity duration-200 ease-out flex flex-col",
-                    "rounded-lg aero-shadow border border-white/40",
-                    !isMinimized ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none"
+                    "absolute flex flex-col",
+                    "rounded-lg border border-white/40",
+                    (focusedWindow === id) && "aero-shadow",
+                    !isMinimized ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none",
+                    !isDragging && !isResizing ? "transition-all" : "transition-opacity"
                 )
             }
         >
@@ -175,9 +180,9 @@ const Window = ({
                         <span style={{ textShadow: "0px 0px 4px rgba(0,0,0,0.6)" }}>{title}</span>
                     </div>
 
-                    <div 
-                    onMouseDown={(e) => e.stopPropagation()}
-                    className="flex h-full items-start"
+                    <div
+                        onMouseDown={(e) => e.stopPropagation()}
+                        className="flex h-full items-start"
                     >
                         <button
                             onClick={() => minimizeWindow(id)}
