@@ -99,7 +99,7 @@ const Window = ({
                 !isMinimized ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none"
             )}
         >
-            <div className='flex flex-col w-full h-full bg-blur bg-blur-texture px-2 pb-2 select-none'>
+            <div className='rounded-lg flex flex-col w-full h-full bg-blur bg-blur-texture px-2 pb-2 select-none'>
                 <div
                     className="h-10 flex items-center justify-between select-none w-full z-20 window-drag-handle"
                     onDoubleClick={() => console.log("Maximize logic")}
