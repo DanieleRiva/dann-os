@@ -1,6 +1,6 @@
 import { useFlyoutStore } from '@/store/useFlyoutStore';
 import React from 'react'
-import Flyout from '../flyout';
+import Flyout from '../../components/flyout';
 
 const StartMenu = () => {
     const { activeFlyout } = useFlyoutStore();

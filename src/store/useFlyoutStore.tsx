@@ -14,7 +14,7 @@ export const useFlyoutStore = create<FlyoutStore>()(
             set({
                 activeFlyout: get().activeFlyout === id ? null : id,
                 triggerElement: get().activeFlyout === id ? null : trigger
-            })
+            });
         }
     })
 );

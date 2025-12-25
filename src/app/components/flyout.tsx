@@ -74,7 +74,7 @@ const Flyout = ({
             ref={flyoutRef}
             style={computeFlyoutPosition()}
             className={clsx(
-                "absolute z-20 transition-all duration-400 ease-out overflow-hidden",
+                "absolute z-50 transition-all duration-400 ease-out overflow-hidden",
                 isOpen ? "max-h-[100vh]" : "max-h-0"
             )}
         >

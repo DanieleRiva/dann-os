@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Flyout from '../flyout';
+import Flyout from '../../components/flyout';
 import { useFlyoutStore } from '@/store/useFlyoutStore';
 import Calendar from 'react-calendar';
 import Clock from 'react-clock';

@@ -1,5 +1,5 @@
 import React from 'react'
-import Flyout from '../flyout'
+import Flyout from '../../components/flyout'
 import { useFlyoutStore } from '@/store/useFlyoutStore';
 
 type Props = {}

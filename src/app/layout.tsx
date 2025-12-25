@@ -5,6 +5,7 @@ import "./globals.css";
 import Desktop from "./components/desktop";
 import Taskbar from "./components/taskbar";
 import FlyoutManager from "./components/flyoutManager";
+import WindowManager from "./components/windowManager";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,7 +35,8 @@ export default function RootLayout({
         <Taskbar />
 
         <FlyoutManager />
-        
+        <WindowManager />
+
       </body>
     </html>
   );
