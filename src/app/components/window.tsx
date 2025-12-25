@@ -14,6 +14,8 @@ interface WindowProps {
     minWidth?: string,
     height?: string,
     minHeight?: string,
+    openMaximized?: boolean,
+    openFullscreen?: boolean,
     canResize?: boolean,
     className?: string,
     children: React.ReactNode
@@ -23,11 +25,12 @@ const Window = ({
     id,
     title = "Window title",
     icon,
-    isOpen,
     width = "600px",
     minWidth = "400px",
     height = "400px",
     minHeight = "400px",
+    openMaximized,
+    openFullscreen,
     canResize = true,
     className,
     children
@@ -45,6 +48,7 @@ const Window = ({
     } = useWindowStore();
 
     const [isMounted, setIsMounted] = useState(false);
+    const [lastWindowState, setLastWindowState] = useState<{ width: number, height: number, x: number, y: number } | null>(null);
 
     const initialWidth = windowSizes[id]?.width ?? parseInt(width);
     const initialHeight = windowSizes[id]?.height ?? parseInt(height);
@@ -66,21 +70,73 @@ const Window = ({
 
     if (!isMounted) return null;
 
+
+    const currentWidth = windowSizes[id]?.width ?? parseInt(width);
+    const currentHeight = windowSizes[id]?.height ?? parseInt(height);
+    
+    const currentX = windowPositions[id]?.x ?? (typeof window !== "undefined" ? (window.innerWidth / 2) - (currentWidth / 2) : 0);
+    const currentY = windowPositions[id]?.y ?? (typeof window !== "undefined" ? (window.innerHeight / 2) - (currentHeight / 2) : 0);
+
     const isFocused = focusedWindow === id;
     const isMinimized = minimizedWindows.includes(id);
     const zIndex = isFocused ? 21 : 20;
 
+    const isMaximized = () => {
+        if (currentWidth === window.innerWidth &&
+            currentHeight === window.innerHeight - 64 &&
+            currentX === 0 &&
+            currentY === 0
+        ) return true;
+        return false;
+    }
+
+    function toggleMaximize() {
+        if (!isMaximized()) {
+            setLastWindowState({
+                x: currentX,
+                y: currentY,
+                width: currentWidth,
+                height: currentHeight,
+            })
+
+            setWindowSize(
+                id,
+                { width: window.innerWidth, height: window.innerHeight - 64 }
+            );
+
+            setWindowPosition(
+                id,
+                { x: 0, y: 0 }
+            );
+        } else if (lastWindowState) {
+            setWindowSize(
+                id,
+                { width: lastWindowState.width, height: lastWindowState.height }
+            );
+
+            setWindowPosition(
+                id,
+                { x: lastWindowState.x, y: lastWindowState.y }
+            );
+        }
+    }
+
     return (
         <Rnd
-            default={{
+            position={{
                 x: initialX,
-                y: initialY,
+                y: initialY
+            }}
+            size={{
                 width: initialWidth,
                 height: initialHeight
             }}
             minHeight={minHeight}
             minWidth={minWidth}
             onDragStop={(e, d) => setWindowPosition(id, { x: d.x, y: d.y })}
+            onResizeStart={() => {
+                focusWindow(id);
+            }}
             onResizeStop={(e, direction, ref, delta, position) => {
                 setWindowSize(id, {
                     width: parseInt(ref.style.width),
@@ -101,8 +157,8 @@ const Window = ({
         >
             <div className='rounded-lg flex flex-col w-full h-full bg-blur bg-blur-texture px-2 pb-2 select-none'>
                 <div
-                    className="h-10 flex items-center justify-between select-none w-full z-20 window-drag-handle"
-                    onDoubleClick={() => console.log("Maximize logic")}
+                    className="h-10 flex items-center justify-between select-none w-full z-20 window-drag-handle cursor-grab"
+                    onDoubleClick={() => toggleMaximize()}
                 >
                     <div className="flex items-center gap-2 text-white/90 text-lg font-medium shadow-black drop-shadow-md">
                         {icon && <img src={icon} draggable={false} alt="icon" className="w-5 h-5 drop-shadow-sm" />}
@@ -118,7 +174,7 @@ const Window = ({
                         </button>
 
                         <button
-                            onClick={() => console.log("Maximize logic")}
+                            onClick={() => toggleMaximize()}
                             className="w-10 h-7 flex items-center justify-center hover:bg-white/20 hover:backdrop-brightness-125 transition-colors group border-b-2 border-x-1 border-white/10 cursor-pointer">
                             <div className="w-2.5 h-2.5 border-[1.5px] border-white/90 shadow-sm group-hover:border-white">
                                 <div className="border-t-[1.5px] border-white/90 w-full opacity-60"></div>
