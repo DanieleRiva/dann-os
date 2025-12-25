@@ -49,6 +49,7 @@ const Window = ({
 
     const [isMounted, setIsMounted] = useState(false);
     const [lastWindowState, setLastWindowState] = useState<{ width: number, height: number, x: number, y: number } | null>(null);
+    const [isDragging, setIsDragging] = useState(false);
 
     const initialWidth = windowSizes[id]?.width ?? parseInt(width);
     const initialHeight = windowSizes[id]?.height ?? parseInt(height);
@@ -73,7 +74,7 @@ const Window = ({
 
     const currentWidth = windowSizes[id]?.width ?? parseInt(width);
     const currentHeight = windowSizes[id]?.height ?? parseInt(height);
-    
+
     const currentX = windowPositions[id]?.x ?? (typeof window !== "undefined" ? (window.innerWidth / 2) - (currentWidth / 2) : 0);
     const currentY = windowPositions[id]?.y ?? (typeof window !== "undefined" ? (window.innerHeight / 2) - (currentHeight / 2) : 0);
 
@@ -133,7 +134,11 @@ const Window = ({
             }}
             minHeight={minHeight}
             minWidth={minWidth}
-            onDragStop={(e, d) => setWindowPosition(id, { x: d.x, y: d.y })}
+            onDragStart={() => setIsDragging(true)}
+            onDragStop={(e, d) => {
+                setWindowPosition(id, { x: d.x, y: d.y });
+                setIsDragging(false);
+            }}
             onResizeStart={() => {
                 focusWindow(id);
             }}
@@ -149,15 +154,20 @@ const Window = ({
             dragHandleClassName="window-drag-handle"
             style={{ zIndex }}
             bounds="window"
-            className={clsx(
-                "absolute transition-opacity duration-200 ease-out flex flex-col",
-                "rounded-lg aero-shadow border border-white/40",
-                !isMinimized ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none"
-            )}
+            className={
+                clsx(
+                    "absolute transition-opacity duration-200 ease-out flex flex-col",
+                    "rounded-lg aero-shadow border border-white/40",
+                    !isMinimized ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none"
+                )
+            }
         >
             <div className='rounded-lg flex flex-col w-full h-full bg-blur bg-blur-texture px-2 pb-2 select-none'>
                 <div
-                    className="h-10 flex items-center justify-between select-none w-full z-20 window-drag-handle cursor-grab"
+                    className={clsx(
+                        "h-10 flex items-center justify-between select-none w-full z-20 window-drag-handle",
+                        !isDragging ? "cursor-grab" : "cursor-grabbing"
+                    )}
                     onDoubleClick={() => toggleMaximize()}
                 >
                     <div className="flex items-center gap-2 text-white/90 text-lg font-medium shadow-black drop-shadow-md">
@@ -165,7 +175,10 @@ const Window = ({
                         <span style={{ textShadow: "0px 0px 4px rgba(0,0,0,0.6)" }}>{title}</span>
                     </div>
 
-                    <div className="flex h-full items-start">
+                    <div 
+                    onMouseDown={(e) => e.stopPropagation()}
+                    className="flex h-full items-start"
+                    >
                         <button
                             onClick={() => minimizeWindow(id)}
                             className="w-10 h-7 flex justify-center items-center hover:bg-white/20 hover:backdrop-brightness-125 transition-colors group rounded-bl-md border-l-2 border-b-2 border-r-1 border-white/10 cursor-pointer">
@@ -203,7 +216,7 @@ const Window = ({
                     </div>
                 </div>
             </div>
-        </Rnd>
+        </Rnd >
     )
 }
 
