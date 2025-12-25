@@ -17,6 +17,8 @@ interface WindowProps {
     openMaximized?: boolean,
     openFullscreen?: boolean,
     canResize?: boolean,
+    canMinimize?: boolean,
+    canFullscreen?: boolean,
     className?: string,
     children: React.ReactNode
 }
@@ -32,6 +34,8 @@ const Window = ({
     openMaximized,
     openFullscreen,
     canResize = true,
+    canMinimize = true,
+    canFullscreen = true,
     className,
     children
 }: WindowProps) => {
@@ -69,6 +73,23 @@ const Window = ({
     useEffect(() => {
         setIsMounted(true);
     }, []);
+
+    useEffect(() => {
+        if (isMounted && openMaximized) {
+            if (isMaximized())
+                return;
+
+            setLastWindowState({
+                width: parseInt(width),
+                height: parseInt(height),
+                x: (window.innerWidth / 2) - (parseInt(width) / 2),
+                y: (window.innerHeight / 2) - (parseInt(height) / 2)
+            });
+
+            toggleMaximize();
+        }
+    }, [isMounted, openMaximized]);
+
 
     if (!isMounted) return null;
 
@@ -126,8 +147,8 @@ const Window = ({
     return (
         <Rnd
             position={{
-                x: initialX,
-                y: initialY
+                x: initialX ?? 0,
+                y: initialY ?? 0
             }}
             size={{
                 width: initialWidth,
@@ -163,17 +184,23 @@ const Window = ({
                     "rounded-lg border border-white/40",
                     (focusedWindow === id) && "aero-shadow",
                     !isMinimized ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none",
-                    !isDragging && !isResizing ? "transition-all" : "transition-opacity"
+                    !isDragging && !isResizing ? "transition-all" : "transition-opacity",
+                    // Se è massimizzata, rimuoviamo i bordi arrotondati
+                    isMaximized() && "!rounded-none !border-none"
                 )
             }
         >
-            <div className='rounded-lg flex flex-col w-full h-full bg-blur bg-blur-texture px-2 pb-2 select-none'>
+            <div className={clsx(
+                'flex flex-col w-full h-full bg-blur bg-blur-texture px-2 pb-2 select-none',
+                // Rimuoviamo padding/rounded interni se massimizzata per farla sembrare nativa
+                isMaximized() ? "" : "rounded-lg"
+            )}>
                 <div
                     className={clsx(
                         "h-10 flex items-center justify-between select-none w-full z-20 window-drag-handle",
                         !isDragging ? "cursor-grab" : "cursor-grabbing"
                     )}
-                    onDoubleClick={() => toggleMaximize()}
+                    onDoubleClick={() => { canResize && toggleMaximize() }}
                 >
                     <div className="flex items-center gap-2 text-white/90 text-lg font-medium shadow-black drop-shadow-md">
                         {icon && <img src={icon} draggable={false} alt="icon" className="w-5 h-5 drop-shadow-sm" />}
@@ -184,25 +211,30 @@ const Window = ({
                         onMouseDown={(e) => e.stopPropagation()}
                         className="flex h-full items-start"
                     >
-                        <button
+                        {canMinimize && <button
                             onClick={() => minimizeWindow(id)}
                             className="w-10 h-7 flex justify-center items-center hover:bg-white/20 hover:backdrop-brightness-125 transition-colors group rounded-bl-md border-l-2 border-b-2 border-r-1 border-white/10 cursor-pointer">
 
                             <div className="w-2.5 h-0.5 bg-white/90 mt-0.5 shadow-sm group-hover:bg-white"></div>
-                        </button>
+                        </button>}
 
-                        <button
+                        {canResize && <button
                             onClick={() => toggleMaximize()}
-                            className="w-10 h-7 flex items-center justify-center hover:bg-white/20 hover:backdrop-brightness-125 transition-colors group border-b-2 border-x-1 border-white/10 cursor-pointer">
+                            className={clsx(
+                                "w-10 h-7 flex items-center justify-center hover:bg-white/20 hover:backdrop-brightness-125 transition-colors group border-b-2 border-x-1 border-white/10 cursor-pointer",
+                                canMinimize ? "" : "rounded-bl-md")
+                            }>
                             <div className="w-2.5 h-2.5 border-[1.5px] border-white/90 shadow-sm group-hover:border-white">
                                 <div className="border-t-[1.5px] border-white/90 w-full opacity-60"></div>
                             </div>
-                        </button>
+                        </button>}
 
                         <button
                             onClick={() => closeWindow(id)}
-                            className="w-14 h-7 flex items-center justify-center hover:bg-red-500/90 transition-colors group rounded-br-md border-l-1 border-b-2 border-r-2 border-white/10 cursor-pointer"
-                        >
+                            className={clsx(
+                                "w-14 h-7 flex items-center justify-center hover:bg-red-500/90 transition-colors group rounded-br-md border-l-1 border-b-2 border-r-2 border-white/10 cursor-pointer",
+                                (!canResize && !canMinimize) && "rounded-bl-md")
+                            }>
                             <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M1 1L9 9M9 1L1 9" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
                             </svg>
