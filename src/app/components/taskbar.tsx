@@ -1,20 +1,16 @@
 "use client"
 
-import { useDesktopStore } from "@/store/useDesktopStore";
 import { useFlyoutStore } from "@/store/useFlyoutStore";
 import { useWindowStore } from "@/store/useWindowStore";
-import { useEffect, useState } from "react";
 import TaskbarButton from "./taskbarButton";
 import { UseCurrentTime } from "../utils/useCurrentTime";
 import { clsx } from 'clsx';
 
 const Taskbar = () => {
     const { toggleFlyout } = useFlyoutStore();
-    const { toggleWindow, openWindows, minimizedWindows, focusedWindow } = useWindowStore();
+    const { toggleWindow, openWindows, minimizeWindow, focusedWindow } = useWindowStore();
 
     const { formattedTime, formattedDate } = UseCurrentTime();
-
-    const date = Date();
 
     return (
         <footer className='w-full !z-30 h-16 flex justify-between items-center px-0 bg-blur bg-blur-texture absolute bottom-0'>
@@ -60,6 +56,22 @@ const Taskbar = () => {
                         && "taskbar-button-open"
                     )}
                 />
+
+                <TaskbarButton
+                    icon="/icons/programs/journal.ico"
+                    imgWidth={40} imgHeight={40}
+                    onClick={(e) => toggleWindow("notepad", e.currentTarget)}
+                    alt="Logo"
+                    btnClassName={clsx(
+                        "transition-colors duration-200",
+
+                        (openWindows.includes("notepad") && focusedWindow === "notepad")
+                        && "taskbar-button-focused",
+
+                        (openWindows.includes("notepad") && focusedWindow !== "notepad")
+                        && "taskbar-button-open"
+                    )}
+                />
             </div>
 
             <div className="flex justify-center h-full items-center gap-2">
@@ -86,7 +98,15 @@ const Taskbar = () => {
                     {formattedTime} <br />
                     {formattedDate}
                 </button>
-                <button className="cursor-pointer w-4 show-desktop-btn"></button>
+                <button
+                    className="cursor-pointer w-4 show-desktop-btn"
+                    onClick={() =>
+                        openWindows.forEach(window => {
+                            minimizeWindow(window);
+                        })
+                    }
+                >
+                </button>
             </div>
 
         </footer >

@@ -39,7 +39,7 @@ const TaskbarButton = ({
 
             {iconHover &&
                 <img
-                    className={clsx(imgClassName, "opacity-0 transition-opacity duration-[350ms] group-hover:opacity-100 absolute left-0 bottom-0")}
+                    className={clsx(imgClassName, "opacity-0 transition-opacity duration-[350ms] group-hover:opacity-100 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2")}
                     width={imgWidth} height={imgHeight}
                     src={iconHover}
                     alt={alt}
