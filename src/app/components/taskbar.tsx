@@ -44,21 +44,21 @@ const Taskbar = () => {
                 <TaskbarButton
                     icon="/icons/programs/journal.ico"
                     imgWidth={40} imgHeight={40}
-                    onClick={(e) => toggleWindow("notepad", e.currentTarget)}
+                    onClick={(e) => toggleWindow("journal", e.currentTarget)}
                     alt="Logo"
                     btnClassName={clsx(
                         "transition-colors duration-200",
 
-                        (openWindows.includes("notepad") && focusedWindow === "notepad")
+                        (openWindows.includes("journal") && focusedWindow === "journal")
                         && "taskbar-button-focused",
 
-                        (openWindows.includes("notepad") && focusedWindow !== "notepad")
+                        (openWindows.includes("journal") && focusedWindow !== "journal")
                         && "taskbar-button-open"
                     )}
                 />
 
                 <TaskbarButton
-                    icon="/icons/programs/journal.ico"
+                    icon="/icons/programs/notepad.ico"
                     imgWidth={40} imgHeight={40}
                     onClick={(e) => toggleWindow("notepad", e.currentTarget)}
                     alt="Logo"
