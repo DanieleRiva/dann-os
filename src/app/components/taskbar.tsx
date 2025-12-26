@@ -19,7 +19,7 @@ const Taskbar = () => {
     return (
         <footer className='w-full !z-30 h-16 flex justify-between items-center px-0 bg-blur bg-blur-texture absolute bottom-0'>
 
-            <div className="flex justify-center gap-1">
+            <div className="flex justify-center items-center h-full gap-1">
                 <TaskbarButton
                     icon="/icons/shell/logo.png"
                     iconHover="/icons/shell/logoBloom.png"
@@ -36,10 +36,12 @@ const Taskbar = () => {
                     alt="Logo"
                     btnClassName={clsx(
                         "transition-colors duration-200",
-                        
-                        openWindows.includes("explorer") && !minimizedWindows.includes("explorer") && "bg-red-500/50 border-b-2 border-red-500",
-                        
-                        minimizedWindows.includes("explorer") && "bg-green-500/50"
+
+                        (openWindows.includes("explorer") && focusedWindow === "explorer")
+                        && "taskbar-button-focused",
+
+                        (openWindows.includes("explorer") && focusedWindow !== "explorer")
+                        && "taskbar-button-open"
                     )}
                 />
 
@@ -51,9 +53,11 @@ const Taskbar = () => {
                     btnClassName={clsx(
                         "transition-colors duration-200",
 
-                        openWindows.includes("notepad") && !minimizedWindows.includes("notepad") && "bg-red-500/50 border-b-2 border-red-500",
-                        
-                        minimizedWindows.includes("notepad") && "bg-green-500/50"
+                        (openWindows.includes("notepad") && focusedWindow === "notepad")
+                        && "taskbar-button-focused",
+
+                        (openWindows.includes("notepad") && focusedWindow !== "notepad")
+                        && "taskbar-button-open"
                     )}
                 />
             </div>

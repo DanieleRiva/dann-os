@@ -17,7 +17,6 @@ const Notepad = () => {
             minHeight="300px"
             canResize={true}
             canMinimize={true}
-            openMaximized
         >
             <textarea className='w-full h-full m-0 p-0 border-none outline-none resize-none'></textarea>
         </Window>

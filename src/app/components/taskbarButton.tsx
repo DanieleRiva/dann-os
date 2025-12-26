@@ -29,9 +29,9 @@ const TaskbarButton = ({
     return (
         <button
             className={clsx(
-                "group cursor-pointer relative flex flex-row items-center",
+                "group relative flex flex-row justify-center items-center border-1 border-transparent h-full",
                 btnClassName,
-                !special && "p-4 taskbar-icon"
+                !special && "py-2 px-4 taskbar-icon"
             )}
             onClick={onClick}
         >
