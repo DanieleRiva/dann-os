@@ -158,8 +158,29 @@ const Window = ({
             minWidth={minWidth}
             onDragStart={() => setIsDragging(true)}
             onDragStop={(e, d) => {
-                setWindowPosition(id, { x: d.x, y: d.y });
                 setIsDragging(false);
+
+                const mouseEvent = e as MouseEvent;
+                const cursorX = mouseEvent.clientX;
+                const cursorY = mouseEvent.clientY;
+
+                const screenW = window.innerWidth;
+                const screenH = window.innerHeight - 64;
+
+                if (cursorX === 0) {
+                    // Left snap
+                    setWindowSize(id, { width: screenW / 2, height: screenH });
+                    setWindowPosition(id, { x: 0, y: 0 });
+                } else if (cursorX >= screenW - 5) {
+                    // Right snap
+                    setWindowSize(id, { width: screenW / 2, height: screenH });
+                    setWindowPosition(id, { x: screenW / 2, y: 0 });
+                } else if (cursorY <= 5) {
+                    // Maximize
+                    toggleMaximize();
+                } else {
+                    setWindowPosition(id, { x: d.x, y: d.y });
+                }
             }}
             onResizeStart={() => {
                 focusWindow(id);
