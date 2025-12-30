@@ -19,6 +19,8 @@ type WindowStore = {
     windowPositions: Record<string, Position>;
     windowSizes: Record<string, Size>;
 
+    hoveredSnapArea: 'left' | 'right' | 'top' | null;
+
     toggleWindow: (id: string, trigger?: HTMLElement | null) => void;
     focusWindow: (id: string) => void;
     minimizeWindow: (id: string) => void;
@@ -26,6 +28,8 @@ type WindowStore = {
 
     setWindowPosition: (id: string, position: Position) => void;
     setWindowSize: (id: string, size: Size) => void;
+
+    setHoveredSnapArea: (area: 'left' | 'right' | 'top' | null) => void;
 }
 
 export const useWindowStore = create<WindowStore>()(
@@ -37,6 +41,8 @@ export const useWindowStore = create<WindowStore>()(
 
         windowPositions: {},
         windowSizes: {},
+
+        hoveredSnapArea: null,
 
         toggleWindow: (id, trigger) => {
             const { openWindows, minimizedWindows, focusedWindow } = get();
@@ -98,6 +104,8 @@ export const useWindowStore = create<WindowStore>()(
             set((state) => ({
                 windowSizes: { ...state.windowSizes, [id]: size }
             }));
-        }
+        },
+
+        setHoveredSnapArea: (area) => set({ hoveredSnapArea: area }),
     })
 );

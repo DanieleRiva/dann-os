@@ -48,13 +48,16 @@ const Window = ({
         closeWindow,
         focusWindow,
         focusedWindow,
-        minimizedWindows
+        minimizedWindows,
+        hoveredSnapArea,
+        setHoveredSnapArea
     } = useWindowStore();
 
     const [isMounted, setIsMounted] = useState(false);
     const [lastWindowState, setLastWindowState] = useState<{ width: number, height: number, x: number, y: number } | null>(null);
     const [isDragging, setIsDragging] = useState(false);
     const [isResizing, setIsResizing] = useState(false);
+    const snapRange = 64;
 
     const initialWidth = windowSizes[id]?.width ?? parseInt(width);
     const initialHeight = windowSizes[id]?.height ?? parseInt(height);
@@ -144,6 +147,23 @@ const Window = ({
         }
     }
 
+    function snap(location: "left" | "right", screenW: number, screenH: number) {
+        if (location === "left") {
+            setWindowSize(id, { width: screenW / 2, height: screenH });
+            setWindowPosition(id, { x: 0, y: 0 });
+        } else if (location === "right") {
+            setWindowSize(id, { width: screenW / 2, height: screenH });
+            setWindowPosition(id, { x: screenW / 2, y: 0 });
+        }
+
+        setLastWindowState({
+            x: currentX,
+            y: currentY,
+            width: currentWidth,
+            height: currentHeight,
+        })
+    }
+
     return (
         <Rnd
             position={{
@@ -156,27 +176,40 @@ const Window = ({
             }}
             minHeight={minHeight}
             minWidth={minWidth}
-            onDragStart={() => setIsDragging(true)}
+            onDragStart={() => {
+                setIsDragging(true);
+            }}
+            onDrag={(e, d) => {
+                const mouseEvent = e as MouseEvent;
+                const cursorX = mouseEvent.clientX;
+                const cursorY = mouseEvent.clientY;
+                const screenW = window.innerWidth;
+
+                if (cursorX <= snapRange) {
+                    setHoveredSnapArea("left");
+                } else if (cursorX >= screenW - snapRange) {
+                    setHoveredSnapArea("right");
+                } else if (cursorY <= snapRange) {
+                    setHoveredSnapArea("top");
+                } else {
+                    setHoveredSnapArea(null);
+                }
+            }}
             onDragStop={(e, d) => {
                 setIsDragging(false);
+                setHoveredSnapArea(null);
 
                 const mouseEvent = e as MouseEvent;
                 const cursorX = mouseEvent.clientX;
                 const cursorY = mouseEvent.clientY;
-
                 const screenW = window.innerWidth;
                 const screenH = window.innerHeight - 64;
 
-                if (cursorX === 0) {
-                    // Left snap
-                    setWindowSize(id, { width: screenW / 2, height: screenH });
-                    setWindowPosition(id, { x: 0, y: 0 });
-                } else if (cursorX >= screenW - 5) {
-                    // Right snap
-                    setWindowSize(id, { width: screenW / 2, height: screenH });
-                    setWindowPosition(id, { x: screenW / 2, y: 0 });
-                } else if (cursorY <= 5) {
-                    // Maximize
+                if (cursorX <= snapRange) {
+                    snap("left", screenW, screenH);
+                } else if (cursorX >= screenW - snapRange) {
+                    snap("right", screenW, screenH);
+                } else if (cursorY <= snapRange) {
                     toggleMaximize();
                 } else {
                     setWindowPosition(id, { x: d.x, y: d.y });
@@ -206,14 +239,12 @@ const Window = ({
                     (focusedWindow === id) && "aero-shadow",
                     !isMinimized ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none",
                     !isDragging && !isResizing ? "transition-all" : "transition-opacity",
-                    // Se è massimizzata, rimuoviamo i bordi arrotondati
                     isMaximized() && "!rounded-none !border-none"
                 )
             }
         >
             <div className={clsx(
                 'flex flex-col w-full h-full bg-blur bg-blur-texture px-2 pb-2 select-none',
-                // Rimuoviamo padding/rounded interni se massimizzata per farla sembrare nativa
                 isMaximized() ? "" : "rounded-lg"
             )}>
                 <div

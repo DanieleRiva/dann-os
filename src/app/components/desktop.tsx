@@ -5,6 +5,8 @@ import { DraggableData, DraggableEvent } from 'react-draggable'
 import GridDisplayer from './gridDisplayer';
 import GridCellHighlighter from './gridCellHighlighter';
 import { useDesktopStore } from '@/store/useDesktopStore';
+import clsx from 'clsx';
+import { useWindowStore } from '@/store/useWindowStore';
 
 interface FileSystemItem {
     id: number,
@@ -28,6 +30,7 @@ const Desktop = () => {
     // Utility variables
     const cellIconRatio = 0.5;
     const { showGridDisplayer, showCellHighlighter } = useDesktopStore();
+    const { hoveredSnapArea } = useWindowStore();
 
     // Fetch the fileSystem JSON file
     useEffect(() => {
@@ -193,6 +196,31 @@ const Desktop = () => {
 
     return (
         <main className='relative w-screen h-[calc(100vh-64px)] overflow-hidden'>
+
+            <div className={clsx(
+                'fixed top-0 left-0 h-[calc(100%-64px)] w-1/2 z-21',
+                'bg-white/20 backdrop-blur-sm border-r-2 border-y-2 border-white/30 rounded-r-xl pointer-events-none',
+                'transition-all duration-200 ease-out',
+                hoveredSnapArea === "left"
+                    ? "opacity-100 translate-x-0 scale-100"
+                    : "opacity-0 -translate-x-4 scale-95"
+            )} />
+            <div className={clsx(
+                'fixed top-0 right-0 h-[calc(100%-64px)] w-1/2 z-21',
+                'bg-white/20 backdrop-blur-sm border-l-2 border-y-2 border-white/30 rounded-l-xl pointer-events-none',
+                'transition-all duration-200 ease-out',
+                hoveredSnapArea === "right"
+                    ? "opacity-100 scale-100"
+                    : "opacity-0 scale-95"
+            )} />
+            <div className={clsx(
+                'fixed top-0 right-0 h-[calc(100%-64px)] w-full z-21',
+                'bg-white/20 backdrop-blur-sm border-l-2 border-y-2 border-white/30 rounded-l-xl pointer-events-none',
+                'transition-all duration-200 ease-out',
+                hoveredSnapArea === "top"
+                    ? "opacity-100 scale-100"
+                    : "opacity-0 scale-95"
+            )} />
 
             <GridDisplayer active={showGridDisplayer} grid={grid} />
 

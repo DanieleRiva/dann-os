@@ -19,7 +19,7 @@ const Taskbar = () => {
                 <TaskbarButton
                     icon="/icons/shell/logo.png"
                     iconHover="/icons/shell/logoBloom.png"
-                    imgWidth={72} imgHeight={72}
+                    imgWidth={86} imgHeight={86}
                     onClick={(e) => toggleFlyout("start", e.currentTarget)}
                     alt="Logo"
                     special
