@@ -22,3 +22,13 @@ export interface WindowInstance {
     icon: string;
     payload?: Record<string, unknown>;
 }
+
+// A folder is a node that has children, while a file is
+// a node that doesn't.
+export interface FsNode {
+    name: string;
+    icon?: string;
+    children?: FsNode[];
+    appId?: string;
+    payload?: Record<string, unknown>;
+}

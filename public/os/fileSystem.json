@@ -1,57 +1,146 @@
-[
-    {
-        "id": 1,
-        "name": "Empty",
-        "icon": "/icons/folders/empty.ico",
-        "alt": "Empty folder icon",
-        "row": 0,
-        "column": 0,
-        "componentPath": "",
-
-        "windowId": "explorer"
-    },
-    {
-        "id": 2,
-        "name": "Music",
-        "icon": "/icons/folders/music.ico",
-        "alt": "Music folder icon",
-        "row": 0,
-        "column": 1,
-        "componentPath": "",
-
-        "windowId": "explorer"
-    },
-    {
-        "id": 3,
-        "name": "Notepad",
-        "icon": "/icons/programs/notepad.ico",
-        "alt": "Notepad icon",
-        "row": 1,
-        "column": 0,
-        "componentPath": "src/app/os/applications/notepad.tsx",
-
-        "windowId": "notepad"
-    },
-    {
-        "id": 4,
-        "name": "Hachi",
-        "icon": "/icons/files/picture.ico",
-        "alt": "Image file",
-        "row": 1,
-        "column": 1,
-        "componentPath": "",
-
-        "windowId": "imageViewer"
-    },
-    {
-        "id": 5,
-        "name": "Trash",
-        "icon": "/icons/folders/trashEmpty.ico",
-        "alt": "Empty trash",
-        "row": "top",
-        "column": "right",
-        "componentPath": "",
-
-        "windowId": "trash"
-    }
-]
+{
+    "name": "This PC",
+    "children": [
+        {
+            "name": "Desktop",
+            "icon": "/icons/folders/desktop.png",
+            "children": [
+                {
+                    "id": 1,
+                    "name": "Games",
+                    "icon": "/icons/folders/games.ico",
+                    "alt": "Games folder icon",
+                    "row": 0,
+                    "column": 0,
+                    "appId": "explorer",
+                    "children": [
+                        {
+                            "name": "Rock, Paper, Scissors, Shoot",
+                            "icon": "/icons/programs/rps.png",
+                            "appId": "rps"
+                        },
+                        {
+                            "name": "FNAF Remastered",
+                            "icon": "/icons/programs/fnaf.png",
+                            "appId": "fnaf"
+                        }
+                    ]
+                },
+                {
+                    "id": 2,
+                    "name": "Music",
+                    "icon": "/icons/folders/music.ico",
+                    "alt": "Music folder icon",
+                    "row": 0,
+                    "column": 1,
+                    "appId": "explorer",
+                    "children": [
+                        {
+                            "name": "Song.mp3",
+                            "icon": "/icons/files/picture.ico",
+                            "appId": "notepad"
+                        }
+                    ]
+                },
+                {
+                    "id": 3,
+                    "name": "Notepad",
+                    "icon": "/icons/programs/notepad.ico",
+                    "alt": "Notepad icon",
+                    "row": 1,
+                    "column": 0,
+                    "appId": "notepad"
+                },
+                {
+                    "id": 4,
+                    "name": "Hachi",
+                    "icon": "/icons/folders/pictures.ico",
+                    "alt": "Hachi Folder icon",
+                    "row": 1,
+                    "column": 1,
+                    "appId": "explorer",
+                    "children": [
+                        {
+                            "name": "Montagna",
+                            "icon": "/icons/files/picture.ico",
+                            "alt": "Image file",
+                            "row": 1,
+                            "column": 1,
+                            "appId": "imageViewer",
+                            "payload": {
+                                "src": "/images/hachi1.jpg"
+                            }
+                        },
+                        {
+                            "name": "Hachi",
+                            "icon": "/icons/files/picture.ico",
+                            "alt": "Image file",
+                            "row": 1,
+                            "column": 1,
+                            "appId": "imageViewer",
+                            "payload": {
+                                "src": "/images/hachi2.jpg"
+                            }
+                        },
+                        {
+                            "name": "Hachi",
+                            "icon": "/icons/files/picture.ico",
+                            "alt": "Image file",
+                            "row": 1,
+                            "column": 1,
+                            "appId": "imageViewer",
+                            "payload": {
+                                "src": "/images/hachi3.jpg"
+                            }
+                        },
+                        {
+                            "name": "Hachi",
+                            "icon": "/icons/files/picture.ico",
+                            "alt": "Image file",
+                            "row": 1,
+                            "column": 1,
+                            "appId": "imageViewer",
+                            "payload": {
+                                "src": "/images/hachi4.jpg"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "id": 5,
+                    "name": "Trash",
+                    "icon": "/icons/folders/trashEmpty.ico",
+                    "alt": "Empty trash",
+                    "row": "top",
+                    "column": "right",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "name": "Downloads",
+            "icon": "/icons/folders/downloads.png",
+            "children": []
+        },
+        {
+            "name": "Documents",
+            "icon": "/icons/folders/documents.png",
+            "children": []
+        },
+        {
+            "name": "Pictures",
+            "icon": "/icons/folders/pictures.ico",
+            "children": []
+        },
+        {
+            "name": "Music",
+            "icon": "/icons/folders/music.ico",
+            "children": []
+        },
+        {
+            "name": "Videos",
+            "icon": "/icons/folders/videos.png",
+            "children": []
+        }
+    ]
+}

@@ -23,7 +23,7 @@ type WindowStore = {
 
     hoveredSnapArea: 'left' | 'right' | 'top' | null;
 
-    toggleWindow: (appId: string, trigger?: HTMLElement | null) => void;
+    toggleWindow: (appId: string, trigger?: HTMLElement | null, payload?: Record<string, unknown>) => void;
     focusWindow: (id: string) => void;
     minimizeWindow: (id: string) => void;
     closeWindow: (id: string) => void;
@@ -46,38 +46,42 @@ export const useWindowStore = create<WindowStore>()(
 
         hoveredSnapArea: null,
 
-        toggleWindow: (appId, trigger) => {
+        toggleWindow: (appId, trigger, payload) => {
             const { openWindows, minimizedWindows, focusedWindow } = get();
             const existing = openWindows.find((w) => w.appId === appId);
 
             if (!existing) {
                 const manifest = REGISTRY[appId];
                 const instanceId = manifest?.singleton ? appId : `${appId}-${crypto.randomUUID()}`;
-
-                const instance = {
-                    instanceId: instanceId,
-                    appId: appId,
-                    title: manifest?.name ?? appId,
-                    icon: manifest?.icon ?? "",
-                    payload: {},
-                };
-
                 set({
-                    openWindows: [...openWindows, instance],
-                    focusedWindow: instance.instanceId,
+                    openWindows: [...openWindows, {
+                        instanceId, appId,
+                        title: manifest?.name ?? appId,
+                        icon: manifest?.icon ?? "",
+                        payload: payload ?? {},
+                    }],
+                    focusedWindow: instanceId,
+                    triggerElement: trigger,
+                });
+                return;
+            }
+
+            if (payload) {
+                set({
+                    openWindows: openWindows.map((w) =>
+                        w.instanceId === existing.instanceId ? { ...w, payload } : w
+                    ),
+                    minimizedWindows: minimizedWindows.filter((wid) => wid !== existing.instanceId),
+                    focusedWindow: existing.instanceId,
                     triggerElement: trigger,
                 });
                 return;
             }
 
             if (focusedWindow === existing.instanceId) {
-                set({
-                    focusedWindow: null,
-                    minimizedWindows: [...minimizedWindows, existing.instanceId],
-                });
+                set({ focusedWindow: null, minimizedWindows: [...minimizedWindows, existing.instanceId] });
                 return;
             }
-
             set({
                 minimizedWindows: minimizedWindows.filter((wid) => wid !== existing.instanceId),
                 focusedWindow: existing.instanceId,

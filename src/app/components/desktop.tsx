@@ -7,6 +7,7 @@ import GridCellHighlighter from './gridCellHighlighter';
 import { useDesktopStore } from '@/store/useDesktopStore';
 import clsx from 'clsx';
 import { useWindowStore } from '@/store/useWindowStore';
+import { FsNode } from '../utils/interfaces';
 
 interface FileSystemItem {
     id: number,
@@ -16,8 +17,8 @@ interface FileSystemItem {
     row: number | "top" | "bottom",
     column: number | "left" | "right",
     componentPath: string,
-
-    windowId: string
+    appId: string,
+    children?: FsNode[]
 }
 
 const preferredCellSize = 80;
@@ -38,7 +39,10 @@ const Desktop = () => {
     useEffect(() => {
         fetch("/os/fileSystem.json")
             .then((res) => res.json())
-            .then((data: FileSystemItem[]) => setFileSystem(data))
+            .then((root) => {
+                const desktop = root.children.find((n: any) => n.name === "Desktop");
+                setFileSystem(desktop?.children ?? []);
+            })
             .catch((err) => console.error("Error trying to load the fileSystem: ", err));
     }, []);
 
@@ -176,14 +180,13 @@ const Desktop = () => {
         setHighlighterPos(null);
     }
 
-    const onDoubleClick = (e: MouseEvent, windowId: string) => {
-        console.log("Double Clicked! This is the event:");
-        console.log(windowId);
-
-        if (windowId) {
-            toggleWindow(windowId);
+    const onDoubleClick = (e: MouseEvent, item: FileSystemItem) => {
+        if (item.children) {
+            toggleWindow("explorer", null, { path: ["Desktop", item.name] });
+        } else if (item.appId) {
+            toggleWindow(item.appId);
         }
-    }
+    };
 
     function specialPositionings(value: number, axis: "x" | "y"): number | string {
         if (axis === "x") return value === grid.cols - 1 ? "right" : value;
@@ -237,7 +240,7 @@ const Desktop = () => {
                     key={item.id}
                     size={{ width: grid.cellWidth, height: grid.cellHeight }}
                     position={positions[item.id]}
-                    onDoubleClick={(e: any, windowId: string) => onDoubleClick(e, item.windowId)}
+                    onDoubleClick={(e: any) => onDoubleClick(e, item)}
                     onDrag={(e, data) => onDrag(item.id, e, data)}
                     onDragStop={(e, data) => onDragStop(item.id, e, data)}
                     bounds="parent"

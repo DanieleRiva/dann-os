@@ -1,16 +1,12 @@
-import { useWindowStore } from '@/store/useWindowStore';
-import React from 'react'
 import Window from '../../components/window';
+import { WindowInstance } from '@/app/utils/interfaces';
 
-const ImageViewer = () => {
-    const { toggleWindow, openWindows } = useWindowStore();
-
+const ImageViewer = ({ instance }: { instance: WindowInstance }) => {
     return (
         <Window
-            id="imageViewer"
-            title="Immagine"
-            icon="/icons/files/picture.ico"
-            isOpen={openWindows.includes("imageViewer")}
+            id={instance.instanceId}
+            title={instance.title}
+            icon={instance.icon}
             width="700px"
             height="500px"
             minWidth="300px"
