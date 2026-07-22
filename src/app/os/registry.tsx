@@ -3,6 +3,7 @@ import type { AppManifest } from "@/app/utils/interfaces";
 
 import NotepadInfo from "@/app/os/programs/notepadInfo";
 import ImageViewer from "@/app/os/programs/imageViewer";
+import RPS from "./programs/rps/rps";
 
 export const REGISTRY: Record<string, AppManifest> = {
     explorer: {
@@ -15,6 +16,7 @@ export const REGISTRY: Record<string, AppManifest> = {
         minSize: { width: 200, height: 200 },
         pinned: true
     },
+
     notepad: {
         appId: "notepad",
         name: "Notepad",
@@ -32,6 +34,7 @@ export const REGISTRY: Record<string, AppManifest> = {
         singleton: true,
         defaultSize: { width: 400, height: 300 }
     },
+
     journal: {
         appId: "journal",
         name: "Journal",
@@ -41,11 +44,21 @@ export const REGISTRY: Record<string, AppManifest> = {
         defaultSize: { width: 600, height: 400 },
         pinned: true
     },
+
     imageViewer: {
         appId: "imageViewer",
         name: "Image Viewer",
         icon: "/icons/files/picture.ico",
         component: ImageViewer,
+        singleton: true,
+        defaultSize: { width: 600, height: 400 }
+    },
+
+    rps: {
+        appId: "rps",
+        name: "Rock, Paper, Scissors, SHOOT",
+        icon: "/icons/programs/rps.png",
+        component: RPS,
         singleton: true,
         defaultSize: { width: 600, height: 400 }
     },
