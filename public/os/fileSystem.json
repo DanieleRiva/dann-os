@@ -6,7 +6,9 @@
         "alt": "Empty folder icon",
         "row": 0,
         "column": 0,
-        "componentPath": ""
+        "componentPath": "",
+
+        "windowId": "explorer"
     },
     {
         "id": 2,
@@ -15,7 +17,9 @@
         "alt": "Music folder icon",
         "row": 0,
         "column": 1,
-        "componentPath": ""
+        "componentPath": "",
+
+        "windowId": "explorer"
     },
     {
         "id": 3,
@@ -24,7 +28,9 @@
         "alt": "Notepad icon",
         "row": 1,
         "column": 0,
-        "componentPath": "src/app/os/applications/notepad.tsx"
+        "componentPath": "src/app/os/applications/notepad.tsx",
+
+        "windowId": "notepad"
     },
     {
         "id": 4,
@@ -33,7 +39,9 @@
         "alt": "Image file",
         "row": 1,
         "column": 1,
-        "componentPath": ""
+        "componentPath": "",
+
+        "windowId": "imageViewer"
     },
     {
         "id": 5,
@@ -42,6 +50,8 @@
         "alt": "Empty trash",
         "row": "top",
         "column": "right",
-        "componentPath": ""
+        "componentPath": "",
+
+        "windowId": "trash"
     }
 ]

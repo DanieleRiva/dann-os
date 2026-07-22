@@ -9,7 +9,6 @@ interface WindowProps {
     id: string,
     title?: string,
     icon?: string,
-    isOpen: boolean,
     width?: string,
     minWidth?: string,
     height?: string,
@@ -300,7 +299,7 @@ const Window = ({
                 )}>
                     <div className="absolute top-0 left-0 w-full h-[1px] bg-white/50 z-10"></div>
 
-                    <div className="w-full h-full p-1">
+                    <div className="w-full h-full">
                         {children}
                     </div>
                 </div>

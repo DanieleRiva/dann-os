@@ -5,12 +5,16 @@ import { useWindowStore } from "@/store/useWindowStore";
 import TaskbarButton from "./taskbarButton";
 import { UseCurrentTime } from "../utils/useCurrentTime";
 import { clsx } from 'clsx';
+import { REGISTRY } from "../os/registry";
 
 const Taskbar = () => {
     const { toggleFlyout } = useFlyoutStore();
     const { toggleWindow, openWindows, minimizeWindow, focusedWindow } = useWindowStore();
 
     const { formattedTime, formattedDate } = UseCurrentTime();
+
+    const focusedAppId = openWindows.find((w) => w.instanceId === focusedWindow)?.appId ?? null;
+    const pinned = Object.values(REGISTRY).filter((m) => m.pinned);
 
     return (
         <footer className='w-full !z-30 h-16 flex justify-between items-center px-0 bg-blur bg-blur-texture absolute bottom-0'>
@@ -25,53 +29,42 @@ const Taskbar = () => {
                     special
                 />
 
-                <TaskbarButton
-                    icon="/icons/programs/explorer.ico"
-                    imgWidth={42} imgHeight={42}
-                    onClick={(e) => toggleWindow("explorer", e.currentTarget)}
-                    alt="Logo"
-                    btnClassName={clsx(
-                        "transition-colors duration-200",
+                {pinned.map((manifest) => {
+                    const isRunning = openWindows.some((w) => w.appId === manifest.appId);
+                    const isFocused = focusedAppId === manifest.appId;
+                    return (
+                        <TaskbarButton
+                            key={manifest.appId}
+                            icon={manifest.icon}
+                            imgWidth={40} imgHeight={40}
+                            onClick={(e) => toggleWindow(manifest.appId, e.currentTarget)}
+                            alt={manifest.name}
+                            btnClassName={clsx(
+                                "transition-colors duration-200",
+                                isRunning && isFocused && "taskbar-button-focused",
+                                isRunning && !isFocused && "taskbar-button-open",
+                            )}
+                        />
+                    );
+                })}
 
-                        (openWindows.includes("explorer") && focusedWindow === "explorer")
-                        && "taskbar-button-focused",
-
-                        (openWindows.includes("explorer") && focusedWindow !== "explorer")
-                        && "taskbar-button-open"
-                    )}
-                />
-
-                <TaskbarButton
-                    icon="/icons/programs/journal.ico"
-                    imgWidth={40} imgHeight={40}
-                    onClick={(e) => toggleWindow("journal", e.currentTarget)}
-                    alt="Logo"
-                    btnClassName={clsx(
-                        "transition-colors duration-200",
-
-                        (openWindows.includes("journal") && focusedWindow === "journal")
-                        && "taskbar-button-focused",
-
-                        (openWindows.includes("journal") && focusedWindow !== "journal")
-                        && "taskbar-button-open"
-                    )}
-                />
-
-                <TaskbarButton
-                    icon="/icons/programs/notepad.ico"
-                    imgWidth={40} imgHeight={40}
-                    onClick={(e) => toggleWindow("notepad", e.currentTarget)}
-                    alt="Logo"
-                    btnClassName={clsx(
-                        "transition-colors duration-200",
-
-                        (openWindows.includes("notepad") && focusedWindow === "notepad")
-                        && "taskbar-button-focused",
-
-                        (openWindows.includes("notepad") && focusedWindow !== "notepad")
-                        && "taskbar-button-open"
-                    )}
-                />
+                {openWindows
+                    .filter((w) => !REGISTRY[w.appId]?.pinned)
+                    .map((w) => (
+                        <TaskbarButton
+                            key={w.instanceId}
+                            icon={w.icon}
+                            imgWidth={40} imgHeight={40}
+                            onClick={(e) => toggleWindow(w.appId, e.currentTarget)}
+                            alt={w.title}
+                            btnClassName={clsx(
+                                "transition-colors duration-200",
+                                focusedWindow === w.instanceId
+                                    ? "taskbar-button-focused"
+                                    : "taskbar-button-open",
+                            )}
+                        />
+                    ))}
             </div>
 
             <div className="flex justify-center h-full items-center gap-2">
@@ -102,7 +95,7 @@ const Taskbar = () => {
                     className="cursor-pointer w-4 show-desktop-btn"
                     onClick={() =>
                         openWindows.forEach(window => {
-                            minimizeWindow(window);
+                            minimizeWindow(window.instanceId);
                         })
                     }
                 >

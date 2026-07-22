@@ -1,24 +1,20 @@
-import { useWindowStore } from '@/store/useWindowStore';
-import React from 'react'
-import Window from '../../components/window';
+import Window from "../../components/window";
+import type { WindowInstance } from "@/app/utils/interfaces";
 
-const Explorer = () => {
-    const { openWindows } = useWindowStore();
-
+const Explorer = ({ instance }: { instance: WindowInstance }) => {
     return (
         <Window
-            id="explorer"
-            title="Explorer"
-            icon="/icons/programs/explorer.ico"
-            isOpen={openWindows.includes("explorer")}
+            id={instance.instanceId}
+            title={instance.title}
+            icon={instance.icon}
             width="700px"
             height="500px"
             minWidth="200px"
             minHeight="200px"
         >
-            Explorer
+            Explorer - {String(instance.payload?.path ?? "root")}
         </Window>
     );
-}
+};
 
 export default Explorer;

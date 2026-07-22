@@ -15,7 +15,9 @@ interface FileSystemItem {
     alt: string,
     row: number | "top" | "bottom",
     column: number | "left" | "right",
-    componentPath: string
+    componentPath: string,
+
+    windowId: string
 }
 
 const preferredCellSize = 80;
@@ -30,7 +32,7 @@ const Desktop = () => {
     // Utility variables
     const cellIconRatio = 0.5;
     const { showGridDisplayer, showCellHighlighter } = useDesktopStore();
-    const { hoveredSnapArea } = useWindowStore();
+    const { hoveredSnapArea, toggleWindow } = useWindowStore();
 
     // Fetch the fileSystem JSON file
     useEffect(() => {
@@ -174,9 +176,13 @@ const Desktop = () => {
         setHighlighterPos(null);
     }
 
-    const onDoubleClick = (e: MouseEvent) => {
+    const onDoubleClick = (e: MouseEvent, windowId: string) => {
         console.log("Double Clicked! This is the event:");
-        console.log(e);
+        console.log(windowId);
+
+        if (windowId) {
+            toggleWindow(windowId);
+        }
     }
 
     function specialPositionings(value: number, axis: "x" | "y"): number | string {
@@ -231,7 +237,7 @@ const Desktop = () => {
                     key={item.id}
                     size={{ width: grid.cellWidth, height: grid.cellHeight }}
                     position={positions[item.id]}
-                    onDoubleClick={onDoubleClick}
+                    onDoubleClick={(e: any, windowId: string) => onDoubleClick(e, item.windowId)}
                     onDrag={(e, data) => onDrag(item.id, e, data)}
                     onDragStop={(e, data) => onDragStop(item.id, e, data)}
                     bounds="parent"

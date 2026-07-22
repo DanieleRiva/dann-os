@@ -1,3 +1,5 @@
+import { REGISTRY } from '@/app/os/registry';
+import { WindowInstance } from '@/app/utils/interfaces';
 import { create } from 'zustand';
 
 interface Position {
@@ -11,7 +13,7 @@ interface Size {
 }
 
 type WindowStore = {
-    openWindows: string[];
+    openWindows: WindowInstance[];
     minimizedWindows: string[];
     focusedWindow: string | null;
     triggerElement?: HTMLElement | null;
@@ -21,7 +23,7 @@ type WindowStore = {
 
     hoveredSnapArea: 'left' | 'right' | 'top' | null;
 
-    toggleWindow: (id: string, trigger?: HTMLElement | null) => void;
+    toggleWindow: (appId: string, trigger?: HTMLElement | null) => void;
     focusWindow: (id: string) => void;
     minimizeWindow: (id: string) => void;
     closeWindow: (id: string) => void;
@@ -44,65 +46,80 @@ export const useWindowStore = create<WindowStore>()(
 
         hoveredSnapArea: null,
 
-        toggleWindow: (id, trigger) => {
+        toggleWindow: (appId, trigger) => {
             const { openWindows, minimizedWindows, focusedWindow } = get();
+            const existing = openWindows.find((w) => w.appId === appId);
 
-            if (!openWindows?.includes(id)) {
+            if (!existing) {
+                const manifest = REGISTRY[appId];
+                const instanceId = manifest?.singleton ? appId : `${appId}-${crypto.randomUUID()}`;
+
+                const instance = {
+                    instanceId: instanceId,
+                    appId: appId,
+                    title: manifest?.name ?? appId,
+                    icon: manifest?.icon ?? "",
+                    payload: {},
+                };
+
                 set({
-                    openWindows: [...openWindows, id],
-                    focusedWindow: id,
-                    triggerElement: trigger
+                    openWindows: [...openWindows, instance],
+                    focusedWindow: instance.instanceId,
+                    triggerElement: trigger,
                 });
-            } else {
-                if (focusedWindow === id) {
-                    set({
-                        focusedWindow: null,
-                        minimizedWindows: [...minimizedWindows, id]
-                    });
-                } else {
-                    set({
-                        minimizedWindows: minimizedWindows.filter((windowId) => windowId !== id),
-                        focusedWindow: id
-                    });
-                }
+                return;
             }
-        },
-        focusWindow: (id) => {
-            const { minimizedWindows } = get();
+
+            if (focusedWindow === existing.instanceId) {
+                set({
+                    focusedWindow: null,
+                    minimizedWindows: [...minimizedWindows, existing.instanceId],
+                });
+                return;
+            }
+
             set({
-                focusedWindow: id,
-                minimizedWindows: minimizedWindows.filter((windowId) => windowId !== id)
+                minimizedWindows: minimizedWindows.filter((wid) => wid !== existing.instanceId),
+                focusedWindow: existing.instanceId,
+                triggerElement: trigger,
             });
         },
-        minimizeWindow: (id) => {
+        focusWindow: (instanceId) => {
+            const { minimizedWindows } = get();
+            set({
+                focusedWindow: instanceId,
+                minimizedWindows: minimizedWindows.filter((windowId) => windowId !== instanceId)
+            });
+        },
+        minimizeWindow: (instanceId) => {
             const { minimizedWindows, focusedWindow } = get();
 
             set({
-                minimizedWindows: [...minimizedWindows, id],
-                focusedWindow: focusedWindow === id ? null : focusedWindow
+                minimizedWindows: [...minimizedWindows, instanceId],
+                focusedWindow: focusedWindow === instanceId ? null : focusedWindow
             });
         },
-        closeWindow: (id) => {
+        closeWindow: (instanceId) => {
             const { openWindows, minimizedWindows, focusedWindow } = get();
 
             set({
-                openWindows: openWindows.filter((windowId) => windowId !== id),
-                minimizedWindows: minimizedWindows.filter((windowId) => windowId !== id),
-                focusedWindow: focusedWindow === id ? null : focusedWindow
+                openWindows: openWindows.filter((w) => w.instanceId !== instanceId),
+                minimizedWindows: minimizedWindows.filter((windowId) => windowId !== instanceId),
+                focusedWindow: focusedWindow === instanceId ? null : focusedWindow
             });
         },
 
-        setWindowPosition: (id, position) => {
+        setWindowPosition: (instanceId, position) => {
             set((state) => ({
                 windowPositions: {
                     ...state.windowPositions,
-                    [id]: position
+                    [instanceId]: position
                 }
             }));
         },
-        setWindowSize: (id, size) => {
+        setWindowSize: (instanceId, size) => {
             set((state) => ({
-                windowSizes: { ...state.windowSizes, [id]: size }
+                windowSizes: { ...state.windowSizes, [instanceId]: size }
             }));
         },
 

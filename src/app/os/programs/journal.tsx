@@ -1,16 +1,13 @@
-import { useWindowStore } from '@/store/useWindowStore';
-import React from 'react'
 import Window from '../../components/window';
+import { WindowInstance } from '@/app/utils/interfaces';
 
-const Journal = () => {
-    const { openWindows } = useWindowStore();
+const Journal = ({ instance }: { instance: WindowInstance }) => {
 
     return (
         <Window
-            id="journal"
-            title="Journal"
-            icon="/icons/programs/journal.ico"
-            isOpen={openWindows.includes("journal")}
+            id={instance.instanceId}
+            title={instance.title}
+            icon={instance.icon}
             width="700px"
             height="500px"
             minWidth="300px"

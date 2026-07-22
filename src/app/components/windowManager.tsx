@@ -1,30 +1,22 @@
-"use client"
+"use client";
 
-import React from 'react'
-import dynamic from 'next/dynamic';
-import { useWindowStore } from '@/store/useWindowStore';
-const Notepad = dynamic(() => import("@/app/os/programs/notepad"));
-const Explorer = dynamic(() => import("@/app/os/programs/explorer"));
-const Journal = dynamic(() => import("@/app/os/programs/journal"));
+import { useWindowStore } from "@/store/useWindowStore";
+import { REGISTRY } from "@/app/os/registry";
 
 const WindowManager = () => {
     const { openWindows } = useWindowStore();
 
     return (
         <>
-            {openWindows.includes("explorer") && (
-                <Explorer />
-            )}
-
-            {openWindows.includes("notepad") && (
-                <Notepad />
-            )}
-
-            {openWindows.includes("journal") && (
-                <Journal />
-            )}
+            {openWindows.map((instance) => {
+                const manifest = REGISTRY[instance.appId];
+                if (!manifest) return null;
+                
+                const App = manifest.component;
+                return <App key={instance.instanceId} instance={instance} />;
+            })}
         </>
-    )
-}
+    );
+};
 
-export default WindowManager
+export default WindowManager;
