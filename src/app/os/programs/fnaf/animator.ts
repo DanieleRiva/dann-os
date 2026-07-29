@@ -34,8 +34,8 @@ export class Animator {
             this.officeCameraPos -= this.MOUSE_LOOK_SPEED * panSpeedMultiplier;
         }
 
-        this.officeCameraPos = Math.max(this.officeCameraPos, -25);
-        this.officeCameraPos = Math.min(this.officeCameraPos, 0);
+        this.officeCameraPos = Math.round(Math.max(this.officeCameraPos, -25) * 100) / 100;
+        this.officeCameraPos = Math.round(Math.min(this.officeCameraPos, 0) * 100) / 100;
         this.moveOffice();
     }
 

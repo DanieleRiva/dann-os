@@ -5,6 +5,7 @@ import { Engine } from '../engine'
 import Office from './office'
 import OfficeLeftPanel from './officeLeftPanel'
 import OfficeRightPanel from './officeRightPanel'
+import FreddyNose from './freddyNose'
 
 interface OfficeSpaceProps {
     engine: Engine
@@ -28,6 +29,8 @@ const OfficeSpace = ({ engine }: OfficeSpaceProps) => {
 
             <OfficeLeftPanel engine={engine} />
             <OfficeRightPanel engine={engine} />
+
+            <FreddyNose engine={engine} />
         </div>
     )
 }

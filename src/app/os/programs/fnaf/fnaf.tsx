@@ -3,37 +3,24 @@
 import Window from '@/app/components/window'
 import { WindowInstance } from '@/app/utils/interfaces'
 import React, { useEffect, useRef } from 'react'
-import { Animator } from './animator'
 import { Engine } from './engine'
-import OfficeLeftPanel from './components/officeLeftPanel'
-import OfficeRightPanel from './components/officeRightPanel'
-import Office from './components/office'
 import OfficeSpace from './components/officeSpace'
 
 const FNAF = ({ instance }: { instance: WindowInstance }) => {
     const engineRef = useRef<Engine>(null);
-    const animatorRef = useRef<Animator>(null);
 
     if (!engineRef.current) {
         engineRef.current = new Engine();
     }
 
-    if (!animatorRef.current) {
-        animatorRef.current = new Animator(engineRef.current);
-    }
-
     useEffect(() => {
-        if (engineRef.current && animatorRef.current) {
-            animatorRef.current.init();
+        if (engineRef.current) {
+            engineRef.current.init();
         }
 
         return (() => {
             if (engineRef.current) {
                 engineRef.current.destroy();
-            }
-
-            if (animatorRef.current) {
-                animatorRef.current.destroy();
             }
         });
     }, []);
@@ -55,9 +42,6 @@ const FNAF = ({ instance }: { instance: WindowInstance }) => {
             ).toFixed(2)
         );
         engineRef.current.updateMousePosition(mouseX, mouseY);
-
-        console.log("X: " + engineRef.current.mouseX + " Y:" + engineRef.current.mouseY);
-        console.log(engineRef.current.nodes);
     }
 
     return (
@@ -91,10 +75,7 @@ const FNAF = ({ instance }: { instance: WindowInstance }) => {
                         relative
                         m-auto
                         top-1/2 
-                        -translate-y-1/2 
-                        
-                        border-2
-                        border-red-500 
+                        -translate-y-1/2
                     '
                 >
                     <OfficeSpace engine={engineRef.current} />
