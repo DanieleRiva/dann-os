@@ -4,6 +4,7 @@ import type { AppManifest } from "@/app/utils/interfaces";
 import NotepadInfo from "@/app/os/programs/notepadInfo";
 import ImageViewer from "@/app/os/programs/imageViewer";
 import RPS from "./programs/rps/rps";
+import FNAF from "./programs/fnaf/fnaf";
 
 export const REGISTRY: Record<string, AppManifest> = {
     explorer: {
@@ -62,4 +63,13 @@ export const REGISTRY: Record<string, AppManifest> = {
         singleton: true,
         defaultSize: { width: 600, height: 400 }
     },
+
+    fnaf: {
+        appId: "fnaf",
+        name: "Five Nights at Freddy's Remastered",
+        icon: "/icons/programs/fnaf.png",
+        component: FNAF,
+        singleton: true,
+        defaultSize: { width: 600, height: 400 }
+    }
 };
