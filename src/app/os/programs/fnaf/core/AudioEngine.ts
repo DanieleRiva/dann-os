@@ -1,8 +1,11 @@
-type SoundId = 'freddy-nose';
+type SoundId =
+    'freddy-nose'
+    | 'blip';
 
 export class AudioEngine {
     private readonly SOUND_PATHS: Record<string, string> = {
-        'freddy-nose': '/programs/fnaf/sounds/PartyFavorraspyPart_AC01__3.wav'
+        'freddy-nose': '/programs/fnaf/sounds/PartyFavorraspyPart_AC01__3.wav',
+        'blip': '/programs/fnaf/sounds/blip3.wav'
     }
 
     private sounds: Record<string, HTMLAudioElement> = {};

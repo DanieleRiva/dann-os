@@ -4,28 +4,33 @@ import Window from '@/app/components/window'
 import { WindowInstance } from '@/app/utils/interfaces'
 import React, { useEffect, useRef, useState } from 'react'
 import { Engine } from './core/Engine'
-import OfficeSpace from './components/OfficeSpace'
 
 const FNAF = ({ instance }: { instance: WindowInstance }) => {
     const engineRef = useRef<Engine>(null);
+    const [currentSceneId, setCurrentSceneId] = useState<string>('main-menu');
 
     if (!engineRef.current) {
         engineRef.current = new Engine();
     }
 
-    const CurrentScene = engineRef.current.sceneManager.getScene();
-
     useEffect(() => {
         if (engineRef.current) {
             engineRef.current.init();
+
+            engineRef.current.sceneManager.onSceneChange = (newScene) => {
+                setCurrentSceneId(newScene);
+            };
         }
 
         return (() => {
             if (engineRef.current) {
                 engineRef.current.destroy();
+                engineRef.current.sceneManager.onSceneChange = null;
             }
         });
     }, []);
+
+    const CurrentScene = engineRef.current.sceneManager.getScene();
 
     return (
         <Window

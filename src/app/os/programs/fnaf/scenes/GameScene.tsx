@@ -28,7 +28,7 @@ const GameScene = ({ engine }: GameSceneProps) => {
     }
 
     return (
-        <div onMouseMove={handleMouseMove}>
+        <div onMouseMove={handleMouseMove} className="w-full h-full">
             <OfficeSpace engine={engine} />
         </div>
     )

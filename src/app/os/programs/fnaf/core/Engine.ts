@@ -12,6 +12,9 @@ export class Engine {
     public audio: AudioEngine;
     public animator: Animator;
 
+    // da salvare in localStorage
+    public night: number = 1;
+
     public constructor() {
         this.sceneManager = new SceneManager();
         this.audio = new AudioEngine();
@@ -19,13 +22,22 @@ export class Engine {
     }
 
     public init() {
-        
+
     }
 
     public registerNode(name: string, element: HTMLElement | null) {
         this.nodes[name] = element;
 
         this.log(`Registered node "${name}"`);
+    }
+
+    public startNewGame() {
+        this.night = 1;
+        this.sceneManager.changeScene('newspaper');
+    }
+
+    public continueGame() {
+
     }
 
     public updateMousePosition(x: number, y: number) {
