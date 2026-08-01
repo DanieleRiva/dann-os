@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useRef } from 'react'
-import { Engine } from '../engine'
+import { Engine } from '../core/Engine'
 
 interface OfficeProps {
     engine: Engine

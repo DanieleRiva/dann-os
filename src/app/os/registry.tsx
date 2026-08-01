@@ -4,7 +4,7 @@ import type { AppManifest } from "@/app/utils/interfaces";
 import NotepadInfo from "@/app/os/programs/notepadInfo";
 import ImageViewer from "@/app/os/programs/imageViewer";
 import RPS from "./programs/rps/rps";
-import FNAF from "./programs/fnaf/fnaf";
+import FNAF from "./programs/fnaf/FNAF";
 
 export const REGISTRY: Record<string, AppManifest> = {
     explorer: {

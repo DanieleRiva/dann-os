@@ -1,5 +1,6 @@
-import { Animator } from "./animator";
-import { AudioEngine } from "./audioEngine";
+import { Animator } from "./Animator";
+import { AudioEngine } from "./AudioEngine";
+import { SceneManager } from "./SceneManager";
 
 export class Engine {
     public mouseX: number = 0;
@@ -7,19 +8,18 @@ export class Engine {
 
     public nodes: Record<string, HTMLElement | null> = {};
 
+    public sceneManager: SceneManager;
     public audio: AudioEngine;
     public animator: Animator;
 
     public constructor() {
+        this.sceneManager = new SceneManager();
         this.audio = new AudioEngine();
-        this.audio.init();
-
         this.animator = new Animator(this);
-        this.animator.init();
     }
 
     public init() {
-        // todo: start fan noise loop
+        
     }
 
     public registerNode(name: string, element: HTMLElement | null) {
@@ -28,17 +28,9 @@ export class Engine {
         this.log(`Registered node "${name}"`);
     }
 
-    // Office Camera Panning
-
     public updateMousePosition(x: number, y: number) {
         this.mouseX = x;
         this.mouseY = y;
-    }
-
-    // Sounds
-
-    public honkFreddysNose() {
-        this.audio.playSound('freddy_nose');
     }
 
 

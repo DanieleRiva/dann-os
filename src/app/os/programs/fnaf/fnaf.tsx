@@ -2,9 +2,9 @@
 
 import Window from '@/app/components/window'
 import { WindowInstance } from '@/app/utils/interfaces'
-import React, { useEffect, useRef } from 'react'
-import { Engine } from './engine'
-import OfficeSpace from './components/officeSpace'
+import React, { useEffect, useRef, useState } from 'react'
+import { Engine } from './core/Engine'
+import OfficeSpace from './components/OfficeSpace'
 
 const FNAF = ({ instance }: { instance: WindowInstance }) => {
     const engineRef = useRef<Engine>(null);
@@ -12,6 +12,8 @@ const FNAF = ({ instance }: { instance: WindowInstance }) => {
     if (!engineRef.current) {
         engineRef.current = new Engine();
     }
+
+    const CurrentScene = engineRef.current.sceneManager.getScene();
 
     useEffect(() => {
         if (engineRef.current) {
@@ -24,25 +26,6 @@ const FNAF = ({ instance }: { instance: WindowInstance }) => {
             }
         });
     }, []);
-
-    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!engineRef.current) {
-            return;
-        }
-
-        const windowSize = e.currentTarget.getBoundingClientRect();
-        const mouseX = Number(
-            (
-                (e.clientX - windowSize.left) / windowSize.width
-            ).toFixed(2)
-        );
-        const mouseY = Number(
-            (
-                (e.clientY - windowSize.top) / windowSize.height
-            ).toFixed(2)
-        );
-        engineRef.current.updateMousePosition(mouseX, mouseY);
-    }
 
     return (
         <Window
@@ -65,8 +48,6 @@ const FNAF = ({ instance }: { instance: WindowInstance }) => {
                 '
             >
                 <div
-                    id='mainGame'
-                    onMouseMove={handleMouseMove}
                     className='
                         aspect-video 
                         max-w-full
@@ -76,9 +57,12 @@ const FNAF = ({ instance }: { instance: WindowInstance }) => {
                         m-auto
                         top-1/2 
                         -translate-y-1/2
+                        font-volter
                     '
                 >
-                    <OfficeSpace engine={engineRef.current} />
+
+                    <CurrentScene engine={engineRef.current} />
+
                 </div>
             </div>
 

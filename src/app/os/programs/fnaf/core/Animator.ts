@@ -1,4 +1,4 @@
-import { Engine } from "./engine";
+import { Engine } from "./Engine";
 
 export class Animator {
     private readonly MOUSE_LOOK_OFFSET = 0.40;
@@ -11,10 +11,10 @@ export class Animator {
 
     constructor(engine: Engine) {
         this.engine = engine;
+        this.loop();
     }
 
     public init() {
-        this.loop();
     }
 
     private loop = () => {

@@ -1,6 +1,6 @@
 'use client'
 
-import { Engine } from "../engine"
+import { Engine } from "../core/Engine"
 
 interface FreddyNoseProps {
     engine: Engine
@@ -8,7 +8,7 @@ interface FreddyNoseProps {
 
 const FreddyNose = ({ engine }: FreddyNoseProps) => {
     const honkNose = () => {
-        engine.honkFreddysNose();
+        engine.audio.playSound('freddy-nose');
     }
 
     return (

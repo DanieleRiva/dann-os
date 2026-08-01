@@ -1,12 +1,14 @@
+type SoundId = 'freddy-nose';
+
 export class AudioEngine {
     private readonly SOUND_PATHS: Record<string, string> = {
-        'freddy_nose': '/programs/fnaf/sounds/PartyFavorraspyPart_AC01__3.wav'
+        'freddy-nose': '/programs/fnaf/sounds/PartyFavorraspyPart_AC01__3.wav'
     }
 
     private sounds: Record<string, HTMLAudioElement> = {};
     private masterVolume: number = 0.2;
 
-    public init() {
+    constructor() {
         this.loadSounds();
     }
 
@@ -17,12 +19,10 @@ export class AudioEngine {
             this.sounds[key] = audio;
 
             this.log(`Loaded "${key}"`);
-            console.log(this.sounds);
-            console.log(this.sounds[key]);
         });
     }
 
-    public playSound(soundId: string) {
+    public playSound(soundId: SoundId) {
         const sound = this.sounds[soundId]
         sound.volume = this.masterVolume;
 

@@ -1,11 +1,11 @@
 'use client'
 
 import React, { useEffect, useRef } from 'react'
-import { Engine } from '../engine'
-import Office from './office'
-import OfficeLeftPanel from './officeLeftPanel'
-import OfficeRightPanel from './officeRightPanel'
-import FreddyNose from './freddyNose'
+import { Engine } from '../core/Engine'
+import Office from './Office'
+import OfficeLeftPanel from './OfficeLeftPanel'
+import OfficeRightPanel from './OfficeRightPanel'
+import FreddyNose from './FreddyNose'
 
 interface OfficeSpaceProps {
     engine: Engine
