@@ -1,11 +1,15 @@
 type SoundId =
     'freddy-nose'
-    | 'blip';
+    | 'blip'
+    | 'static'
+    | 'static-long';
 
 export class AudioEngine {
     private readonly SOUND_PATHS: Record<string, string> = {
         'freddy-nose': '/programs/fnaf/sounds/PartyFavorraspyPart_AC01__3.wav',
-        'blip': '/programs/fnaf/sounds/blip3.wav'
+        'blip': '/programs/fnaf/sounds/blip3.wav',
+        'static': '/programs/fnaf/sounds/static.wav',
+        'static-long': '/programs/fnaf/sounds/static2.wav',
     }
 
     private sounds: Record<string, HTMLAudioElement> = {};
@@ -26,16 +30,45 @@ export class AudioEngine {
     }
 
     public playSound(soundId: SoundId) {
-        const sound = this.sounds[soundId]
-        sound.volume = this.masterVolume;
+        const sound = this.sounds[soundId];
 
         if (!sound) {
             this.log(`Error: couldn't find sound "${soundId}"`);
             return;
         }
 
+        sound.volume = this.masterVolume;
         sound.play();
+
         this.log(`Played "${soundId}"`);
+    }
+
+    public stopSound(soundId: SoundId) {
+        const sound = this.sounds[soundId];
+
+        if (!sound) {
+            this.log(`Error: couldn't find sound "${soundId}"`);
+            return;
+        }
+
+        sound.pause();
+        sound.currentTime = 0;
+
+        this.log(`Stopped "${soundId}"`);
+    }
+
+    public stopAllSounds() {
+        Object.entries(this.sounds).forEach(([key,]) => {
+            if (!this.sounds[key]) {
+                this.log(`Error: couldn't find sound "${this.sounds[key]}"`);
+                return;
+            }
+
+            this.sounds[key].pause();
+            this.sounds[key].currentTime = 0;
+        });
+
+        this.log(`Stopped all sounds.`);
     }
 
     public playLoop(soundId: string) {

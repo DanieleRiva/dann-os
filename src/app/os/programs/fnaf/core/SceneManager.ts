@@ -1,14 +1,14 @@
 import DeathScene from "../scenes/DeathScene"
 import ExtrasScene from "../scenes/ExtrasScene"
 import GameScene from "../scenes/GameScene"
-import MainMenu from "../scenes/MainMenu"
+import Menu from "../scenes/Menu"
 import NewspaperScene from "../scenes/NewspaperScene"
 import NightScene from "../scenes/NightScene"
 import StartupScene from "../scenes/StartupScene"
 import { Engine } from "./Engine"
 
 type SceneId =
-    'main-menu'
+    'menu'
     | 'newspaper'
     | 'night'
     | 'startup'
@@ -19,7 +19,7 @@ type SceneId =
 export class SceneManager {
     private readonly SCENES:
         Record<SceneId, React.FC<{ engine: Engine }>> = {
-            'main-menu': MainMenu,
+            'menu': Menu,
             'newspaper': NewspaperScene,
             'night': NightScene,
             'startup': StartupScene,
@@ -28,7 +28,7 @@ export class SceneManager {
             'extras': ExtrasScene,
         };
 
-    private currentScene: SceneId = 'main-menu';
+    private currentScene: SceneId = 'startup';
 
     public onSceneChange?: ((newScene: SceneId) => void) | null = null;
 

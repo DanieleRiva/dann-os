@@ -63,6 +63,7 @@ const FNAF = ({ instance }: { instance: WindowInstance }) => {
                         top-1/2 
                         -translate-y-1/2
                         font-volter
+                        [container-type:inline-size]
                     '
                 >
 

@@ -1,10 +1,10 @@
 import { Engine } from '../core/Engine'
 
-interface MainMenuProps {
+interface MenuProps {
     engine: Engine
 }
 
-const MainMenu = ({ engine }: MainMenuProps) => {
+const Menu = ({ engine }: MenuProps) => {
     return (
         <div className='text-white text-left w-full h-full relative overflow-hidden bg-black [container-type:inline-size]'>
             <div className='absolute top-0 left-0 w-full h-full z-0 pointer-events-none'>
@@ -78,4 +78,4 @@ const MainMenu = ({ engine }: MainMenuProps) => {
     )
 }
 
-export default MainMenu
+export default Menu

@@ -22,7 +22,6 @@ export class Engine {
     }
 
     public init() {
-
     }
 
     public registerNode(name: string, element: HTMLElement | null) {
@@ -33,6 +32,7 @@ export class Engine {
 
     public startNewGame() {
         this.night = 1;
+        this.audio.stopAllSounds();
         this.sceneManager.changeScene('newspaper');
     }
 
