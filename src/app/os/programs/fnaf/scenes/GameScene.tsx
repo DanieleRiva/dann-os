@@ -14,16 +14,8 @@ const GameScene = ({ engine }: GameSceneProps) => {
         }
 
         const windowSize = e.currentTarget.getBoundingClientRect();
-        const mouseX = Number(
-            (
-                (e.clientX - windowSize.left) / windowSize.width
-            ).toFixed(2)
-        );
-        const mouseY = Number(
-            (
-                (e.clientY - windowSize.top) / windowSize.height
-            ).toFixed(2)
-        );
+        const mouseX = (e.clientX - windowSize.left) / windowSize.width;
+        const mouseY = (e.clientY - windowSize.top) / windowSize.height;
         engine.updateMousePosition(mouseX, mouseY);
     }
 

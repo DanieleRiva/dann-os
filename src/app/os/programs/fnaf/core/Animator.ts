@@ -1,8 +1,9 @@
 import { Engine } from "./Engine";
 
 export class Animator {
+    private readonly DELTA_TIME = 0.16;
     private readonly MOUSE_LOOK_OFFSET = 0.40;
-    private readonly MOUSE_LOOK_SPEED = 0.35;
+    private readonly MOUSE_LOOK_SPEED = 4;
 
     private officeCameraPos: number = 0;
 
@@ -26,16 +27,17 @@ export class Animator {
     private mousePan() {
         if (this.engine.mouseX < this.MOUSE_LOOK_OFFSET) {
             const panSpeedMultiplier = (this.MOUSE_LOOK_OFFSET - this.engine.mouseX) / this.MOUSE_LOOK_OFFSET;
-            this.officeCameraPos += this.MOUSE_LOOK_SPEED * panSpeedMultiplier;
+
+            this.officeCameraPos += this.MOUSE_LOOK_SPEED * panSpeedMultiplier * this.DELTA_TIME;
+
         } else if (this.engine.mouseX > 1 - this.MOUSE_LOOK_OFFSET) {
             const rightBoundary = 1 - this.MOUSE_LOOK_OFFSET;
             const panSpeedMultiplier = (this.engine.mouseX - rightBoundary) / this.MOUSE_LOOK_OFFSET;
 
-            this.officeCameraPos -= this.MOUSE_LOOK_SPEED * panSpeedMultiplier;
+            this.officeCameraPos -= this.MOUSE_LOOK_SPEED * panSpeedMultiplier * this.DELTA_TIME;
         }
 
-        this.officeCameraPos = Math.round(Math.max(this.officeCameraPos, -25) * 100) / 100;
-        this.officeCameraPos = Math.round(Math.min(this.officeCameraPos, 0) * 100) / 100;
+        this.officeCameraPos = Math.max(-25, Math.min(this.officeCameraPos, 0));
         this.moveOffice();
     }
 

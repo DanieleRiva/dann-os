@@ -37,7 +37,7 @@ const Menu = ({ engine }: MenuProps) => {
                 />
             </div>
 
-            <div className='relative flex flex-col z-10 w-full h-full px-[15cqw] py-[7cqw] text-[clamp(0.5rem,5cqw,4rem)] gap-[5cqw]'
+            <div className='relative flex flex-col z-10 w-full h-full px-[15cqw] py-[7cqw] text-[clamp(0.5rem,4cqw,4rem)] gap-[5cqw]'
             >
                 <h1>
                     Five Nights at <br />
@@ -45,7 +45,7 @@ const Menu = ({ engine }: MenuProps) => {
                 </h1>
 
                 <div
-                    className='relative z-10 w-full h-full flex flex-col gap-[1cqw] items-start text-[clamp(0.5rem,5cqw,4rem)]'
+                    className='relative z-10 w-full h-full flex flex-col gap-[1cqw] items-start text-[clamp(0.5rem,2.5cqw,3rem)]'
                 >
                     <button
                         className='cursor-pointer group relative'
@@ -55,7 +55,9 @@ const Menu = ({ engine }: MenuProps) => {
                         <span className='absolute -left-[5cqw] opacity-0 group-hover:opacity-100'>{">>"}</span>
                     </button>
 
-                    <button className='cursor-pointer group relative flex flex-col'>
+                    <button className='cursor-pointer group relative flex flex-col'
+                        onClick={() => engine.quickGame()}
+                    >
                         Continue
                         <span className='text-[clamp(0.5rem,1.5cqw,4rem)] text-start opacity-0 group-hover:opacity-100' >Night 3</span>
 

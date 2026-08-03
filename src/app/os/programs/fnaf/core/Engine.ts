@@ -30,10 +30,21 @@ export class Engine {
         this.log(`Registered node "${name}"`);
     }
 
+    public openMenu() {
+        this.sceneManager.changeScene('menu');
+        this.audio.playSound('static-long');
+    }
+
     public startNewGame() {
         this.night = 1;
         this.audio.stopAllSounds();
         this.sceneManager.changeScene('newspaper');
+    }
+
+    public quickGame() {
+        this.night = 1;
+        this.audio.stopAllSounds();
+        this.sceneManager.changeScene('game');
     }
 
     public continueGame() {
