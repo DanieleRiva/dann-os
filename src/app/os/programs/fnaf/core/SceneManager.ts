@@ -37,6 +37,18 @@ export class SceneManager {
         'static-full': null
     };
 
+    public officeElements: Record<string, HTMLImageElement | null> = {
+        'fan': null,
+        'l-door': null,
+        'l-light': null,
+        'bonnie': null,
+        'freddy': null,
+        'r-door': null,
+        'r-light': null,
+        'chica': null,
+        'foxy': null,
+    };
+
     constructor() {
     }
 

@@ -8,7 +8,6 @@ interface MenuProps {
 const Menu = ({ engine }: MenuProps) => {
     const freddyImgRef = useRef<HTMLImageElement>(null);
     const staticFullImgRef = useRef<HTMLImageElement>(null);
-    const freddyImgFrames = '/programs/fnaf/staticAndMenu/menu/';
 
     useEffect(() => {
         if (freddyImgRef.current) {
@@ -21,6 +20,10 @@ const Menu = ({ engine }: MenuProps) => {
             engine.sceneManager.menuElements['static-full'] = null;
         };
     }, [engine]);
+
+    const blip = () => {
+        engine.audio.playSound('blip');
+    }
 
     return (
         <div className='text-white text-left w-full h-full relative overflow-hidden bg-black [container-type:inline-size]'>
@@ -35,7 +38,7 @@ const Menu = ({ engine }: MenuProps) => {
                         w-full 
                         h-full 
                         object-cover 
-                        opacity-75
+                        opacity-40
                     '
                     draggable={false}
                 />
@@ -49,7 +52,7 @@ const Menu = ({ engine }: MenuProps) => {
                         w-full 
                         h-full 
                         object-cover 
-                        opacity-20
+                        opacity-30
                         mix-blend-screen
                     '
                     draggable={false}
@@ -69,6 +72,7 @@ const Menu = ({ engine }: MenuProps) => {
                     <button
                         className='cursor-pointer group relative'
                         onClick={() => engine.startNewGame()}
+                        onMouseEnter={blip}
                     >
                         New Game
                         <span className='absolute -left-[5cqw] opacity-0 group-hover:opacity-100'>{">>"}</span>
@@ -76,6 +80,7 @@ const Menu = ({ engine }: MenuProps) => {
 
                     <button className='cursor-pointer group relative flex flex-col'
                         onClick={() => engine.quickGame()}
+                        onMouseEnter={blip}
                     >
                         Continue
                         <span className='text-[clamp(0.5rem,1.5cqw,4rem)] text-start opacity-0 group-hover:opacity-100' >Night 3</span>
@@ -83,12 +88,18 @@ const Menu = ({ engine }: MenuProps) => {
                         <span className='absolute -left-[5cqw] opacity-0 group-hover:opacity-100'>{">>"}</span>
                     </button>
 
-                    <button className='cursor-pointer group relative'>
+                    <button
+                        className='cursor-pointer group relative'
+                        onMouseEnter={blip}
+                    >
                         6th Night
                         <span className='absolute -left-[5cqw] opacity-0 group-hover:opacity-100'>{">>"}</span>
                     </button>
 
-                    <button className='cursor-pointer group relative'>
+                    <button
+                        className='cursor-pointer group relative'
+                        onMouseEnter={blip}
+                    >
                         Extras
                         <span className='absolute -left-[5cqw] opacity-0 group-hover:opacity-100'>{">>"}</span>
                     </button>

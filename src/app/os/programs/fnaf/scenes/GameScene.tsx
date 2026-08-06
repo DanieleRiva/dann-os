@@ -8,6 +8,8 @@ interface GameSceneProps {
 }
 
 const GameScene = ({ engine }: GameSceneProps) => {
+    engine.audio.playSound('fan', true);
+
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!engine) {
             return;

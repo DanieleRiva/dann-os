@@ -14,6 +14,10 @@ const Office = ({ engine }: OfficeProps) => {
         if (localRef.current) {
             engine.registerNode('office', localRef.current);
         }
+
+        return () => {
+            localRef.current = null;
+        }
     }, [engine]);
 
     return (

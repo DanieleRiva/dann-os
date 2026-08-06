@@ -13,7 +13,7 @@ interface animationConfig {
 export class Animator {
     private readonly DELTA_TIME = 0.16;
     private readonly MOUSE_LOOK_OFFSET = 0.40;
-    private readonly MOUSE_LOOK_SPEED = 5;
+    private readonly MOUSE_LOOK_SPEED = 6;
 
     private officeCameraPos: number = 0;
 
@@ -153,6 +153,17 @@ export class Animator {
 
     private animateFan() {
         if (this.engine.sceneManager.getSceneName() !== 'game') return;
+
+        const fan = this.engine.sceneManager.officeElements['fan'];
+        console.log("bruh");
+        if (!fan) return;
+        console.log("checckato");
+
+        this.animate(
+            'fan',
+            fan,
+            60
+        );
     }
 
     public destroy() {

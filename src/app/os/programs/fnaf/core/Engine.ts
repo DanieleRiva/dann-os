@@ -32,7 +32,7 @@ export class Engine {
 
     public openMenu() {
         this.sceneManager.changeScene('menu');
-        this.audio.playSound('static-long');
+        this.audio.playSound('static-long', true);
     }
 
     public startNewGame() {
@@ -67,6 +67,7 @@ export class Engine {
     }
 
     public destroy() {
+        this.audio.stopAllSounds();
         this.nodes = {};
     }
 }
