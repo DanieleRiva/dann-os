@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { Engine } from '../core/Engine'
 
 interface MenuProps {
@@ -5,11 +6,28 @@ interface MenuProps {
 }
 
 const Menu = ({ engine }: MenuProps) => {
+    const freddyImgRef = useRef<HTMLImageElement>(null);
+    const staticFullImgRef = useRef<HTMLImageElement>(null);
+    const freddyImgFrames = '/programs/fnaf/staticAndMenu/menu/';
+
+    useEffect(() => {
+        if (freddyImgRef.current) {
+            engine.sceneManager.menuElements['freddy-menu'] = freddyImgRef.current;
+            engine.sceneManager.menuElements['static-full'] = staticFullImgRef.current;
+        }
+
+        return () => {
+            engine.sceneManager.menuElements['freddy-menu'] = null;
+            engine.sceneManager.menuElements['static-full'] = null;
+        };
+    }, [engine]);
+
     return (
         <div className='text-white text-left w-full h-full relative overflow-hidden bg-black [container-type:inline-size]'>
             <div className='absolute top-0 left-0 w-full h-full z-0 pointer-events-none'>
                 <img
-                    src="/programs/fnaf/staticAndMenu/menu/431.png"
+                    src="/programs/fnaf/staticAndMenu/menu/0.png"
+                    ref={freddyImgRef}
                     className='
                         absolute 
                         top-0 
@@ -22,7 +40,8 @@ const Menu = ({ engine }: MenuProps) => {
                     draggable={false}
                 />
                 <img
-                    src="/programs/fnaf/staticAndMenu/fullStatic/12.png"
+                    src="/programs/fnaf/staticAndMenu/fullStatic/0.png"
+                    ref={staticFullImgRef}
                     className='
                         absolute 
                         top-0 

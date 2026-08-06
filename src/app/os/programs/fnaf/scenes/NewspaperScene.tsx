@@ -17,7 +17,7 @@ const NewspaperScene = ({ engine }: NewspaperSceneProps) => {
 
     return (
         <img
-            src="/programs/fnaf/staticAndMenu/menu/newspapers.png"
+            src="/programs/fnaf/staticAndMenu/newspaper/newspaper.png"
             className='
                 absolute 
                 h-full

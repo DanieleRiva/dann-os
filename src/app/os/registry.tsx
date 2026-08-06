@@ -66,7 +66,7 @@ export const REGISTRY: Record<string, AppManifest> = {
 
     fnaf: {
         appId: "fnaf",
-        name: "Five Nights at Freddy's Remastered",
+        name: "Five Nights at Freddy's Remake",
         icon: "/icons/programs/fnaf.png",
         component: FNAF,
         singleton: true,

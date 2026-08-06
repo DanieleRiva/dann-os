@@ -32,11 +32,20 @@ export class SceneManager {
 
     public onSceneChange?: ((newScene: SceneId) => void) | null = null;
 
+    public menuElements: Record<string, HTMLImageElement | null> = {
+        'freddy-menu': null,
+        'static-full': null
+    };
+
     constructor() {
     }
 
     public getScene() {
         return this.SCENES[this.currentScene];
+    }
+
+    public getSceneName() {
+        return this.currentScene;
     }
 
     public changeScene(sceneId: SceneId) {
