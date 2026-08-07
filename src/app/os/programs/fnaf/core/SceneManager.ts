@@ -17,6 +17,8 @@ type SceneId =
     | 'extras';
 
 export class SceneManager {
+    private engine: Engine;
+
     private readonly SCENES:
         Record<SceneId, React.FC<{ engine: Engine }>> = {
             'menu': Menu,
@@ -29,6 +31,10 @@ export class SceneManager {
         };
 
     private currentScene: SceneId = 'startup';
+
+    constructor(engine: Engine) {
+        this.engine = engine;
+    }
 
     public onSceneChange?: ((newScene: SceneId) => void) | null = null;
 
@@ -49,9 +55,6 @@ export class SceneManager {
         'foxy': null,
     };
 
-    constructor() {
-    }
-
     public getScene() {
         return this.SCENES[this.currentScene];
     }
@@ -67,8 +70,17 @@ export class SceneManager {
             this.onSceneChange(this.currentScene);
         }
 
-        // controlalre a quale scena si cambia
-        // per fare robe
+        switch (sceneId) {
+            case "menu":
+                this.engine.audio.playSound("static-long", true);
+                break;
+            case "night":
+                this.engine.audio.playSound('blip');
+                break;
+            case "game":
+                this.engine.audio.playSound("fan", true);
+                break;
+        }
     }
 
 }

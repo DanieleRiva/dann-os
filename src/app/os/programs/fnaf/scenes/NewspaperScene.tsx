@@ -9,7 +9,6 @@ const NewspaperScene = ({ engine }: NewspaperSceneProps) => {
     useEffect(() => {
         const timer = setTimeout(() => {
             engine.sceneManager.changeScene('night');
-            engine.audio.playSound('blip');
         }, 12000);
 
         return () => clearTimeout(timer);

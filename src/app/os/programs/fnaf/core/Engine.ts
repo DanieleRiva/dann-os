@@ -16,7 +16,7 @@ export class Engine {
     public night: number = 1;
 
     public constructor() {
-        this.sceneManager = new SceneManager();
+        this.sceneManager = new SceneManager(this);
         this.audio = new AudioEngine();
         this.animator = new Animator(this);
     }
@@ -32,7 +32,6 @@ export class Engine {
 
     public openMenu() {
         this.sceneManager.changeScene('menu');
-        this.audio.playSound('static-long', true);
     }
 
     public startNewGame() {
