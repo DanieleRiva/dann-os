@@ -18,8 +18,13 @@ const OfficeSpace = ({ engine }: OfficeSpaceProps) => {
 
     useEffect(() => {
         if (localRef.current) {
-            engine.registerNode('officeSpace', localRef.current);
+            engine.sceneManager.officeElements['officeSpace'] = localRef.current;
         }
+
+        return (() => {
+            localRef.current = null;
+            engine.sceneManager.officeElements['officeSpace'] = null;
+        });
     }, [engine]);
 
     return (

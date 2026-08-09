@@ -10,12 +10,14 @@ const Menu = ({ engine }: MenuProps) => {
     const staticFullImgRef = useRef<HTMLImageElement>(null);
 
     useEffect(() => {
-        if (freddyImgRef.current) {
+        if (freddyImgRef.current && staticFullImgRef.current) {
             engine.sceneManager.menuElements['freddy-menu'] = freddyImgRef.current;
             engine.sceneManager.menuElements['static-full'] = staticFullImgRef.current;
         }
 
         return () => {
+            freddyImgRef.current = null;
+            staticFullImgRef.current = null;
             engine.sceneManager.menuElements['freddy-menu'] = null;
             engine.sceneManager.menuElements['static-full'] = null;
         };

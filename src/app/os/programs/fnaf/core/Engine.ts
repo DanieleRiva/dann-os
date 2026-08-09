@@ -6,8 +6,6 @@ export class Engine {
     public mouseX: number = 0;
     public mouseY: number = 0;
 
-    public nodes: Record<string, HTMLElement | null> = {};
-
     public sceneManager: SceneManager;
     public audio: AudioEngine;
     public animator: Animator;
@@ -29,19 +27,13 @@ export class Engine {
     public init() {
     }
 
-    public registerNode(name: string, element: HTMLElement | null) {
-        this.nodes[name] = element;
-
-        this.log(`Registered node "${name}"`);
-    }
-
     public openMenu() {
         this.sceneManager.changeScene('menu');
     }
 
     public startNewGame() {
         this.night = 1;
-        this.audio.stopAllSounds();
+        this.audio.stopSound('static-long');
         this.sceneManager.changeScene('newspaper');
     }
 
@@ -99,7 +91,7 @@ export class Engine {
 
     private lightSound() {
         this.audio.stopSound('light');
-        
+
         if (this.lLight) {
             this.audio.playSound(
                 'light',
@@ -127,7 +119,8 @@ export class Engine {
     }
 
     public destroy() {
-        this.audio.stopAllSounds();
-        this.nodes = {};
+        this.animator.destroy();
+        this.sceneManager.destroy();
+        this.audio.destroy();
     }
 }

@@ -10,11 +10,11 @@ const OfficeLeftPanel = ({ engine }: OfficeProps) => {
 
     useEffect(() => {
         if (localRef.current) {
-            engine.registerNode('officeLeftPanel', localRef.current);
             engine.sceneManager.officeElements['lPanel'] = localRef.current;
         }
 
         return (() => {
+            localRef.current = null;
             engine.sceneManager.officeElements['lPanel'] = null;
         });
     }, [engine]);

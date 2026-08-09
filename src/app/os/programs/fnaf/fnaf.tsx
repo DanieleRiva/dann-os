@@ -5,32 +5,30 @@ import { WindowInstance } from '@/app/utils/interfaces'
 import React, { useEffect, useRef, useState } from 'react'
 import { Engine } from './core/Engine'
 
-const FNAF = ({ instance }: { instance: WindowInstance }) => {
-    const engineRef = useRef<Engine>(null);
+const Fnaf = ({ instance }: { instance: WindowInstance }) => {
+    const [engine, setEngine] = useState<Engine>();
     const [currentSceneId, setCurrentSceneId] = useState<string>('main-menu');
 
-    if (!engineRef.current) {
-        engineRef.current = new Engine();
-    }
-
     useEffect(() => {
-        if (engineRef.current) {
-            engineRef.current.init();
+        const engine = new Engine();
 
-            engineRef.current.sceneManager.onSceneChange = (newScene) => {
-                setCurrentSceneId(newScene);
-            };
-        }
+        engine.init();
+        engine.sceneManager.onSceneChange = (newScene) => {
+            setCurrentSceneId(newScene);
+        };
+
+        setEngine(engine);
 
         return (() => {
-            if (engineRef.current) {
-                engineRef.current.destroy();
-                engineRef.current.sceneManager.onSceneChange = null;
-            }
+            engine.destroy();
         });
     }, []);
 
-    const CurrentScene = engineRef.current.sceneManager.getScene();
+    if (!engine) {
+        return;
+    }
+
+    const CurrentScene = engine.sceneManager.getScene();
 
     return (
         <Window
@@ -67,7 +65,7 @@ const FNAF = ({ instance }: { instance: WindowInstance }) => {
                     '
                 >
 
-                    <CurrentScene engine={engineRef.current} />
+                    <CurrentScene engine={engine} />
 
                 </div>
             </div>
@@ -76,4 +74,4 @@ const FNAF = ({ instance }: { instance: WindowInstance }) => {
     )
 }
 
-export default FNAF
+export default Fnaf

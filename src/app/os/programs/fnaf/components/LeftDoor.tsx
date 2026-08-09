@@ -6,21 +6,22 @@ interface LeftDoorProps {
 }
 
 const LeftDoor = ({ engine }: LeftDoorProps) => {
-    const leftDoorImgRef = useRef<HTMLImageElement>(null);
+    const localRef = useRef<HTMLImageElement>(null);
 
     useEffect(() => {
-        if (leftDoorImgRef.current) {
-            engine.sceneManager.officeElements['lDoor'] = leftDoorImgRef.current;
+        if (localRef.current) {
+            engine.sceneManager.officeElements['lDoor'] = localRef.current;
         }
 
         return () => {
+            localRef.current = null;
             engine.sceneManager.officeElements['lDoor'] = null;
         };
     }, [engine]);
 
     return (
         <img
-            ref={leftDoorImgRef}
+            ref={localRef}
             src="/programs/fnaf/office/doorsAndLights/lDoor/0.png"
             className='
                 absolute

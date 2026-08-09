@@ -5,6 +5,7 @@ type SoundId =
     | 'blip'
     | 'static'
     | 'static-long'
+    | 'darkness'
     | 'fan'
     | 'light';
 
@@ -16,6 +17,7 @@ export class AudioEngine {
         'static-long': '/programs/fnaf/sounds/static2.wav',
         'fan': '/programs/fnaf/sounds/Buzz_Fan_Florescent2.wav',
         'light': '/programs/fnaf/sounds/BallastHumMedium2.wav',
+        'darkness': '/programs/fnaf/sounds/darknessMusic.wav',
     }
 
     private sounds: Record<string, Howl> = {};

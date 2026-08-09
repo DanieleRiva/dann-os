@@ -74,6 +74,8 @@ export class Animator {
 
         this.animateDoors();
 
+        this.animateLights();
+
         this.loopId = requestAnimationFrame(this.loop);
     }
 
@@ -95,9 +97,10 @@ export class Animator {
     }
 
     private moveOffice() {
-        if (!this.engine.nodes['officeSpace']) return;
+        const officeSpace = this.engine.sceneManager.officeElements['officeSpace'];
+        if (!officeSpace) return;
 
-        this.engine.nodes['officeSpace'].style.transform = `translateX(${this.officeCameraPos}%)`;
+        officeSpace.style.transform = `translateX(${this.officeCameraPos}%)`;
     }
 
     private animate(
@@ -229,6 +232,17 @@ export class Animator {
 
         doorState.currentFrame = 0;
         doorState.lastUpdateTime = this.timestamp;
+    }
+
+    private animateLights() {
+        // aggiungere controlli per bonnie e chica
+        if (this.engine.lLight) {
+            // this.engine.sceneManager.officeElements['']
+        } else if (this.engine.rLight) {
+
+        }
+
+        return;
     }
 
     public destroy() {

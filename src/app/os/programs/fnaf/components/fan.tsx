@@ -6,21 +6,22 @@ interface FanProps {
 }
 
 const Fan = ({ engine }: FanProps) => {
-    const fanImgRef = useRef<HTMLImageElement>(null);
+    const localRef = useRef<HTMLImageElement>(null);
 
     useEffect(() => {
-        if (fanImgRef.current) {
-            engine.sceneManager.officeElements['fan'] = fanImgRef.current;
+        if (localRef.current) {
+            engine.sceneManager.officeElements['fan'] = localRef.current;
         }
 
         return () => {
+            localRef.current = null;
             engine.sceneManager.officeElements['fan'] = null;
         };
     }, [engine]);
 
     return (
         <img
-            ref={fanImgRef}
+            ref={localRef}
             src="/programs/fnaf/office/fan/0.png"
             className='
                 absolute

@@ -16,6 +16,19 @@ type SceneId =
     | 'death'
     | 'extras';
 
+interface OfficeSceneElements {
+    officeSpace: HTMLDivElement | null;
+    office: HTMLImageElement | null;
+    fan: HTMLImageElement | null;
+    lPanel: HTMLImageElement | null;
+    rPanel: HTMLImageElement | null;
+    lDoor: HTMLImageElement | null;
+    lLight: HTMLImageElement | null;
+    freddy: HTMLImageElement | null;
+    rDoor: HTMLImageElement | null;
+    rLight: HTMLImageElement | null;
+}
+
 export class SceneManager {
     private engine: Engine;
 
@@ -43,18 +56,17 @@ export class SceneManager {
         'static-full': null
     };
 
-    public officeElements: Record<string, HTMLImageElement | null> = {
-        'fan': null,
-        'lPanel': null,
-        'rPanel': null,
-        'lDoor': null,
-        'lLight': null,
-        'bonnie': null,
-        'freddy': null,
-        'rDoor': null,
-        'rLight': null,
-        'chica': null,
-        'foxy': null,
+    public officeElements: OfficeSceneElements = {
+        officeSpace: null,
+        office: null,
+        fan: null,
+        lPanel: null,
+        rPanel: null,
+        lDoor: null,
+        lLight: null,
+        freddy: null,
+        rDoor: null,
+        rLight: null,
     };
 
     public getScene() {
@@ -74,13 +86,15 @@ export class SceneManager {
 
         switch (sceneId) {
             case "menu":
-                this.engine.audio.playSound("static-long", 1, true);
+                this.engine.audio.playSound("static-long", 0.75, true);
+                this.engine.audio.playSound("darkness", 1, true);
                 break;
             case "night":
+                this.engine.audio.stopAllSounds();
                 this.engine.audio.playSound('blip', 1);
                 break;
             case "game":
-                this.engine.audio.playSound("fan", 0.5, true);
+                this.engine.audio.playSound("fan", 0.3, true);
                 break;
         }
     }
@@ -131,5 +145,15 @@ export class SceneManager {
                 }
             }
         }
+    }
+
+    public destroy() {
+        Object.keys(this.menuElements).forEach(key => {
+            this.menuElements[key] = null;
+        });
+
+        Object.keys(this.officeElements).forEach(key => {
+            this.officeElements[key as keyof OfficeSceneElements] = null;
+        });
     }
 }

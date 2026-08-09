@@ -10,11 +10,11 @@ const OfficeRightPanel = ({ engine }: OfficeProps) => {
 
     useEffect(() => {
         if (localRef.current) {
-            engine.registerNode('officeRightPanel', localRef.current);
             engine.sceneManager.officeElements['rPanel'] = localRef.current;
         }
 
         return (() => {
+            localRef.current = null;
             engine.sceneManager.officeElements['rPanel'] = null;
         });
     }, [engine]);

@@ -12,11 +12,12 @@ const Office = ({ engine }: OfficeProps) => {
 
     useEffect(() => {
         if (localRef.current) {
-            engine.registerNode('office', localRef.current);
+            engine.sceneManager.officeElements['office'] = localRef.current;
         }
 
         return () => {
             localRef.current = null;
+            engine.sceneManager.officeElements['office'] = null;
         }
     }, [engine]);
 
