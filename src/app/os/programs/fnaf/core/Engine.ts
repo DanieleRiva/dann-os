@@ -15,6 +15,11 @@ export class Engine {
     // da salvare in localStorage
     public night: number = 1;
 
+    public lDoor: boolean = false;
+    public lLight: boolean = false;
+    public rDoor: boolean = false;
+    public rLight: boolean = false;
+
     public constructor() {
         this.sceneManager = new SceneManager(this);
         this.audio = new AudioEngine();
@@ -53,6 +58,26 @@ export class Engine {
     public updateMousePosition(x: number, y: number) {
         this.mouseX = x;
         this.mouseY = y;
+    }
+
+    public toggleDoor(side: 'left' | 'right') {
+        if (side === 'left') {
+            this.lDoor = !this.lDoor;
+            this.animator.triggerDoorAnimation('left');
+        } else {
+            this.rDoor = !this.rDoor;
+            this.animator.triggerDoorAnimation('right');
+        }
+    }
+
+    public toggleLight(side: 'left' | 'right') {
+        if (side === 'left') {
+            this.lLight = !this.lLight;
+            // this.animator.triggerLight('left');
+        } else {
+            this.rDoor = !this.rDoor;
+            // this.animator.triggerLight('right');
+        }
     }
 
 

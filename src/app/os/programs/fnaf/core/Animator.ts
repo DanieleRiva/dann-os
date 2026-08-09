@@ -4,10 +4,13 @@ import { Engine } from "./Engine";
 type animationId =
     'freddy-menu'
     | 'static-full'
-    | 'fan';
+    | 'fan'
+    | 'lDoor'
+    | 'rDoor';
 interface animationConfig {
     path: string,
-    frameCount: number
+    frameCount: number,
+    loop: boolean
 }
 
 export class Animator {
@@ -25,22 +28,37 @@ export class Animator {
     private readonly ANIMATIONS: Record<animationId, animationConfig> = {
         'freddy-menu': {
             path: '/programs/fnaf/staticAndMenu/menu/',
-            frameCount: 4
+            frameCount: 4,
+            loop: true
         },
         'static-full': {
             path: '/programs/fnaf/staticAndMenu/fullStatic/',
-            frameCount: 8
+            frameCount: 8,
+            loop: true
         },
         'fan': {
             path: '/programs/fnaf/office/fan/',
-            frameCount: 3
+            frameCount: 3,
+            loop: true
+        },
+        'lDoor': {
+            path: '/programs/fnaf/office/doorsAndLights/lDoor',
+            frameCount: 14,
+            loop: false
+        },
+        'rDoor': {
+            path: '/programs/fnaf/office/doorsAndLights/rDoor',
+            frameCount: 14,
+            loop: false
         },
     };
 
-    private animStates: Record<string, { currentFrame: number; lastUpdateTime: number }> = {
+    private animStates: Record<animationId, { currentFrame: number; lastUpdateTime: number }> = {
         'freddy-menu': { currentFrame: 0, lastUpdateTime: 0 },
         'static-full': { currentFrame: 0, lastUpdateTime: 0 },
-        'fan': { currentFrame: 0, lastUpdateTime: 0 }
+        'fan': { currentFrame: 0, lastUpdateTime: 0 },
+        'lDoor': { currentFrame: 0, lastUpdateTime: 0 },
+        'rDoor': { currentFrame: 0, lastUpdateTime: 0 },
     };
 
     constructor(engine: Engine) {
@@ -48,14 +66,13 @@ export class Animator {
         this.loopId = requestAnimationFrame(this.loop);
     }
 
-    public init() {
-    }
-
     private loop = (timestamp: number) => {
         this.timestamp = timestamp;
         this.mousePan();
         this.animateMenu();
         this.animateFan();
+
+        this.animateDoors();
 
         this.loopId = requestAnimationFrame(this.loop);
     }
@@ -93,10 +110,17 @@ export class Animator {
         const msPerFrame = 1000 / fps;
 
         if (this.timestamp - state.lastUpdateTime > msPerFrame) {
-            state.currentFrame = (state.currentFrame + 1) % config.frameCount;
-            state.lastUpdateTime = this.timestamp;
+            if (config.loop) {
+                state.currentFrame = (state.currentFrame + 1) % config.frameCount;
+                img.src = `${config.path}/${state.currentFrame}.png`;
+            } else {
+                if (state.currentFrame + 1 < config.frameCount) {
+                    state.currentFrame++;
+                    img.src = `${config.path}/${state.currentFrame}.png`;
+                }
+            }
 
-            img.src = `${config.path}/${state.currentFrame}.png`;
+            state.lastUpdateTime = this.timestamp;
         }
     }
 
@@ -155,15 +179,58 @@ export class Animator {
         if (this.engine.sceneManager.getSceneName() !== 'game') return;
 
         const fan = this.engine.sceneManager.officeElements['fan'];
-        console.log("bruh");
         if (!fan) return;
-        console.log("checckato");
 
         this.animate(
             'fan',
             fan,
-            60
+            30
         );
+    }
+
+    private animateDoors() {
+        if (this.engine.sceneManager.getSceneName() !== 'game') return;
+
+        const lDoor = this.engine.sceneManager.officeElements['l-door'];
+        const rDoor = this.engine.sceneManager.officeElements['r-door'];
+
+        if (lDoor) {
+            lDoor.style.opacity = "1";
+            this.animate(
+                'lDoor',
+                lDoor,
+                30
+            );
+            lDoor.style.opacity = "0";
+        }
+
+        if (rDoor) {
+            rDoor.style.opacity = "1";
+            this.animate(
+                'rDoor',
+                rDoor,
+                30
+            );
+            rDoor.style.opacity = "0";
+        }
+    }
+
+    public triggerDoorAnimation(side: 'left' | 'right') {
+        if (this.engine.sceneManager.getSceneName() !== 'game') return;
+
+        var doorState;
+        if (side === 'left') {
+            doorState = this.animStates['lDoor'];
+        } else {
+            doorState = this.animStates['rDoor'];
+        }
+
+        if (!doorState) return;
+
+        console.log(doorState);
+
+        doorState.currentFrame = 0;
+        doorState.lastUpdateTime = this.timestamp;
     }
 
     public destroy() {

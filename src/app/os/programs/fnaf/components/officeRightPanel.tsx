@@ -21,6 +21,7 @@ const OfficeRightPanel = ({ engine }: OfficeProps) => {
                 top-[35%]
                 left-[116%]
                 h-[45%]
+                z-20
             '
         >
             <img
