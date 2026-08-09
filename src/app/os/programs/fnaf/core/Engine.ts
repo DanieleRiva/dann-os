@@ -75,13 +75,25 @@ export class Engine {
     public toggleLight(side: 'left' | 'right') {
         if (side === 'left') {
             this.lLight = !this.lLight;
+            if (this.lLight && this.rLight) {
+                this.rLight = false;
+                this.sceneManager.updatePanelImg('right');
+            }
+
             this.sceneManager.updatePanelImg(side);
             // this.animator.triggerLight('left');
         } else {
             this.rLight = !this.rLight;
+            if (this.rLight && this.lLight) {
+                this.lLight = false;
+                this.sceneManager.updatePanelImg('left');
+            }
+
             this.sceneManager.updatePanelImg(side);
             // this.animator.triggerLight('right');
         }
+
+        console.log(`lLight: ${this.lLight} | rLight: ${this.rLight}`);
     }
 
     private log(message: string, ...args: any[]) {

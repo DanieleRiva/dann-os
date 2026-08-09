@@ -227,8 +227,6 @@ export class Animator {
 
         if (!doorState) return;
 
-        console.log(doorState);
-
         doorState.currentFrame = 0;
         doorState.lastUpdateTime = this.timestamp;
     }

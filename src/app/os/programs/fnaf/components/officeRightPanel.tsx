@@ -58,7 +58,7 @@ const OfficeRightPanel = ({ engine }: OfficeProps) => {
                     justify-center
                     gap-[3cqw]
                     bg-yellow-200
-                    opacity-30
+                    opacity-0
                     text-center
                 "
             >
