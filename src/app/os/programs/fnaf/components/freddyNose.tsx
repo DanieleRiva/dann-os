@@ -8,7 +8,7 @@ interface FreddyNoseProps {
 
 const FreddyNose = ({ engine }: FreddyNoseProps) => {
     const honkNose = () => {
-        engine.audio.playSound('freddy-nose');
+        engine.audio.playSound('freddy-nose', 0.75);
     }
 
     return (

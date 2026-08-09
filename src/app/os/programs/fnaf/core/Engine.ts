@@ -94,6 +94,27 @@ export class Engine {
         }
 
         console.log(`lLight: ${this.lLight} | rLight: ${this.rLight}`);
+        this.lightSound();
+    }
+
+    private lightSound() {
+        this.audio.stopSound('light');
+        
+        if (this.lLight) {
+            this.audio.playSound(
+                'light',
+                1,
+                true,
+                -1
+            );
+        } else if (this.rLight) {
+            this.audio.playSound(
+                'light',
+                1,
+                true,
+                1
+            );
+        }
     }
 
     private log(message: string, ...args: any[]) {

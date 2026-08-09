@@ -74,13 +74,13 @@ export class SceneManager {
 
         switch (sceneId) {
             case "menu":
-                this.engine.audio.playSound("static-long", true);
+                this.engine.audio.playSound("static-long", 1, true);
                 break;
             case "night":
-                this.engine.audio.playSound('blip');
+                this.engine.audio.playSound('blip', 1);
                 break;
             case "game":
-                this.engine.audio.playSound("fan", true);
+                this.engine.audio.playSound("fan", 0.5, true);
                 break;
         }
     }

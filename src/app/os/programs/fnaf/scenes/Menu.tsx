@@ -22,7 +22,7 @@ const Menu = ({ engine }: MenuProps) => {
     }, [engine]);
 
     const blip = () => {
-        engine.audio.playSound('blip');
+        engine.audio.playSound('blip', 1);
     }
 
     return (

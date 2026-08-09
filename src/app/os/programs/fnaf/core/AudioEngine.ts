@@ -5,7 +5,8 @@ type SoundId =
     | 'blip'
     | 'static'
     | 'static-long'
-    | 'fan';
+    | 'fan'
+    | 'light';
 
 export class AudioEngine {
     private readonly SOUND_PATHS: Record<SoundId, string> = {
@@ -13,7 +14,8 @@ export class AudioEngine {
         'blip': '/programs/fnaf/sounds/blip3.wav',
         'static': '/programs/fnaf/sounds/static.wav',
         'static-long': '/programs/fnaf/sounds/static2.wav',
-        'fan': '/programs/fnaf/sounds/Buzz_Fan_Florescent2.wav'
+        'fan': '/programs/fnaf/sounds/Buzz_Fan_Florescent2.wav',
+        'light': '/programs/fnaf/sounds/BallastHumMedium2.wav',
     }
 
     private sounds: Record<string, Howl> = {};
@@ -31,8 +33,14 @@ export class AudioEngine {
         });
     }
 
-    public playSound(soundId: SoundId, loop?: boolean) {
+    public playSound(
+        soundId: SoundId,
+        volume: number,
+        loop?: boolean,
+        pan?: number
+    ) {
         const sound = this.sounds[soundId];
+        sound.volume(volume);
 
         if (!sound) {
             return;
@@ -40,6 +48,10 @@ export class AudioEngine {
 
         if (loop) {
             sound.loop(true);
+        }
+
+        if (pan) {
+            sound.stereo(pan);
         }
         sound.play();
     }
