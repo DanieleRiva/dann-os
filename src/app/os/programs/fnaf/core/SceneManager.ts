@@ -100,9 +100,9 @@ export class SceneManager {
     }
 
     public updatePanelImg(side: 'left' | 'right') {
-        var door;
-        var light;
-        var panel;
+        let door;
+        let light;
+        let panel;
 
         if (side === 'left') {
             panel = this.officeElements['lPanel'];

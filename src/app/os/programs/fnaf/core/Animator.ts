@@ -6,7 +6,9 @@ type animationId =
     | 'static-full'
     | 'fan'
     | 'lDoor'
-    | 'rDoor';
+    | 'rDoor'
+    | 'lLight'
+    | 'rLight';
 interface animationConfig {
     path: string,
     frameCount: number,
@@ -51,6 +53,16 @@ export class Animator {
             frameCount: 14,
             loop: false
         },
+        'lLight': {
+            path: '/programs/fnaf/office/officeInside/58.png',
+            frameCount: 14,
+            loop: false
+        },
+        'rLight': {
+            path: '/programs/fnaf/office/officeInside/127.png',
+            frameCount: 14,
+            loop: false
+        },
     };
 
     private animStates: Record<animationId, { currentFrame: number; lastUpdateTime: number }> = {
@@ -59,6 +71,8 @@ export class Animator {
         'fan': { currentFrame: 0, lastUpdateTime: 0 },
         'lDoor': { currentFrame: 0, lastUpdateTime: 0 },
         'rDoor': { currentFrame: 0, lastUpdateTime: 0 },
+        'lLight': { currentFrame: 0, lastUpdateTime: 0 },
+        'rLight': { currentFrame: 0, lastUpdateTime: 0 },
     };
 
     constructor(engine: Engine) {
@@ -73,7 +87,6 @@ export class Animator {
         this.animateFan();
 
         this.animateDoors();
-
         this.animateLights();
 
         this.loopId = requestAnimationFrame(this.loop);
@@ -221,7 +234,7 @@ export class Animator {
     public triggerDoorAnimation(side: 'left' | 'right') {
         if (this.engine.sceneManager.getSceneName() !== 'game') return;
 
-        var doorState;
+        let doorState;
         if (side === 'left') {
             doorState = this.animStates['lDoor'];
         } else {
@@ -235,14 +248,43 @@ export class Animator {
     }
 
     private animateLights() {
+        const office = this.engine.sceneManager.officeElements['office'];
+        if (!office) return;
+
+        let src = '';
+
         // aggiungere controlli per bonnie e chica
         if (this.engine.lLight) {
-            // this.engine.sceneManager.officeElements['']
+            src = '/programs/fnaf/office/officeInside/58.png';
         } else if (this.engine.rLight) {
+            src = '/programs/fnaf/office/officeInside/127.png';
+        } else {
+            src = '/programs/fnaf/office/officeInside/126.png';
 
+            if (office.getAttribute('src') !== src) {
+                office.src = src;
+                return;
+            }
         }
 
-        return;
+        const animId = this.engine.lLight ? 'lLight' : 'rLight';
+        const fps = 15;
+
+        const state = this.animStates[animId];
+        const config = this.ANIMATIONS[animId];
+        const msPerFrame = 1000 / fps;
+
+        if (this.timestamp - state.lastUpdateTime > msPerFrame) {
+            const rng = Math.random();
+
+            if (rng <= 0.85) {
+                office.src = src;
+            } else {
+                office.src = '/programs/fnaf/office/officeInside/126.png';
+            }
+
+            state.lastUpdateTime = this.timestamp;
+        }
     }
 
     public destroy() {

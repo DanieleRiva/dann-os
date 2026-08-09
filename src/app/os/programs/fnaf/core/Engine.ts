@@ -53,15 +53,19 @@ export class Engine {
     }
 
     public toggleDoor(side: 'left' | 'right') {
-        if (side === 'left') {
-            this.lDoor = !this.lDoor;
-            this.sceneManager.updatePanelImg(side);
-            this.animator.triggerDoorAnimation('left');
-        } else {
+        side === 'left' ?
+            this.lDoor = !this.lDoor
+            :
             this.rDoor = !this.rDoor;
-            this.sceneManager.updatePanelImg(side);
-            this.animator.triggerDoorAnimation('right');
-        }
+
+        this.sceneManager.updatePanelImg(side);
+        this.animator.triggerDoorAnimation(side);
+        this.audio.playSound(
+            'door',
+            1,
+            false,
+            side === 'left' ? -0.5 : 0.5
+        );
     }
 
     public toggleLight(side: 'left' | 'right') {

@@ -6,7 +6,7 @@ interface NightSceneProps {
 }
 
 const NightScene = ({ engine }: NightSceneProps) => {
-    var nightText = "";
+    let nightText = "";
 
     if (engine.night === 1) {
         nightText = "st";
