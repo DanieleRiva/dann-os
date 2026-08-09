@@ -11,38 +11,20 @@ const OfficeLeftPanel = ({ engine }: OfficeProps) => {
     useEffect(() => {
         if (localRef.current) {
             engine.registerNode('officeLeftPanel', localRef.current);
+            engine.sceneManager.officeElements['lPanel'] = localRef.current;
         }
+
+        return (() => {
+            engine.sceneManager.officeElements['lPanel'] = null;
+        });
     }, [engine]);
 
     const doorButton = () => {
         engine.toggleDoor('left');
-        updatePanelImg();
     }
 
     const lightButton = () => {
         engine.toggleLight('left');
-        updatePanelImg();
-    }
-
-    const updatePanelImg = () => {
-        const door = engine.lDoor;
-        const light = engine.lLight;
-        
-        if (localRef.current) {
-            if (door) {
-                if (light) {
-                    localRef.current.src = "/programs/fnaf/office/doorsAndLights/lLight/130.png";
-                } else {
-                    localRef.current.src = "/programs/fnaf/office/doorsAndLights/lLight/124.png";
-                }
-            } else {
-                if (light) {
-                    localRef.current.src = "/programs/fnaf/office/doorsAndLights/lLight/125.png";
-                } else {
-                    localRef.current.src = "/programs/fnaf/office/doorsAndLights/lLight/122.png";
-                }
-            }
-        }
     }
 
     return (

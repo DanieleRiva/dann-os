@@ -10,11 +10,11 @@ const LeftDoor = ({ engine }: LeftDoorProps) => {
 
     useEffect(() => {
         if (leftDoorImgRef.current) {
-            engine.sceneManager.officeElements['l-door'] = leftDoorImgRef.current;
+            engine.sceneManager.officeElements['lDoor'] = leftDoorImgRef.current;
         }
 
         return () => {
-            engine.sceneManager.officeElements['l-door'] = null;
+            engine.sceneManager.officeElements['lDoor'] = null;
         };
     }, [engine]);
 

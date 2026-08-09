@@ -45,12 +45,14 @@ export class SceneManager {
 
     public officeElements: Record<string, HTMLImageElement | null> = {
         'fan': null,
-        'l-door': null,
-        'l-light': null,
+        'lPanel': null,
+        'rPanel': null,
+        'lDoor': null,
+        'lLight': null,
         'bonnie': null,
         'freddy': null,
-        'r-door': null,
-        'r-light': null,
+        'rDoor': null,
+        'rLight': null,
         'chica': null,
         'foxy': null,
     };
@@ -83,4 +85,51 @@ export class SceneManager {
         }
     }
 
+    public updatePanelImg(side: 'left' | 'right') {
+        var door;
+        var light;
+        var panel;
+
+        if (side === 'left') {
+            panel = this.officeElements['lPanel'];
+            if (!panel) return;
+
+            door = this.engine.lDoor;
+            light = this.engine.lLight;
+
+            if (door) {
+                if (light) {
+                    panel.src = "/programs/fnaf/office/doorsAndLights/lLight/130.png";
+                } else {
+                    panel.src = "/programs/fnaf/office/doorsAndLights/lLight/124.png";
+                }
+            } else {
+                if (light) {
+                    panel.src = "/programs/fnaf/office/doorsAndLights/lLight/125.png";
+                } else {
+                    panel.src = "/programs/fnaf/office/doorsAndLights/lLight/122.png";
+                }
+            }
+        } else {
+            panel = this.officeElements['rPanel'];
+            if (!panel) return;
+
+            door = this.engine.rDoor;
+            light = this.engine.rLight;
+
+            if (door) {
+                if (light) {
+                    panel.src = "/programs/fnaf/office/doorsAndLights/rLight/47.png";
+                } else {
+                    panel.src = "/programs/fnaf/office/doorsAndLights/rLight/135.png";
+                }
+            } else {
+                if (light) {
+                    panel.src = "/programs/fnaf/office/doorsAndLights/rLight/131.png";
+                } else {
+                    panel.src = "/programs/fnaf/office/doorsAndLights/rLight/134.png";
+                }
+            }
+        }
+    }
 }

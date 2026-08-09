@@ -191,8 +191,8 @@ export class Animator {
     private animateDoors() {
         if (this.engine.sceneManager.getSceneName() !== 'game') return;
 
-        const lDoor = this.engine.sceneManager.officeElements['l-door'];
-        const rDoor = this.engine.sceneManager.officeElements['r-door'];
+        const lDoor = this.engine.sceneManager.officeElements['lDoor'];
+        const rDoor = this.engine.sceneManager.officeElements['rDoor'];
 
         if (lDoor) {
             lDoor.style.opacity = "1";
