@@ -1,6 +1,6 @@
 import { Animator } from "./Animator";
 import { AudioEngine } from "./AudioEngine";
-import { NightManager } from "./NightManager";
+import { night, NightManager } from "./NightManager";
 import { SceneManager } from "./SceneManager";
 
 export class Engine {
@@ -43,11 +43,18 @@ export class Engine {
     }
 
     public continueGame() {
-
+        this.audio.stopAllSounds();
+        this.sceneManager.changeScene('game');
     }
 
     public finishNight() {
         const night = this.nightManager.getNight();
+
+        if (night < 5) {
+            this.nightManager.setNight((night + 1) as night);
+        }
+        
+        this.sceneManager.changeScene("endNight");
 
         // sequenza di orologio con bambini e festa
 

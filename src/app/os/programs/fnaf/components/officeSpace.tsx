@@ -42,10 +42,6 @@ const OfficeSpace = ({ engine }: OfficeSpaceProps) => {
             <Fan engine={engine} />
 
             <LeftDoor engine={engine} />
-
-            <div>
-                
-            </div>
         </div>
     )
 }

@@ -7,10 +7,11 @@ interface NightSceneProps {
 
 const NightScene = ({ engine }: NightSceneProps) => {
     let nightText = "";
+    const night = engine.nightManager.getNight();
 
-    if (engine.nightManager === 1) {
+    if (night === 1) {
         nightText = "st";
-    } else if (engine.nightManager === 2) {
+    } else if (night === 2) {
         nightText = "nd"
     } else {
         nightText = "th";
@@ -28,7 +29,7 @@ const NightScene = ({ engine }: NightSceneProps) => {
         <div className='text-white text-[clamp(0.5rem,5cqw,4rem)] font-volter w-full h-full flex flex-col justify-center items-center'>
             <h1>12:00 AM</h1>
             <h1>
-                {engine.nightManager}{nightText} Night
+                {night}{nightText} Night
             </h1>
         </div>
     )

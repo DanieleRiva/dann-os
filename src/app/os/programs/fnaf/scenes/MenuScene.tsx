@@ -1,11 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { Engine } from '../core/Engine'
 
-interface MenuProps {
+interface MenuSceneProps {
     engine: Engine
 }
 
-const Menu = ({ engine }: MenuProps) => {
+const MenuScene = ({ engine }: MenuSceneProps) => {
     const freddyImgRef = useRef<HTMLImageElement>(null);
     const staticFullImgRef = useRef<HTMLImageElement>(null);
 
@@ -85,7 +85,7 @@ const Menu = ({ engine }: MenuProps) => {
                         onMouseEnter={blip}
                     >
                         Continue
-                        <span className='text-[clamp(0.5rem,1.5cqw,4rem)] text-start opacity-0 group-hover:opacity-100' >Night 3</span>
+                        <span className='text-[clamp(0.5rem,1.5cqw,4rem)] text-start opacity-0 group-hover:opacity-100' >Night {engine.nightManager.getNight()}</span>
 
                         <span className='absolute -left-[5cqw] opacity-0 group-hover:opacity-100'>{">>"}</span>
                     </button>
@@ -112,4 +112,4 @@ const Menu = ({ engine }: MenuProps) => {
     )
 }
 
-export default Menu
+export default MenuScene

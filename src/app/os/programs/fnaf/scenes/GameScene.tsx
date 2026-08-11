@@ -1,6 +1,7 @@
 "use client"
 
 import OfficeSpace from "../components/OfficeSpace"
+import OfficeUI from "../components/OfficeUI"
 import { Engine } from "../core/Engine"
 
 interface GameSceneProps {
@@ -22,6 +23,8 @@ const GameScene = ({ engine }: GameSceneProps) => {
     return (
         <div onMouseMove={handleMouseMove} className="w-full h-full">
             <OfficeSpace engine={engine} />
+
+            <OfficeUI  engine={engine} />
         </div>
     )
 }

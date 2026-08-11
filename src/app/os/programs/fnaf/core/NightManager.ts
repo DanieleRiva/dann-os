@@ -1,6 +1,6 @@
 import { Engine } from "./Engine";
 
-type night = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+export type night = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 type hour = 12 | 1 | 2 | 3 | 4 | 5 | 6;
 
 interface animatronic_ai {
@@ -12,7 +12,7 @@ interface animatronic_ai {
 
 export class NightManager {
     private engine: Engine;
-    private night: number = 1;
+    private night: number = 5;
     private hour: number = 12;
 
     private usage: number = 1;
@@ -23,7 +23,7 @@ export class NightManager {
     private timestamp: number = 0;
     private deltaTime: number = 0;
     private lastFrameTime: number = 0;
-    private secondsPerHour: number = 2;
+    private secondsPerHour: number = 1;
     private time: number = 0;
     private lastHourChange: number = 0;
 
@@ -50,6 +50,7 @@ export class NightManager {
 
     public start() {
         this.isRunning = true;
+
         this.loopId = requestAnimationFrame(this.loop);
     }
 
@@ -77,7 +78,6 @@ export class NightManager {
         if (hourInterval > this.lastHourChange) {
             this.lastHourChange = hourInterval;
             this.advanceHour();
-            console.log(this.hour + " AM");
         }
     }
 
@@ -85,8 +85,13 @@ export class NightManager {
         this.setHour((this.hour === 12 ? 1 : this.hour + 1) as hour);
         this.updateAiHourly();
 
+        this.engine.sceneManager.updateOfficeUI(
+            this.getHour(),
+            this.usage,
+            this.power,
+        );
+
         if (this.getHour() > 5) {
-            console.log("zio bomba");
             this.destroy();
             this.engine.finishNight();
         }
@@ -121,6 +126,12 @@ export class NightManager {
 
     public destroy() {
         this.isRunning = false;
+        this.setHour(0 as hour);
+        this.lastFrameTime = 0;
+        this.lastHourChange = 0;
+        this.timestamp = 0;
+        this.time = 0;
+
         cancelAnimationFrame(this.loopId);
     }
 }

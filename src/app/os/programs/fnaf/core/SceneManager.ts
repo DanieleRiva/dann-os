@@ -1,7 +1,9 @@
 import DeathScene from "../scenes/DeathScene"
+import EndGameScene from "../scenes/EndGameScene"
+import EndNightScene from "../scenes/EndNightScene"
 import ExtrasScene from "../scenes/ExtrasScene"
 import GameScene from "../scenes/GameScene"
-import Menu from "../scenes/Menu"
+import MenuScene from "../scenes/MenuScene"
 import NewspaperScene from "../scenes/NewspaperScene"
 import NightScene from "../scenes/NightScene"
 import StartupScene from "../scenes/StartupScene"
@@ -14,7 +16,9 @@ type SceneId =
     | 'startup'
     | 'game'
     | 'death'
-    | 'extras';
+    | 'extras'
+    | 'endNight'
+    | 'endGame';
 
 interface OfficeSceneElements {
     officeSpace: HTMLDivElement | null;
@@ -27,6 +31,7 @@ interface OfficeSceneElements {
     freddy: HTMLImageElement | null;
     rDoor: HTMLImageElement | null;
     rLight: HTMLImageElement | null;
+    hourUI: HTMLSpanElement | null;
 }
 
 export class SceneManager {
@@ -34,13 +39,15 @@ export class SceneManager {
 
     private readonly SCENES:
         Record<SceneId, React.FC<{ engine: Engine }>> = {
-            'menu': Menu,
+            'menu': MenuScene,
             'newspaper': NewspaperScene,
             'night': NightScene,
             'startup': StartupScene,
             'game': GameScene,
             'death': DeathScene,
             'extras': ExtrasScene,
+            'endNight': EndNightScene,
+            'endGame': EndGameScene,
         };
 
     private currentScene: SceneId = 'startup';
@@ -67,6 +74,7 @@ export class SceneManager {
         freddy: null,
         rDoor: null,
         rLight: null,
+        hourUI: null,
     };
 
     public getScene() {
@@ -146,6 +154,15 @@ export class SceneManager {
                 }
             }
         }
+    }
+
+    public updateOfficeUI(
+        hour: number,
+        usage: number,
+        power: number
+    ) {
+        if (!this.officeElements['hourUI']) return;
+        this.officeElements['hourUI'].innerText = hour + " AM";
     }
 
     public destroy() {
