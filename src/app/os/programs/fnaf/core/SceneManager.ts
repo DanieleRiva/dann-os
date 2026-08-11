@@ -95,6 +95,7 @@ export class SceneManager {
                 break;
             case "game":
                 this.engine.audio.playSound("fan", 0.3, true);
+                this.engine.nightManager.start();
                 break;
         }
     }

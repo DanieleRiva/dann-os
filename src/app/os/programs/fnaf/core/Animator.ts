@@ -1,4 +1,3 @@
-import { timeStamp } from "console";
 import { Engine } from "./Engine";
 
 type animationId =
@@ -271,7 +270,6 @@ export class Animator {
         const fps = 15;
 
         const state = this.animStates[animId];
-        const config = this.ANIMATIONS[animId];
         const msPerFrame = 1000 / fps;
 
         if (this.timestamp - state.lastUpdateTime > msPerFrame) {

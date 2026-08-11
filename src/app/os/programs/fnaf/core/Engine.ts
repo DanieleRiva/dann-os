@@ -1,5 +1,6 @@
 import { Animator } from "./Animator";
 import { AudioEngine } from "./AudioEngine";
+import { NightManager } from "./NightManager";
 import { SceneManager } from "./SceneManager";
 
 export class Engine {
@@ -9,9 +10,7 @@ export class Engine {
     public sceneManager: SceneManager;
     public audio: AudioEngine;
     public animator: Animator;
-
-    // da salvare in localStorage
-    public night: number = 1;
+    public nightManager: NightManager;
 
     public lDoor: boolean = false;
     public lLight: boolean = false;
@@ -22,6 +21,7 @@ export class Engine {
         this.sceneManager = new SceneManager(this);
         this.audio = new AudioEngine();
         this.animator = new Animator(this);
+        this.nightManager = new NightManager(this);
     }
 
     public init() {
@@ -32,19 +32,28 @@ export class Engine {
     }
 
     public startNewGame() {
-        this.night = 1;
+        this.nightManager.setNight(1);
         this.audio.stopSound('static-long');
         this.sceneManager.changeScene('newspaper');
     }
 
     public quickGame() {
-        this.night = 1;
         this.audio.stopAllSounds();
         this.sceneManager.changeScene('game');
     }
 
     public continueGame() {
 
+    }
+
+    public finishNight() {
+        const night = this.nightManager.getNight();
+
+        // sequenza di orologio con bambini e festa
+
+        // schermata di fine gioco se serve
+
+        // ecc
     }
 
     public updateMousePosition(x: number, y: number) {
@@ -126,5 +135,6 @@ export class Engine {
         this.animator.destroy();
         this.sceneManager.destroy();
         this.audio.destroy();
+        this.nightManager.destroy();
     }
 }

@@ -6,8 +6,8 @@ import Office from './Office'
 import OfficeLeftPanel from './OfficeLeftPanel'
 import OfficeRightPanel from './OfficeRightPanel'
 import FreddyNose from './FreddyNose'
+import LeftDoor from './LetfDoor'
 import Fan from './Fan'
-import LeftDoor from './LeftDoor'
 
 interface OfficeSpaceProps {
     engine: Engine
@@ -42,6 +42,10 @@ const OfficeSpace = ({ engine }: OfficeSpaceProps) => {
             <Fan engine={engine} />
 
             <LeftDoor engine={engine} />
+
+            <div>
+                
+            </div>
         </div>
     )
 }
