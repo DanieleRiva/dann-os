@@ -23,7 +23,7 @@ export class NightManager {
     private timestamp: number = 0;
     private deltaTime: number = 0;
     private lastFrameTime: number = 0;
-    private secondsPerHour: number = 1;
+    private secondsPerHour: number = 60;
     private time: number = 0;
     private lastHourChange: number = 0;
 
@@ -43,6 +43,9 @@ export class NightManager {
     public setHour(hour: hour) { this.hour = hour; }
     public getUsage() { return this.usage; }
     public getPower() { return this.power; }
+    public getTime() { return this.time; }
+    public getSecondsPerHour() { return this.secondsPerHour; }
+
 
     constructor(engine: Engine) {
         this.engine = engine;
@@ -65,6 +68,7 @@ export class NightManager {
 
         if (this.isRunning) {
             this.loopId = requestAnimationFrame(this.loop);
+            this.engine.sceneManager.updateDebugUI(this.time, this.secondsPerHour);
         }
     }
 
@@ -89,6 +93,8 @@ export class NightManager {
             this.getHour(),
             this.usage,
             this.power,
+            this.time,
+            this.secondsPerHour
         );
 
         if (this.getHour() > 5) {

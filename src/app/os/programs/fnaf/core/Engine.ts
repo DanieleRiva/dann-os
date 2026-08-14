@@ -17,6 +17,8 @@ export class Engine {
     public rDoor: boolean = false;
     public rLight: boolean = false;
 
+    public debug: boolean = false;
+
     public constructor() {
         this.sceneManager = new SceneManager(this);
         this.audio = new AudioEngine();
@@ -129,6 +131,8 @@ export class Engine {
         this.rDoor = false;
         this.rLight = false;
     }
+
+    public toggleDebug() { this.debug = !this.debug; console.log(this.debug) }
 
     private log(message: string, ...args: any[]) {
         console.log(

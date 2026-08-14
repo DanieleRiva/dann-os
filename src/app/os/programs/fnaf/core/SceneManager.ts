@@ -32,6 +32,8 @@ interface OfficeSceneElements {
     rDoor: HTMLImageElement | null;
     rLight: HTMLImageElement | null;
     hourUI: HTMLSpanElement | null;
+    powerUI: HTMLDivElement | null;
+    debugUI: HTMLDivElement | null;
 }
 
 export class SceneManager {
@@ -75,6 +77,8 @@ export class SceneManager {
         rDoor: null,
         rLight: null,
         hourUI: null,
+        debugUI: null,
+        powerUI: null
     };
 
     public getScene() {
@@ -171,10 +175,32 @@ export class SceneManager {
     public updateOfficeUI(
         hour: number,
         usage: number,
-        power: number
+        power: number,
+        time: number,
+        secondsPerHour: number
     ) {
-        if (!this.officeElements['hourUI']) return;
-        this.officeElements['hourUI'].innerText = hour + " AM";
+        if (this.officeElements['hourUI']) {
+            this.officeElements['hourUI'].innerText = hour + " AM";
+        }
+
+        if (this.officeElements['powerUI']) {
+
+        }
+    }
+
+    public updateDebugUI(time: number, secondsPerHour: number) {
+        const debugUI = this.officeElements['debugUI'];
+
+        if (debugUI) {
+            if (this.engine.debug) {
+                debugUI.innerHTML = `
+                    <span>Time: ${time.toFixed(2)}s</span>
+                    <span>Seconds per Hour: ${secondsPerHour}s</span>
+                `;
+            } else {
+                debugUI.innerHTML = ``;
+            }
+        }
     }
 
     public destroy() {
