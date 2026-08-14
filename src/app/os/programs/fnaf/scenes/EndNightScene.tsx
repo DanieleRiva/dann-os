@@ -6,16 +6,27 @@ interface EndNightSceneProps {
 }
 
 const EndNightScene = ({ engine }: EndNightSceneProps) => {
+    
     useEffect(() => {
-        const timer = setTimeout(() => {
+        engine.audio.playSound('bells', 0.75);
+
+        const timerBells = setTimeout(() => {
+            engine.audio.playSound('children', 0.75);
+        }, 8000);
+
+        const timerNightChange = setTimeout(() => {
             if (engine.nightManager.getNight() === 5) {
+                engine.audio.stopAllSounds();
                 engine.sceneManager.changeScene('endGame');
             } else {
                 engine.continueGame();
             }
-        }, 5000);
+        }, 14000);
 
-        return () => clearTimeout(timer);
+        return () => {
+            clearTimeout(timerBells);
+            clearTimeout(timerNightChange);
+        };
     }, []);
 
     return (

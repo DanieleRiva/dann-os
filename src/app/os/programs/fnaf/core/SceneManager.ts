@@ -94,6 +94,7 @@ export class SceneManager {
 
         switch (sceneId) {
             case "menu":
+                this.engine.audio.stopAllSounds();
                 this.engine.audio.playSound("static-long", 0.75, true);
                 this.engine.audio.playSound("darkness", 1, true);
                 break;
@@ -102,8 +103,19 @@ export class SceneManager {
                 this.engine.audio.playSound('blip', 1);
                 break;
             case "game":
+                this.engine.audio.stopAllSounds();
                 this.engine.audio.playSound("fan", 0.3, true);
                 this.engine.nightManager.start();
+                break;
+            case "endNight":
+                this.engine.audio.stopAllSounds();
+                break;
+            case "endGame":
+                this.engine.audio.stopAllSounds();
+                this.engine.audio.playSound('musicBox', 1);
+
+                // Star system and unlock 6th night
+
                 break;
         }
     }

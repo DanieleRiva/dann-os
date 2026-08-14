@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Engine } from "../core/Engine";
 
 interface EndGameSceneProps {
@@ -6,15 +5,13 @@ interface EndGameSceneProps {
 }
 
 const EndGameScene = ({ engine }: EndGameSceneProps) => {
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            engine.sceneManager.changeScene('menu');
-        }, 15000);
+    const returnToMenu = () => {
+        engine.sceneManager.changeScene('menu');
+    }
 
-        return () => clearTimeout(timer);
-    }, []);
     return (
         <img
+            onClick={returnToMenu}
             src="/programs/fnaf/office/other/522.png"
             className='
                 absolute 

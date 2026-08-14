@@ -37,14 +37,9 @@ export class Engine {
         this.sceneManager.changeScene('newspaper');
     }
 
-    public quickGame() {
-        this.audio.stopAllSounds();
-        this.sceneManager.changeScene('game');
-    }
-
     public continueGame() {
         this.audio.stopAllSounds();
-        this.sceneManager.changeScene('game');
+        this.sceneManager.changeScene('night');
     }
 
     public finishNight() {
@@ -53,14 +48,13 @@ export class Engine {
         if (night < 5) {
             this.nightManager.setNight((night + 1) as night);
         }
-        
-        this.sceneManager.changeScene("endNight");
 
-        // sequenza di orologio con bambini e festa
+        this.resetOfficeState();
+        this.sceneManager.changeScene("endNight");
 
         // schermata di fine gioco se serve
 
-        // ecc
+        // stop di tutti i suoni
     }
 
     public updateMousePosition(x: number, y: number) {
@@ -127,6 +121,13 @@ export class Engine {
                 1
             );
         }
+    }
+
+    private resetOfficeState() {
+        this.lDoor = false;
+        this.lLight = false;
+        this.rDoor = false;
+        this.rLight = false;
     }
 
     private log(message: string, ...args: any[]) {

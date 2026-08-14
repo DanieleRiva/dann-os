@@ -8,7 +8,10 @@ type SoundId =
     | 'darkness'
     | 'fan'
     | 'light'
-    | 'door';
+    | 'door'
+    | 'bells'
+    | 'children'
+    | 'musicBox';
 
 export class AudioEngine {
     private readonly SOUND_PATHS: Record<SoundId, string> = {
@@ -20,6 +23,9 @@ export class AudioEngine {
         'light': '/programs/fnaf/sounds/BallastHumMedium2.wav',
         'darkness': '/programs/fnaf/sounds/darknessMusic.wav',
         'door': '/programs/fnaf/sounds/door.wav',
+        'bells': '/programs/fnaf/sounds/chimes2.wav',
+        'children': '/programs/fnaf/sounds/children.wav',
+        'musicBox': '/programs/fnaf/sounds/musicBox.wav',
     }
 
     private sounds: Record<string, Howl> = {};

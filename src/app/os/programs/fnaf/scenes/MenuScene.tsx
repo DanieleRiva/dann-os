@@ -81,7 +81,7 @@ const MenuScene = ({ engine }: MenuSceneProps) => {
                     </button>
 
                     <button className='cursor-pointer group relative flex flex-col'
-                        onClick={() => engine.quickGame()}
+                        onClick={() => engine.continueGame()}
                         onMouseEnter={blip}
                     >
                         Continue
