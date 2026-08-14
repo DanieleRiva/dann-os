@@ -2,7 +2,7 @@
 
 import Window from '@/app/components/window'
 import { WindowInstance } from '@/app/utils/interfaces'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Engine } from './core/Engine'
 
 const Fnaf = ({ instance }: { instance: WindowInstance }) => {
