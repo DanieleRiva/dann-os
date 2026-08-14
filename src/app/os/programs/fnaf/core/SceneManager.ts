@@ -196,6 +196,8 @@ export class SceneManager {
                 debugUI.innerHTML = `
                     <span>Time: ${time.toFixed(2)}s</span>
                     <span>Seconds per Hour: ${secondsPerHour}s</span>
+                    <span>lDoor: ${this.engine.lDoor} / lLight: ${this.engine.lLight}</span>
+                    <span>rDoor: ${this.engine.rDoor} / rLight: ${this.engine.rLight}</span>
                 `;
             } else {
                 debugUI.innerHTML = ``;

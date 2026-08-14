@@ -17,7 +17,7 @@ const OfficeSpace = ({ engine }: OfficeSpaceProps) => {
     const localRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        window.addEventListener("f1", debugMenu);
+        window.addEventListener("keydown", debugMenu);
 
         if (localRef.current) {
             engine.sceneManager.officeElements['officeSpace'] = localRef.current;
@@ -26,19 +26,20 @@ const OfficeSpace = ({ engine }: OfficeSpaceProps) => {
         return (() => {
             localRef.current = null;
             engine.sceneManager.officeElements['officeSpace'] = null;
-            window.removeEventListener("f1", debugMenu);
+            window.removeEventListener("keydown", debugMenu);
         });
     }, [engine]);
 
-    const debugMenu = () => {
-        engine.toggleDebug();
+    const debugMenu = (event: KeyboardEvent) => {
+        if (event.key === 'F1') {
+            engine.toggleDebug();
+        }
     }
 
     return (
         <div
             ref={localRef}
             className='relative w-full h-full'
-            onKeyDown={debugMenu}
         >
             <Office engine={engine} />
 
