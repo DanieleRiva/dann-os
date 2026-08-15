@@ -6,6 +6,10 @@ interface NewspaperSceneProps {
 }
 
 const NewspaperScene = ({ engine }: NewspaperSceneProps) => {
+    const skipScene = () => {
+        engine.sceneManager.changeScene('night');
+    }
+
     useEffect(() => {
         const timer = setTimeout(() => {
             engine.sceneManager.changeScene('night');
@@ -23,6 +27,7 @@ const NewspaperScene = ({ engine }: NewspaperSceneProps) => {
                 max-w-none
             '
             draggable={false}
+            onClick={skipScene}
         />
     )
 }

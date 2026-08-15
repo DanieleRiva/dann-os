@@ -70,6 +70,6 @@ export const REGISTRY: Record<string, AppManifest> = {
         icon: "/icons/programs/fnaf.png",
         component: Fnaf,
         singleton: true,
-        defaultSize: { width: 600, height: 400 }
+        defaultSize: { width: 750, height: 600 }
     }
 };

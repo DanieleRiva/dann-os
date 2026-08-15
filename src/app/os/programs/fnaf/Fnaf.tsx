@@ -35,10 +35,9 @@ const Fnaf = ({ instance }: { instance: WindowInstance }) => {
             id={instance.instanceId}
             title={instance.title}
             icon={instance.icon}
-            width="700px"
-            height="500px"
-            minWidth="300px"
-            minHeight="300px"
+            openMaximized
+            minWidth="650px"
+            minHeight="450px"
             canResize={true}
             canMinimize={true}
         >
