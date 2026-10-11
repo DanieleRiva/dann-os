@@ -132,7 +132,7 @@ export class Engine {
         this.rLight = false;
     }
 
-    public toggleDebug() { this.debug = !this.debug; console.log(this.debug) }
+    public toggleDebug() { this.debug = !this.debug; console.log(`Debug Mode: ${this.debug}`); }
 
     private log(message: string, ...args: any[]) {
         console.log(

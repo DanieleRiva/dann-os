@@ -12,6 +12,8 @@ interface animationConfig {
     path: string,
     frameCount: number,
     loop: boolean
+    isPlaying?: boolean,
+    reverse?: boolean,
 }
 
 export class Animator {
@@ -45,12 +47,16 @@ export class Animator {
         'lDoor': {
             path: '/programs/fnaf/office/doorsAndLights/lDoor',
             frameCount: 14,
-            loop: false
+            loop: false,
+            isPlaying: false,
+            reverse: false,
         },
         'rDoor': {
             path: '/programs/fnaf/office/doorsAndLights/rDoor',
             frameCount: 14,
-            loop: false
+            loop: false,
+            isPlaying: false,
+            reverse: false,
         },
         'lLight': {
             path: '/programs/fnaf/office/officeInside/58.png',
@@ -169,6 +175,42 @@ export class Animator {
         }
     }
 
+    private animateOnce(
+        animId: animationId,
+        img: HTMLImageElement,
+        fps: number
+    ) {
+        const state = this.animStates[animId];
+        const config = this.ANIMATIONS[animId];
+        const msPerFrame = 1000 / fps;
+
+        if (!config.reverse) {
+            if (state.currentFrame === config.frameCount - 1) config.isPlaying = false;
+        } else {
+            if (state.currentFrame === 0) config.isPlaying = false;
+        }
+
+        console.log(`IsLDoor Playing: ${config.isPlaying}`);
+
+        if (!config.isPlaying) return;
+
+        if (this.timestamp - state.lastUpdateTime > msPerFrame) {
+            if (config.loop) {
+                const newFrame = config.reverse ? state.currentFrame - 1 : state.currentFrame + 1;
+                state.currentFrame = (newFrame) % config.frameCount;
+                img.src = `${config.path}/${state.currentFrame}.png`;
+            } else {
+                if (state.currentFrame + 1 < config.frameCount) {
+                    state.currentFrame++;
+                    img.src = `${config.path}/${state.currentFrame}.png`;
+                }
+            }
+
+            state.lastUpdateTime = this.timestamp;
+        }
+    }
+
+
     private animateMenu() {
         if (this.engine.sceneManager.getSceneName() !== 'menu') return;
 
@@ -209,24 +251,24 @@ export class Animator {
         const lDoor = this.engine.sceneManager.officeElements['lDoor'];
         const rDoor = this.engine.sceneManager.officeElements['rDoor'];
 
-        if (lDoor) {
+        if (lDoor && this.ANIMATIONS['lDoor'].isPlaying) {
             lDoor.style.opacity = "1";
-            this.animate(
+            this.animateOnce(
                 'lDoor',
                 lDoor,
                 30
             );
-            lDoor.style.opacity = "0";
+            // lDoor.style.opacity = "0";
         }
 
-        if (rDoor) {
+        if (rDoor && this.ANIMATIONS['rDoor'].isPlaying) {
             rDoor.style.opacity = "1";
-            this.animate(
+            this.animateOnce(
                 'rDoor',
                 rDoor,
                 30
             );
-            rDoor.style.opacity = "0";
+            // rDoor.style.opacity = "0";
         }
     }
 
@@ -234,15 +276,24 @@ export class Animator {
         if (this.engine.sceneManager.getSceneName() !== 'game') return;
 
         let doorState;
+        let doorConfig;
         if (side === 'left') {
             doorState = this.animStates['lDoor'];
+            doorConfig = this.ANIMATIONS['lDoor'];
         } else {
             doorState = this.animStates['rDoor'];
+            doorConfig = this.ANIMATIONS['rDoor'];
         }
 
         if (!doorState) return;
 
-        doorState.currentFrame = 0;
+        if (doorState.currentFrame === 0) {
+            doorConfig.reverse = false;
+        } else if (doorState.currentFrame === doorConfig.frameCount - 1) {
+            doorConfig.reverse = true;
+        }
+
+        doorConfig.isPlaying = true;
         doorState.lastUpdateTime = this.timestamp;
     }
 
